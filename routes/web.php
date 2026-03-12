@@ -1,24 +1,35 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
 
-require __DIR__.'/auth.php';
+// Navbar Placeholder Routes
+Route::get('/flights', function () { return view('welcome'); });
+Route::get('/hotels', function () { return view('welcome'); });
+Route::get('/trains', function () { return view('welcome'); });
+Route::get('/tours', function () { return view('welcome'); });
+Route::get('/activities', function () { return view('welcome'); });
+Route::get('/cars', function () { return view('welcome'); });
+Route::get('/bus', function () { return view('welcome'); });
+Route::get('/cruise', function () { return view('welcome'); });
+Route::get('/insurance', function () { return view('welcome'); });
+Route::get('/visa', function () { return view('welcome'); });
 
-Auth::routes();
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->name('password.request');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/forgot-password', function () {
+    return back()->with('status', 'We have emailed your password reset link!');
+})->name('password.email');

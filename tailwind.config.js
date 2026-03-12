@@ -12,7 +12,25 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Poppins', ...defaultTheme.fontFamily.sans],
+                'libre-baskerville': ['Libre Baskerville', 'serif'],
+            },
+            colors: {
+                saffron: {
+                    DEFAULT: 'var(--color-saffron)',
+                    deep: 'var(--color-saffron-deep)',
+                    tint: 'var(--color-saffron-tint)',
+                },
+                'india-green': {
+                    DEFAULT: 'var(--color-india-green)',
+                    deep: 'var(--color-green-deep)',
+                    tint: 'var(--color-green-tint)',
+                },
+                navy: {
+                    DEFAULT: 'var(--color-ashoka-navy)',
+                    deep: 'var(--color-navy-deep)',
+                    tint: 'var(--color-navy-tint)',
+                },
             },
         },
     },

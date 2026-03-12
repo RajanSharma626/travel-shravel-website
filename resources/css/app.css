@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    /* PRIMARY — SAFFRON ORANGE */
+    --color-saffron: #FF9933;
+    --color-saffron-deep: #E6881F;
+    --color-saffron-tint: #FFF3E0;
+
+    /* SECONDARY — INDIA GREEN */
+    --color-india-green: #138808;
+    --color-green-deep: #0F6B06;
+    --color-green-tint: #E8F5E9;
+
+    /* ACCENT — ASHOKA BLUE */
+    --color-ashoka-navy: #000080;
+    --color-navy-deep: #003580;
+    --color-navy-tint: #E8EAF6;
+}

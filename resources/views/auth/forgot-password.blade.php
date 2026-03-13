@@ -16,7 +16,7 @@
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div class="bg-white py-10 px-6 shadow-[0_20px_50px_rgba(0,0,0,0.05)] rounded-[32px] sm:px-10 border border-gray-100">
             @if (session('status'))
-                <div class="mb-6 p-4 rounded-xl bg-green-50 border border-green-100 text-green-700 text-sm font-bold flex items-center gap-3">
+                <div class="mb-6 p-4 rounded-xl bg-green-50 border border-green-100 text-green-700 text-sm font-semibold flex items-center gap-3">
                     <i class="fa-solid fa-circle-check text-lg"></i>
                     {{ session('status') }}
                 </div>

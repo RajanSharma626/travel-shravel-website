@@ -9,13 +9,13 @@
         <div class="absolute inset-0">
             <img src="https://www.travelshravel.com/wp-content/uploads/2022/05/banner5.jpg" alt="Hero Background"
                 class="h-full w-full object-cover">
-            {{-- Backdrop Overlay --}}
-            <div class="absolute inset-0 bg-black/50 backdrop-blur-[3px]"></div>
+            {{-- Shadow Overlay --}}
+            <div class="absolute inset-0 bg-black/55"></div>
         </div>
 
         {{-- Hero Content --}}
         <div class="relative h-full flex flex-col items-center justify-center px-4">
-            <h1 class="text-5xl  text-white tracking-tight mb-4 drop-shadow-md font-libre-baskerville">
+            <h1 class="text-5xl text-white tracking-tight mb-4 drop-shadow-md font-libre-baskerville">
                 Hi There!
             </h1>
             <p class="text-lg md:text-xl text-white/90 mb-12 tracking-wide drop-shadow-sm">

@@ -63,21 +63,21 @@
 
                 {{-- Select User Type --}}
                 <div class="pt-2">
-                    <p class="text-[15px] font-bold text-navy mb-4">Select User Type</p>
+                    <p class="text-[15px] font-semibold text-navy mb-4">Select User Type</p>
                     <div class="flex items-center gap-8">
                         <label class="flex items-center cursor-pointer group">
                             <input type="radio" name="user_type" value="normal" checked class="hidden peer">
                             <div class="w-6 h-6 rounded-full border-2 border-gray-200 peer-checked:border-india-green flex items-center justify-center transition-all group-hover:border-india-green/50 peer-checked:[&>div]:scale-100">
                                 <div class="w-3 h-3 rounded-full bg-india-green scale-0 transition-transform"></div>
                             </div>
-                            <span class="ml-3 text-sm font-bold text-gray-500 peer-checked:text-navy transition-colors">Normal User</span>
+                            <span class="ml-3 text-sm font-semibold text-gray-500 peer-checked:text-navy transition-colors">Normal User</span>
                         </label>
                         <label class="flex items-center cursor-pointer group">
                             <input type="radio" name="user_type" value="partner" class="hidden peer">
                             <div class="w-6 h-6 rounded-full border-2 border-gray-200 peer-checked:border-india-green flex items-center justify-center transition-all group-hover:border-india-green/50 peer-checked:[&>div]:scale-100">
                                 <div class="w-3 h-3 rounded-full bg-india-green scale-0 transition-transform"></div>
                             </div>
-                            <span class="ml-3 text-sm font-bold text-gray-500 peer-checked:text-navy transition-colors">Partner User</span>
+                            <span class="ml-3 text-sm font-semibold text-gray-500 peer-checked:text-navy transition-colors">Partner User</span>
                         </label>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                 <div class="pt-4 flex items-center">
                     <input id="terms" name="terms" type="checkbox" required
                            class="h-5 w-5 rounded border-gray-300 text-india-green focus:ring-india-green transition-all cursor-pointer">
-                    <label for="terms" class="ml-3 block text-sm text-gray-500 font-bold cursor-pointer">
+                    <label for="terms" class="ml-3 block text-sm text-gray-500 font-semibold cursor-pointer">
                         I have read and accept the <a href="#" class="text-india-green hover:underline">Terms and Privacy Policy</a>
                     </label>
                 </div>
@@ -100,7 +100,7 @@
             </form>
 
             <div class="mt-10 pt-8 border-t border-gray-50 text-center">
-                <p class="text-sm text-gray-500 font-bold">
+                <p class="text-sm text-gray-500 font-semibold">
                     Already have an account? 
                     <a href="{{ url('/login') }}" class="text-navy font-semibold hover:text-india-green transition-colors ml-1">
                         Log In

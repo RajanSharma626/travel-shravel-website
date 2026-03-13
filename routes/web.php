@@ -33,3 +33,19 @@ Route::get('/forgot-password', function () {
 Route::post('/forgot-password', function () {
     return back()->with('status', 'We have emailed your password reset link!');
 })->name('password.email');
+
+Route::get('/hotel-search-layout', function () {
+    return view('hotel');   
+});
+
+Route::get('/tour', function () {
+    return view('tour');
+});
+
+Route::get('/activities', function () {
+    return view('activities');
+});
+
+Route::get('/car', function () {
+    return view('car');
+});

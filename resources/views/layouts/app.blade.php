@@ -77,24 +77,24 @@
                 {{-- Desktop Navigation --}}
                 <div class="hidden lg:flex lg:items-center lg:gap-x-8">
                     <a href="{{ url('/') }}"
-                        class="text-xs tracking-widest text-india-green font-semibold transition-all">HOME</a>
+                        class="text-xs tracking-widest {{ url('/') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all">HOME</a>
                     <a href="{{ url('/flights') }}"
-                        class="text-xs tracking-widest text-white hover:text-india-green transition-all">FLIGHTS</a>
-                    <a href="{{ url('/hotels') }}"
-                        class="text-xs tracking-widest text-white hover:text-india-green transition-all">HOTEL</a>
+                        class="text-xs tracking-widest {{ url('/flights') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all">FLIGHTS</a>
+                    <a href="{{ url('/hotel-search-layout') }}"
+                        class="text-xs tracking-widest {{ url('/hotel-search-layout') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all">HOTEL</a>
                     <a href="{{ url('/trains') }}"
-                        class="text-xs tracking-widest text-white hover:text-india-green transition-all">TRAIN</a>
-                    <a href="{{ url('/tours') }}"
-                        class="text-xs tracking-widest text-white hover:text-india-green transition-all">TOUR</a>
+                        class="text-xs tracking-widest {{ url('/trains') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all">TRAIN</a>
+                    <a href="{{ url('/tour') }}"
+                        class="text-xs tracking-widest {{ url('/tour') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all">TOUR</a>
                     <a href="{{ url('/activities') }}"
-                        class="text-xs tracking-widest text-white hover:text-india-green transition-all">ACTIVITIES</a>
-                    <a href="{{ url('/cars') }}"
-                        class="text-xs tracking-widest text-white hover:text-india-green transition-all">CAR</a>
+                        class="text-xs tracking-widest {{ url('/activities') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all">ACTIVITIES</a>
+                    <a href="{{ url('/car') }}"
+                        class="text-xs tracking-widest {{ url('/car') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all">CAR</a>
 
                     {{-- More Dropdown --}}
                     <div class="relative group">
                         <button
-                            class="flex items-center gap-1.5 text-xs tracking-widest text-white group-hover:text-india-green transition-all h-20">
+                            class="flex items-center gap-1.5 text-xs tracking-widest {{ url('/more') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all h-20">
                             MORE <i class="fa-solid fa-chevron-down text-[10px]"></i>
                         </button>
                         {{-- Dropdown Menu --}}
@@ -184,7 +184,7 @@
                     </div>
 
                     <div class="relative z-10 max-w-xl text-center lg:text-left">
-                        <h2 class="text-3xl font-semibold font-black text-navy mb-3 tracking-tight">
+                        <h2 class="text-3xl font-bold text-navy mb-3 tracking-tight">
                             Get Updates & More
                         </h2>
                         <p class="text-gray-500 text-xl font-medium">
@@ -212,17 +212,17 @@
         </section>
 
         {{-- Footer --}}
-        <footer class="bg-white border-t border-gray-100">
+        <footer class="bg-grey-50 border-t border-gray-100">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
                     {{-- Column 1: NEED HELP? --}}
                     <div>
-                        <h3 class="text-[15px] font-bold text-navy uppercase tracking-widest mb-4">Need Help?</h3>
+                        <h3 class="text-[15px] font-semibold text-navy uppercase tracking-widest mb-4">Need Help?</h3>
                         <div class="h-0.5 w-20 bg-gray-100 mb-10"></div>
 
                         <div class="space-y-8">
                             <div class="border-l-2 border-india-green pl-5 transition-transform hover:translate-x-1">
-                                <p class="text-[11px] font-bold text-gray-400 uppercase tracking-tighter mb-1">Call Us
+                                <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-tighter mb-1">Call Us
                                 </p>
                                 <a href="tel:+919086421601"
                                     class="text-lg  text-navy hover:text-india-green transition-colors">+ 91
@@ -230,14 +230,14 @@
                             </div>
 
                             <div class="border-l-2 border-india-green pl-5 transition-transform hover:translate-x-1">
-                                <p class="text-[11px] font-bold text-gray-400 uppercase tracking-tighter mb-1">Email
+                                <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-tighter mb-1">Email
                                     for Us</p>
                                 <a href="mailto:tsixj@hotmail.com"
                                     class="text-lg  text-navy hover:text-india-green transition-colors">tsixj@hotmail.com</a>
                             </div>
 
                             <div class="border-l-2 border-india-green pl-5">
-                                <p class="text-[11px] font-bold text-gray-400 uppercase tracking-tighter mb-4">Follow
+                                <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-tighter mb-4">Follow
                                     Us</p>
                                 <div class="flex items-center gap-5">
                                     <a href="#"

@@ -50,7 +50,7 @@
                     <div class="flex items-center">
                         <input id="remember" name="remember" type="checkbox" {{ old('remember') ? 'checked' : '' }}
                                class="h-5 w-5 rounded border-gray-300 text-india-green focus:ring-india-green transition-all cursor-pointer">
-                        <label for="remember" class="ml-3 block text-sm text-gray-500 font-bold cursor-pointer">
+                        <label for="remember" class="ml-3 block text-sm text-gray-500 font-semibold cursor-pointer">
                             Remember me
                         </label>
                     </div>

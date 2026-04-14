@@ -49,3 +49,23 @@ Route::get('/activities', function () {
 Route::get('/car', function () {
     return view('car');
 });
+
+Route::get('/about-us', function () {
+    return view('about-us');
+});
+
+Route::get('/contact', function () {
+    return view('contact');
+});
+
+Route::get('/faqs', function () {
+    return view('faqs');
+});
+
+Route::get('/reviews', function () {
+    return view('reviews');
+});
+
+Route::get('/tour/kashmir-tour-package-tsp-161', function () {
+    return view('tour-detail');
+});

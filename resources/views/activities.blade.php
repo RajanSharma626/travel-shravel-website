@@ -172,36 +172,37 @@
                 </aside>
 
                 {{-- Right Content: Activity List --}}
-                <div class="flex-1">
+                <div class="flex-1 min-w-0">
                     
                     {{-- List Header --}}
-                    <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
-                        <h2 class="text-gray-900">8 activities found</h2>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 pb-4 border-b border-gray-100 gap-4">
+                        <h2 class="text-lg text-gray-900">8 activities found</h2>
                         <div class="flex items-center gap-6">
                             <div class="flex items-center gap-2 cursor-pointer group">
-                                <span class="text-[14px] font-medium text-gray-500 group-hover:text-gray-900 transition-colors">Sort</span>
-                                <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 group-hover:text-gray-900 transition-colors"></i>
+                                <span class="text-[14px] font-medium text-gray-400 group-hover:text-gray-900 transition-colors">Sort by:</span>
+                                <span class="text-[14px] font-semibold text-gray-900 group-hover:text-india-green transition-colors">Recommended</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] text-gray-400"></i>
                             </div>
-                            <div class="flex items-center gap-3">
-                                <button class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-300 hover:text-india-green hover:bg-white transition-all">
-                                    <i class="fa-solid fa-list-ul text-lg"></i>
+                            <div class="flex items-center bg-gray-50 p-1 rounded-xl">
+                                <button class="w-9 h-9 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-900 transition-all">
+                                    <i class="fa-solid fa-list-ul text-sm"></i>
                                 </button>
-                                <button class="w-10 h-10 flex items-center justify-center rounded-lg text-india-green bg-white shadow-sm border border-gray-100">
-                                    <i class="fa-solid fa-table-cells text-lg"></i>
+                                <button class="w-9 h-9 flex items-center justify-center rounded-lg text-india-green bg-white shadow-sm border border-gray-100">
+                                    <i class="fa-solid fa-table-cells text-sm"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
 
                     {{-- Activity Grid --}}
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
                         
                         @php
                             $activities = [
                                 [
                                     'title' => 'Suchetgarh Jammu Border Ceremony',
-                                    'location' => 'RS Pura, Jammu, Jammu and Kashmir, India',
-                                    'price' => '1,149.00',
+                                    'location' => 'RS Pura, Jammu, India',
+                                    'price' => '₹1,149.00',
                                     'rating' => 0,
                                     'reviews' => 0,
                                     'duration' => '3 Hours',
@@ -210,8 +211,8 @@
                                 ],
                                 [
                                     'title' => 'Day Trip to Sudh Mahadev',
-                                    'location' => 'SudhMahadev, Jammu and Kashmir, India',
-                                    'price' => '2,299.00',
+                                    'location' => 'SudhMahadev, Jammu & Kashmir',
+                                    'price' => '₹2,299.00',
                                     'rating' => 0,
                                     'reviews' => 0,
                                     'duration' => '7 Hours',
@@ -220,38 +221,38 @@
                                 ],
                                 [
                                     'title' => 'Day Trip to Patnitop',
-                                    'location' => 'Patnitop, Jammu and Kashmir, India',
-                                    'price' => '2,299.00',
+                                    'location' => 'Patnitop, Jammu & Kashmir',
+                                    'price' => '₹2,299.00',
                                     'rating' => 4.5,
-                                    'reviews' => 0,
+                                    'reviews' => 12,
                                     'duration' => '8 Hours',
                                     'img' => 'https://images.unsplash.com/photo-1548013146-72479768b741?auto=format&fit=crop&q=80&w=800',
                                     'featured' => true
                                 ],
                                 [
                                     'title' => 'Day Tour to Mansar Lake',
-                                    'location' => 'Samba, Jammu and Kashmir, India',
-                                    'price' => '1,799.00',
+                                    'location' => 'Samba, Jammu & Kashmir',
+                                    'price' => '₹1,799.00',
                                     'rating' => 2.6,
-                                    'reviews' => 0,
+                                    'reviews' => 8,
                                     'duration' => '6 Hours',
                                     'img' => 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=800',
                                     'featured' => true
                                 ],
                                 [
                                     'title' => 'Jammu Local Sightseeing',
-                                    'location' => 'Jammu, Jammu and Kashmir, India',
-                                    'price' => '1,149.00',
+                                    'location' => 'Jammu City, India',
+                                    'price' => '₹1,149.00',
                                     'rating' => 3.2,
-                                    'reviews' => 0,
+                                    'reviews' => 15,
                                     'duration' => '5 Hours',
                                     'img' => 'https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&q=80&w=800',
                                     'featured' => true
                                 ],
                                 [
                                     'title' => 'Day Trip to Akhnoor',
-                                    'location' => 'Akhnoor, Jammu, Jammu and Kashmir, India',
-                                    'price' => '1,149.00',
+                                    'location' => 'Akhnoor, Jammu, India',
+                                    'price' => '₹1,149.00',
                                     'rating' => 0,
                                     'reviews' => 0,
                                     'duration' => '4 Hours',
@@ -262,50 +263,15 @@
                         @endphp
 
                         @foreach($activities as $activity)
-                        <div class="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-500 flex flex-col">
-                            {{-- Image Container --}}
-                            <div class="relative h-56 overflow-hidden">
-                                <img src="{{ $activity['img'] }}" alt="{{ $activity['title'] }}"
-                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                                
-                                @if($activity['featured'])
-                                <span class="absolute top-4 left-4 bg-india-green text-white text-[11px] uppercase tracking-wider px-3 py-1.5 rounded-md shadow-lg">Featured</span>
-                                @endif
-
-                                <button class="absolute top-4 right-4 w-10 h-10 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white hover:text-red-600 transition-all transform hover:scale-110">
-                                    <i class="fa-regular fa-heart text-lg"></i>
-                                </button>
-                            </div>
-
-                            {{-- Content --}}
-                            <div class="p-6 flex flex-col flex-1">
-                                <p class="text-[13px] text-gray-500 mb-2 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-location-dot text-gray-300"></i>
-                                    <span class="truncate">{{ $activity['location'] }}</span>
-                                </p>
-
-                                <h3 class="text-[16px] text-gray-900 mb-3 leading-tight group-hover:text-india-green transition-colors min-h-[44px]">
-                                    {{ $activity['title'] }}
-                                </h3>
-
-                                <div class="flex items-center gap-1.5 mb-6">
-                                    <i class="fa-solid fa-star text-[11px] text-saffron"></i>
-                                    <span class="text-[13px] text-gray-900">{{ $activity['rating'] }}</span>
-                                    <span class="text-[13px] text-gray-400">(No Review)</span>
-                                </div>
-
-                                <div class="mt-auto border-t border-gray-50 pt-5 flex items-center justify-between">
-                                    <div class="flex flex-col">
-                                        <span class="text-[12px] text-gray-400">From</span>
-                                        <span class="text-lg font-semibold text-gray-900">₹{{ $activity['price'] }}</span>
-                                    </div>
-                                    <div class="flex items-center gap-1.5 text-gray-500 text-[13px]">
-                                        <i class="fa-regular fa-clock"></i>
-                                        <span>{{ $activity['duration'] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <x-activity-card 
+                                :image="$activity['img']"
+                                :featured="$activity['featured']"
+                                :location="$activity['location']"
+                                :title="$activity['title']"
+                                :rating="$activity['rating']"
+                                :price="$activity['price']"
+                                :duration="$activity['duration']"
+                            />
                         @endforeach
                     </div>
 

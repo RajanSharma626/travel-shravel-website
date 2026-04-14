@@ -235,35 +235,36 @@
                 </aside>
 
                 {{-- Right Content: Hotel List --}}
-                <div class="flex-1">
+                <div class="flex-1 min-w-0">
                     
                     {{-- List Header --}}
-                    <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
-                        <h2 class="text-gray-900">9 hotels found</h2>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 pb-4 border-b border-gray-100 gap-4">
+                        <h2 class="text-lg text-gray-900">9 hotels found</h2>
                         <div class="flex items-center gap-6">
                             <div class="flex items-center gap-2 cursor-pointer group">
-                                <span class="text-[14px] font-medium text-gray-500 group-hover:text-gray-900 transition-colors">Sort</span>
-                                <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 group-hover:text-gray-900 transition-colors"></i>
+                                <span class="text-[14px] font-medium text-gray-400 group-hover:text-gray-900 transition-colors">Sort by:</span>
+                                <span class="text-[14px] font-semibold text-gray-900 group-hover:text-india-green transition-colors">Recommended</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] text-gray-400"></i>
                             </div>
-                            <div class="flex items-center gap-3">
-                                <button class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-300 hover:text-india-green hover:bg-white transition-all">
-                                    <i class="fa-solid fa-list-ul text-lg"></i>
+                            <div class="flex items-center bg-gray-50 p-1 rounded-xl">
+                                <button class="w-9 h-9 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-900 transition-all">
+                                    <i class="fa-solid fa-list-ul text-sm"></i>
                                 </button>
-                                <button class="w-10 h-10 flex items-center justify-center rounded-lg text-india-green bg-white shadow-sm border border-gray-100">
-                                    <i class="fa-solid fa-table-cells text-lg"></i>
+                                <button class="w-9 h-9 flex items-center justify-center rounded-lg text-india-green bg-white shadow-sm border border-gray-100">
+                                    <i class="fa-solid fa-table-cells text-sm"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
 
                     {{-- Hotel Grid --}}
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
                         
                         @php
                             $hotels = [
-                                ['name' => 'Orange Classic Rishikesh', 'location' => 'Rishikesh, Uttarakhand, India', 'price' => '0.00', 'rating' => 5, 'reviews' => 1, 'score' => 'Excellent', 'img' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800', 'stars' => 2],
-                                ['name' => 'Classic Cottage Nubra', 'location' => 'Nubra, Ladakh, India', 'price' => '0.00', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=800', 'stars' => 1],
-                                ['name' => 'Hotel Regent, Pahalgam', 'location' => 'Pahalgam, Jammu and Kashmir, India', 'price' => '0.00', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=800', 'stars' => 0],
+                                ['name' => 'Orange Classic Rishikesh', 'location' => 'Rishikesh, Uttarakhand, India', 'price' => '2,500.00', 'rating' => 5, 'reviews' => 1, 'score' => 'Excellent', 'img' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800', 'stars' => 2],
+                                ['name' => 'Classic Cottage Nubra', 'location' => 'Nubra, Ladakh, India', 'price' => '3,200.00', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=800', 'stars' => 1],
+                                ['name' => 'Hotel Regent, Pahalgam', 'location' => 'Pahalgam, Jammu and Kashmir, India', 'price' => '4,800.00', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=800', 'stars' => 0],
                                 ['name' => 'Hotel Diamond Manali', 'location' => 'Manali, Himachal Pradesh, India', 'price' => '4,000.00', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=800', 'stars' => 2],
                                 ['name' => 'Hotel Madhuban Srinagar', 'location' => 'Srinagar, Jammu and Kashmir, India', 'price' => '3,633.33', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&q=80&w=800', 'stars' => 2, 'featured' => true],
                                 ['name' => 'Hotel Grand Habib', 'location' => 'Srinagar, Jammu and Kashmir, India', 'price' => '3,750.00', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800', 'stars' => 3, 'featured' => true],
@@ -272,57 +273,19 @@
                                 ['name' => 'Glacier View Guest House', 'location' => 'Leh, Ladakh, India', 'price' => '2,850.00', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&q=80&w=800', 'stars' => 1],
                             ];
                         @endphp
-
+                        
                         @foreach($hotels as $hotel)
-                        <div class="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-500 flex flex-col">
-                            {{-- Image Container --}}
-                            <div class="relative h-56 overflow-hidden">
-                                <img src="{{ $hotel['img'] }}" alt="{{ $hotel['name'] }}"
-                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                                
-                                @if(isset($hotel['featured']) && $hotel['featured'])
-                                <span class="absolute top-4 left-4 bg-india-green text-white text-[11px] uppercase tracking-wider px-3 py-1.5 rounded-md shadow-lg">Featured</span>
-                                @endif
-
-                                <button class="absolute top-4 right-4 w-10 h-10 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white hover:text-saffron transition-all transform hover:scale-110">
-                                    <i class="fa-regular fa-heart text-lg"></i>
-                                </button>
-                            </div>
-
-                            {{-- Content --}}
-                            <div class="p-6 flex flex-col flex-1">
-                                <div class="flex items-center gap-0.5 mb-2">
-                                    @for($i = 1; $i <= $hotel['stars']; $i++)
-                                    <i class="fa-solid fa-star text-[10px] text-saffron"></i>
-                                    @endfor
-                                </div>
-
-                                <h3 class="text-gray-900 mb-2 leading-tight group-hover:text-india-green transition-colors">
-                                    {{ $hotel['name'] }}
-                                </h3>
-                                
-                                <p class="text-[13px] text-gray-500 mb-6 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-location-dot text-gray-300"></i>
-                                    {{ $hotel['location'] }}
-                                </p>
-
-                                <div class="mt-auto border-t border-gray-100 pt-5">
-                                    <div class="flex items-center gap-3 mb-4">
-                                        <div class="bg-india-green text-white px-2 py-1 rounded text-[11px]">
-                                            {{ $hotel['rating'] }} / 5
-                                        </div>
-                                        <div class="text-[13px]">
-                                            <span class="text-gray-900">{{ $hotel['score'] }}</span>
-                                            <span class="text-gray-400">({{ $hotel['reviews'] }} Review)</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="flex items-baseline gap-1 text-[13px] text-gray-500">
-                                        From: <span class="text-lg font-semibold text-gray-900 ml-1">₹{{ $hotel['price'] }}</span> /night
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <x-hotel-card 
+                                :title="$hotel['name']"
+                                :image="$hotel['img']"
+                                :stars="$hotel['stars']"
+                                :location="$hotel['location']"
+                                ratingValue="{{ $hotel['rating'] }} / 5"
+                                :ratingLabel="$hotel['score']"
+                                :reviewCount="$hotel['reviews']"
+                                price="₹{{ $hotel['price'] }}"
+                                :featured="$hotel['featured'] ?? false"
+                            />
                         @endforeach
                     </div>
 

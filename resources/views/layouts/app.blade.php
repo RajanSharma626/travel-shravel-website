@@ -32,38 +32,38 @@
 
 <body class="min-h-screen flex flex-col bg-gray-50 text-gray-900">
     {{-- Top Bar --}}
-    <div class="bg-navy text-white text-xs py-2">
+    <div class="bg-saffron text-black text-xs py-2">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <div class="flex items-center gap-4">
-                <div class="flex gap-3 items-center border-r border-navy-deep/30 pr-4">
-                    <a href="#" class="hover:text-saffron transition"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="hover:text-saffron transition"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#" class="hover:text-saffron transition"><i class="fa-brands fa-youtube"></i></a>
+                <div class="flex gap-3 items-center border-r border-black/10 pr-4">
+                    <a href="#" class="hover:text-navy transition"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-navy transition"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="hover:text-navy transition"><i class="fa-brands fa-youtube"></i></a>
                 </div>
                 <div class="flex items-center gap-2">
-                    <i class="fa-regular fa-envelope text-saffron"></i>
+                    <i class="fa-regular fa-envelope text-black"></i>
                     <a href="mailto:tsxj@hotmail.com" class="hover:underline">tsxj@hotmail.com</a>
                 </div>
             </div>
             <div class="flex items-center gap-4">
-                <div class="flex items-center gap-2 border-r border-navy-deep/30 pr-4">
-                    <i class="fa-solid fa-phone text-saffron"></i>
+                <div class="flex items-center gap-2 border-r border-black/10 pr-4">
+                    <i class="fa-solid fa-phone text-black"></i>
                     <span>+91 90 86 421601</span>
                 </div>
-                <div class="flex items-center gap-4 border-r border-navy-deep/30 pr-4">
-                    <a href="{{ url('/login') }}" class="hover:text-saffron transition">Login</a>
-                    <a href="{{ url('/register') }}" class="hover:text-saffron transition">Sign Up</a>
+                <div class="flex items-center gap-4 border-r border-black/10 pr-4">
+                    <a href="{{ url('/login') }}" class="hover:text-navy transition">Login</a>
+                    <a href="{{ url('/register') }}" class="hover:text-navy transition">Sign Up</a>
                 </div>
                 <div class="flex items-center gap-1 group cursor-pointer">
                     <span>INR</span>
-                    <i class="fa-solid fa-chevron-down text-[10px] group-hover:text-saffron transition"></i>
+                    <i class="fa-solid fa-chevron-down text-[10px] group-hover:text-navy transition"></i>
                 </div>
             </div>
         </div>
     </div>
 
     {{-- Navbar --}}
-    <header class="bg-saffron border-b border-white/20 shadow-lg sticky top-0 z-50">
+    <header class="bg-navy border-b border-white/10 shadow-lg sticky top-0 z-50">
         <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
             <div class="flex h-20 items-center justify-between">
                 {{-- Logo Section --}}
@@ -77,24 +77,23 @@
                 {{-- Desktop Navigation --}}
                 <div class="hidden lg:flex lg:items-center lg:gap-x-8">
                     <a href="{{ url('/') }}"
-                        class="text-xs tracking-widest {{ url('/') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all">HOME</a>
+                        class="text-xs tracking-widest {{ url('/') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">HOME</a>
                     <a href="{{ url('/flights') }}"
-                        class="text-xs tracking-widest {{ url('/flights') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all">FLIGHTS</a>
+                        class="text-xs tracking-widest {{ url('/flights') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">FLIGHTS</a>
                     <a href="{{ url('/hotel-search-layout') }}"
-                        class="text-xs tracking-widest {{ url('/hotel-search-layout') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all">HOTEL</a>
+                        class="text-xs tracking-widest {{ url('/hotel-search-layout') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">HOTEL</a>
                     <a href="{{ url('/trains') }}"
-                        class="text-xs tracking-widest {{ url('/trains') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all">TRAIN</a>
+                        class="text-xs tracking-widest {{ url('/trains') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">TRAIN</a>
                     <a href="{{ url('/tour') }}"
-                        class="text-xs tracking-widest {{ url('/tour') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all">TOUR</a>
+                        class="text-xs tracking-widest {{ url('/tour') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">TOUR</a>
                     <a href="{{ url('/activities') }}"
-                        class="text-xs tracking-widest {{ url('/activities') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all">ACTIVITIES</a>
+                        class="text-xs tracking-widest {{ url('/activities') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">ACTIVITIES</a>
                     <a href="{{ url('/car') }}"
-                        class="text-xs tracking-widest {{ url('/car') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all">CAR</a>
-
+                        class="text-xs tracking-widest {{ url('/car') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">CAR</a>
                     {{-- More Dropdown --}}
                     <div class="relative group">
                         <button
-                            class="flex items-center gap-1.5 text-xs tracking-widest {{ url('/more') == Request::url() ? 'text-india-green ' : 'text-white hover:text-india-green' }} transition-all h-20">
+                            class="flex items-center gap-1.5 text-xs tracking-widest {{ url('/more') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all h-20">
                             MORE <i class="fa-solid fa-chevron-down text-[10px]"></i>
                         </button>
                         {{-- Dropdown Menu --}}
@@ -265,13 +264,13 @@
                         <h3 class="text-[15px] font-semibold text-navy uppercase tracking-widest mb-4">Travel Shravel</h3>
                         <div class="h-0.5 w-20 bg-gray-100 mb-10"></div>
                         <ul class="space-y-4">
-                            <li><a href="#"
+                            <li><a href="{{ url('/about-us') }}"
                                     class="text-[15px] text-navy hover:text-india-green transition-colors">About
                                     Us</a></li>
                             <li><a href="#"
                                     class="text-[15px] text-navy hover:text-india-green transition-colors">Become
                                     Local Expert</a></li>
-                            <li><a href="#"
+                            <li><a href="{{ url('/contact') }}"
                                     class="text-[15px] text-navy hover:text-india-green transition-colors">Contact
                                     Us</a></li>
                             <li><a href="#"
@@ -300,18 +299,17 @@
                             <li><a href="#"
                                     class="text-[15px] text-navy hover:text-india-green transition-colors">Career
                                     Opportunities</a></li>
-                            <li><a href="#"
-                                    class="text-[15px] text-navy hover:text-india-green transition-colors">Frequently
-                                    Asked Questions</a></li>
+                            <li><a href="{{ url('/faqs') }}"
+                                    class="text-[15px] text-navy hover:text-india-green transition-colors">FAQ</a></li>
                             <li><a href="#"
                                     class="text-[15px] text-navy hover:text-india-green transition-colors">Make
                                     Payment</a></li>
                             <li><a href="#"
                                     class="text-[15px] text-navy hover:text-india-green transition-colors">Press</a>
                             </li>
-                            <li><a href="#"
-                                    class="text-[15px] text-navy hover:text-india-green transition-colors">Reviews</a>
-                            </li>
+                             <li><a href="{{ url('/reviews') }}"
+                                     class="text-[15px] text-navy hover:text-india-green transition-colors">Reviews</a>
+                             </li>
                         </ul>
                     </div>
 

@@ -309,149 +309,194 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             {{-- Tabs --}}
             <div class="flex flex-wrap justify-center gap-4 mb-12">
-                <button
-                    class="px-8 py-2.5 rounded-md bg-india-green text-white shadow-sm transition-all hover:bg-india-green/90">Tour</button>
-                <button
-                    class="px-8 py-2.5 rounded-md bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all">Hotel</button>
-                <button
-                    class="px-8 py-2.5 rounded-md bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all">Activity</button>
-                <button
-                    class="px-8 py-2.5 rounded-md bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all">Car</button>
+                <button id="btn-tour" onclick="switchCategory('tour')"
+                    class="px-8 py-2.5 rounded-md bg-navy text-white border border-transparent shadow-sm transition-all tab-btn active">Tour</button>
+                <button id="btn-hotel" onclick="switchCategory('hotel')"
+                    class="px-8 py-2.5 rounded-md bg-white text-gray-600 border border-gray-200 transition-all tab-btn">Hotel</button>
+                <button id="btn-activity" onclick="switchCategory('activity')"
+                    class="px-8 py-2.5 rounded-md bg-white text-gray-600 border border-gray-200 transition-all tab-btn">Activity</button>
+                <button id="btn-car" onclick="switchCategory('car')"
+                    class="px-8 py-2.5 rounded-md bg-white text-gray-600 border border-gray-200 transition-all tab-btn">Car</button>
             </div>
 
             {{-- Tours Grid --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div id="grid-tour" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 category-grid">
 
-                {{-- Tour Card 1 --}}
-                <div
-                    class="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300">
-                    <div class="relative h-60 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=800"
-                            alt="Vaishno Devi"
-                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <span
-                            class="absolute top-4 left-4 bg-india-green text-white text-[10px] font-semibold uppercase tracking-wider px-3 py-1 rounded-sm shadow-sm">Featured</span>
-                        <button
-                            class="absolute top-4 right-4 h-8 w-8 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white hover:text-red-500 transition-all">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center gap-1.5 text-gray-400 text-[11px] font-medium mb-3">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <span>Jammu and Kashmir, India</span>
-                        </div>
-                        <h3
-                            class="text-lg text-gray-900 mb-3 leading-snug group-hover:text-india-green transition-colors">
-                            Darshan of Shri Mata Vaishno Devi // TSP 075
-                        </h3>
-                        <div class="flex items-center gap-1 text-[11px] mb-6">
-                            <i class="fa-solid fa-star text-saffron text-[10px]"></i>
-                            <span class="text-gray-900 font-semibold ml-0.5">0</span>
-                            <span class="text-gray-400">(No Review)</span>
-                        </div>
-                        <div class="flex items-center justify-between pt-5 border-t border-gray-50">
-                            <span class="text-xl font-semibold text-navy">₹0.00</span>
-                            <div class="flex items-center gap-1.5 text-gray-500 text-xs font-medium">
-                                <i class="fa-regular fa-clock"></i>
-                                <span>2 Nights</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-tour-card 
+                    image="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=800"
+                    :featured="true"
+                    title="Darshan of Shri Mata Vaishno Devi // TSP 075"
+                    location="Jammu and Kashmir, India"
+                    price="₹0.00"
+                    duration="2 Nights"
+                />
 
-                {{-- Tour Card 2 --}}
-                <div
-                    class="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300">
-                    <div class="relative h-60 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1614056965546-42fbe24eb36c?auto=format&fit=crop&q=80&w=800"
-                            alt="Srinagar"
-                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <span
-                            class="absolute top-4 left-4 bg-india-green text-white text-[10px] font-semibold uppercase tracking-wider px-3 py-1 rounded-sm shadow-sm">Featured</span>
-                        <button
-                            class="absolute top-4 right-4 h-8 w-8 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white hover:text-red-500 transition-all">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center gap-1.5 text-gray-400 text-[11px] font-medium mb-3">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <span>Kashmir, Jammu and Kashmir, India</span>
-                        </div>
-                        <h3
-                            class="text-lg text-gray-900 mb-3 leading-snug group-hover:text-india-green transition-colors">
-                            Jannat-e-Kashmir (4N Srinagar) // TSP 161
-                        </h3>
-                        <div class="flex items-center gap-1 text-[11px] mb-6">
-                            <i class="fa-solid fa-star text-saffron text-[10px]"></i>
-                            <span class="text-gray-900 font-semibold ml-0.5">5</span>
-                            <span class="text-gray-400">(No Review)</span>
-                        </div>
-                        <div class="flex items-center justify-between pt-5 border-t border-gray-50">
-                            <span class="text-xl font-semibold text-navy">₹0.00</span>
-                            <div class="flex items-center gap-1.5 text-gray-500 text-xs font-medium">
-                                <i class="fa-regular fa-clock"></i>
-                                <span>4 Nights</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-tour-card 
+                    image="https://images.unsplash.com/photo-1614056965546-42fbe24eb36c?auto=format&fit=crop&q=80&w=800"
+                    :featured="true"
+                    title="Jannat-e-Kashmir (4N Srinagar) // TSP 161"
+                    location="Kashmir, Jammu and Kashmir, India"
+                    rating="5"
+                    price="₹0.00"
+                    duration="4 Nights"
+                    link="{{ url('/tour/kashmir-tour-package-tsp-161') }}"
+                />
 
-                {{-- Tour Card 3 --}}
-                <div
-                    class="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300">
-                    <div class="relative h-60 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1717502713522-543a97e13dab?auto=format&fit=crop&q=80&w=800"
-                            alt="Katra"
-                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <span
-                            class="absolute top-4 left-4 bg-india-green text-white text-[10px] font-semibold uppercase tracking-wider px-3 py-1 rounded-sm shadow-sm">Featured</span>
-                        <button
-                            class="absolute top-4 right-4 h-8 w-8 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white hover:text-red-500 transition-all">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center gap-1.5 text-gray-400 text-[11px] font-medium mb-3">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <span>Katra, Jammu and Kashmir, India</span>
-                        </div>
-                        <h3
-                            class="text-lg text-gray-900 mb-3 leading-snug group-hover:text-india-green transition-colors">
-                            Katra with Raghunath Temple // TSP 076
-                        </h3>
-                        <div class="flex items-center gap-1 text-[11px] mb-6">
-                            <i class="fa-solid fa-star text-saffron text-[10px]"></i>
-                            <span class="text-gray-900 font-semibold ml-0.5">0</span>
-                            <span class="text-gray-400">(No Review)</span>
-                        </div>
-                        <div class="flex items-center justify-between pt-5 border-t border-gray-50">
-                            <span class="text-xl font-semibold text-navy">₹0.00</span>
-                            <div class="flex items-center gap-1.5 text-gray-500 text-xs font-medium">
-                                <i class="fa-regular fa-clock"></i>
-                                <span>3 Nights</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-tour-card 
+                    image="https://images.unsplash.com/photo-1717502713522-543a97e13dab?auto=format&fit=crop&q=80&w=800"
+                    :featured="true"
+                    title="Katra with Raghunath Temple // TSP 076"
+                    location="Katra, Jammu and Kashmir, India"
+                    price="₹0.00"
+                    duration="3 Nights"
+                />
+
+            </div>
+
+            {{-- Hotels Grid --}}
+            <div id="grid-hotel" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 category-grid">
+                
+                <x-hotel-card 
+                    image="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&q=80&w=800"
+                    title="Glacier View Guest House, Leh"
+                    location="Leh, Ladakh, India"
+                    :stars="1"
+                    price="₹2,850.00"
+                />
+
+                <x-hotel-card 
+                    image="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800"
+                    title="Hotel Zojila Residency, Kargil"
+                    location="Kargil, Ladakh, India"
+                    :stars="2"
+                    price="₹5,500.00"
+                />
+
+                <x-hotel-card 
+                    image="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=800"
+                    title="Morpho Hotel, Calangute, North Goa"
+                    location="Goa, India"
+                    :stars="3"
+                    :featured="true"
+                    price="₹4,250.00"
+                />
+
+            </div>
+
+            {{-- Activity Grid --}}
+            <div id="grid-activity" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 category-grid">
+                
+                <x-activity-card 
+                    image="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=800"
+                    :featured="true"
+                    location="Patnitop, Jammu and Kashmir, India"
+                    title="Day Trip to Patnitop"
+                    rating="4.5"
+                    price="₹2,299.00"
+                    duration="8 Hours"
+                />
+
+                <x-activity-card 
+                    image="https://images.unsplash.com/photo-1617112818585-79b88ef77916?auto=format&fit=crop&q=80&w=800"
+                    :featured="true"
+                    location="Samba, Jammu and Kashmir, India"
+                    title="Day Tour to Mansar Lake"
+                    rating="2.6"
+                    price="₹1,799.00"
+                    duration="6 Hours"
+                />
+
+                <x-activity-card 
+                    image="https://images.unsplash.com/photo-1598091383021-15ddea10925d?auto=format&fit=crop&q=80&w=800"
+                    :featured="true"
+                    location="Jammu, Jammu and Kashmir, India"
+                    title="Jammu Local Sightseeing"
+                    rating="3.2"
+                    price="₹1,149.00"
+                    duration="5 Hours"
+                />
+
+            </div>
+
+            {{-- Car Grid --}}
+            <div id="grid-car" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 category-grid">
+                
+                <x-car-card 
+                    image="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800"
+                    :featured="true"
+                    type="MUV"
+                    title="Toyota Innova"
+                    pax="6"
+                    transmission="manual"
+                    bags="3"
+                    doors="4"
+                    price="₹5,000.00"
+                />
+
+                <x-car-card 
+                    image="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800"
+                    :featured="true"
+                    type="Sedan"
+                    title="Toyota Etios"
+                    pax="4"
+                    transmission="manual"
+                    bags="0"
+                    doors="0"
+                    price="₹3,500.00"
+                />
+
+                <x-car-card 
+                    image="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800"
+                    :featured="true"
+                    type="Sedan"
+                    title="Maruti Suzuki Dzire"
+                    pax="4"
+                    transmission="manual"
+                    bags="2"
+                    doors="4"
+                    price="₹3,500.00"
+                />
 
             </div>
 
             {{-- Pagination --}}
             <div class="mt-16 flex justify-center items-center gap-3">
                 <button
-                    class="h-10 w-10 flex items-center justify-center rounded-lg bg-india-green text-white  shadow-md shadow-india-green/20 transition-all">1</button>
+                    class="h-10 w-10 flex items-center justify-center rounded-lg bg-navy text-white shadow-md shadow-navy/20 transition-all">1</button>
                 <button
-                    class="h-10 w-10 flex items-center justify-center rounded-lg bg-white text-gray-600 border border-gray-200  hover:bg-gray-50 hover:border-india-green/20 transition-all">2</button>
+                    class="h-10 w-10 flex items-center justify-center rounded-lg bg-white text-gray-600 border border-gray-200  hover:bg-gray-50 hover:border-navy/20 transition-all">2</button>
                 <span class="px-2 text-gray-400 ">...</span>
                 <button
-                    class="h-10 w-10 flex items-center justify-center rounded-lg bg-white text-gray-600 border border-gray-200  hover:bg-gray-50 hover:border-india-green/20 transition-all">27</button>
+                    class="h-10 w-10 flex items-center justify-center rounded-lg bg-white text-gray-600 border border-gray-200  hover:bg-gray-50 hover:border-navy/20 transition-all">27</button>
                 <button
-                    class="h-10 w-10 flex items-center justify-center rounded-lg bg-white text-gray-600 border border-gray-200  hover:bg-gray-50 hover:border-india-green/20 transition-all">
+                    class="h-10 w-10 flex items-center justify-center rounded-lg bg-white text-gray-600 border border-gray-200  hover:bg-gray-50 hover:border-navy/20 transition-all">
                     <i class="fa-solid fa-chevron-right text-xs"></i>
                 </button>
             </div>
+        </div>
+    </section>
+
+    <script>
+        function switchCategory(category) {
+            // Update active button state
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-navy', 'text-white', 'border-transparent', 'shadow-sm');
+                btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
+            });
+            const activeBtn = document.getElementById(`btn-${category}`);
+            activeBtn.classList.add('bg-navy', 'text-white', 'border-transparent', 'shadow-sm');
+            activeBtn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
+
+            // Toggle grid visibility
+            document.querySelectorAll('.category-grid').forEach(grid => {
+                grid.classList.add('hidden');
+            });
+            const activeGrid = document.getElementById(`grid-${category}`);
+            if (activeGrid) {
+                activeGrid.classList.remove('hidden');
+            }
+        }
+    </script>
         </div>
     </section>
 

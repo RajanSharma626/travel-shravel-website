@@ -172,36 +172,37 @@
                 </aside>
 
                 {{-- Right Content: Tour List --}}
-                <div class="flex-1">
+                <div class="flex-1 min-w-0">
                     
                     {{-- List Header --}}
-                    <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
-                        <h2 class="text-gray-900">107 tours found</h2>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 pb-4 border-b border-gray-100 gap-4">
+                        <h2 class="text-lg text-gray-900">107 tours found</h2>
                         <div class="flex items-center gap-6">
                             <div class="flex items-center gap-2 cursor-pointer group">
-                                <span class="text-[14px] font-medium text-gray-500 group-hover:text-gray-900 transition-colors">Sort</span>
-                                <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 group-hover:text-gray-900 transition-colors"></i>
+                                <span class="text-[14px] font-medium text-gray-400 group-hover:text-gray-900 transition-colors">Sort by:</span>
+                                <span class="text-[14px] font-semibold text-gray-900 group-hover:text-india-green transition-colors">Recommended</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] text-gray-400"></i>
                             </div>
-                            <div class="flex items-center gap-3">
-                                <button class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-300 hover:text-india-green hover:bg-white transition-all">
-                                    <i class="fa-solid fa-list-ul text-lg"></i>
+                            <div class="flex items-center bg-gray-50 p-1 rounded-xl">
+                                <button class="w-9 h-9 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-900 transition-all">
+                                    <i class="fa-solid fa-list-ul text-sm"></i>
                                 </button>
-                                <button class="w-10 h-10 flex items-center justify-center rounded-lg text-india-green bg-white shadow-sm border border-gray-100">
-                                    <i class="fa-solid fa-table-cells text-lg"></i>
+                                <button class="w-9 h-9 flex items-center justify-center rounded-lg text-india-green bg-white shadow-sm border border-gray-100">
+                                    <i class="fa-solid fa-table-cells text-sm"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
 
                     {{-- Tour Grid --}}
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
                         
                         @php
                             $tours = [
                                 [
                                     'title' => 'UK with Scotland and Ireland // TSP 014',
                                     'location' => 'UK',
-                                    'price' => '280,000.00',
+                                    'price' => '₹280,000.00',
                                     'rating' => 0,
                                     'reviews' => 0,
                                     'duration' => '9 Nights',
@@ -211,7 +212,7 @@
                                 [
                                     'title' => 'Mystic Charm of Pir Panjal // TSP 194',
                                     'location' => 'Jammu and Kashmir, India',
-                                    'price' => '27,999.00',
+                                    'price' => '₹27,999.00',
                                     'rating' => 0,
                                     'reviews' => 0,
                                     'duration' => '5 Nights',
@@ -221,7 +222,7 @@
                                 [
                                     'title' => 'Kishtwar - Jewel of Chenab // TSP 192',
                                     'location' => 'Jammu and Kashmir, India',
-                                    'price' => '21,499.00',
+                                    'price' => '₹21,499.00',
                                     'rating' => 0,
                                     'reviews' => 0,
                                     'duration' => '4 Nights',
@@ -231,7 +232,7 @@
                                 [
                                     'title' => 'Ramban Trails // TSP 193',
                                     'location' => 'Jammu and Kashmir, India',
-                                    'price' => '21,499.00',
+                                    'price' => '₹21,499.00',
                                     'rating' => 0,
                                     'reviews' => 0,
                                     'duration' => '4 Nights',
@@ -241,7 +242,7 @@
                                 [
                                     'title' => 'Jammu Border Trails // TSP 190',
                                     'location' => 'Jammu and Kashmir, India',
-                                    'price' => '14,999.00',
+                                    'price' => '₹14,999.00',
                                     'rating' => 0,
                                     'reviews' => 0,
                                     'duration' => '3 Nights',
@@ -251,7 +252,7 @@
                                 [
                                     'title' => 'Samba Kathua Beyond Ordinary // TSP 195',
                                     'location' => 'Jammu & Kashmir, India',
-                                    'price' => '25,699.00',
+                                    'price' => '₹25,699.00',
                                     'rating' => 0,
                                     'reviews' => 0,
                                     'duration' => '5 Nights',
@@ -262,50 +263,15 @@
                         @endphp
 
                         @foreach($tours as $tour)
-                        <div class="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-500 flex flex-col">
-                            {{-- Image Container --}}
-                            <div class="relative h-56 overflow-hidden">
-                                <img src="{{ $tour['img'] }}" alt="{{ $tour['title'] }}"
-                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                                
-                                @if(isset($tour['featured']) && $tour['featured'])
-                                <span class="absolute top-4 left-4 bg-india-green text-white text-[11px] uppercase tracking-wider px-3 py-1.5 rounded-md shadow-lg">Featured</span>
-                                @endif
-
-                                <button class="absolute top-4 right-4 w-10 h-10 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white hover:text-red-600 transition-all transform hover:scale-110">
-                                    <i class="fa-regular fa-heart text-lg"></i>
-                                </button>
-                            </div>
-
-                            {{-- Content --}}
-                            <div class="p-6 flex flex-col flex-1">
-                                <p class="text-[13px] text-gray-500 mb-2 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-location-dot text-gray-300"></i>
-                                    {{ $tour['location'] }}
-                                </p>
-
-                                <h3 class="text-[16px] text-gray-900 mb-3 leading-tight group-hover:text-india-green transition-colors min-h-[44px]">
-                                    {{ $tour['title'] }}
-                                </h3>
-
-                                <div class="flex items-center gap-1.5 mb-6">
-                                    <i class="fa-solid fa-star text-[11px] text-saffron"></i>
-                                    <span class="text-[13px] text-gray-900">{{ $tour['rating'] }}</span>
-                                    <span class="text-[13px] text-gray-400">(No Review)</span>
-                                </div>
-
-                                <div class="mt-auto border-t border-gray-50 pt-5 flex items-center justify-between">
-                                    <div class="flex flex-col">
-                                        <span class="text-[12px] text-gray-400">From</span>
-                                        <span class="text-lg font-semibold text-gray-900">₹{{ $tour['price'] }}</span>
-                                    </div>
-                                    <div class="flex items-center gap-1.5 text-gray-500 text-[13px]">
-                                        <i class="fa-regular fa-clock"></i>
-                                        <span>{{ $tour['duration'] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <x-tour-card 
+                                :title="$tour['title']"
+                                :image="$tour['img']"
+                                :location="$tour['location']"
+                                :price="$tour['price']"
+                                :duration="$tour['duration']"
+                                :rating="$tour['rating']"
+                                :featured="$tour['featured']"
+                            />
                         @endforeach
                     </div>
 

@@ -267,22 +267,22 @@
                             <li><a href="{{ url('/about-us') }}"
                                     class="text-[15px] text-navy hover:text-india-green transition-colors">About
                                     Us</a></li>
-                            <li><a href="#"
+                            <li><a href="{{ url('/become-local-expert') }}"
                                     class="text-[15px] text-navy hover:text-india-green transition-colors">Become
                                     Local Expert</a></li>
                             <li><a href="{{ url('/contact') }}"
                                     class="text-[15px] text-navy hover:text-india-green transition-colors">Contact
                                     Us</a></li>
-                            <li><a href="#"
+                            <li><a href="{{ url('/privacy-policy') }}"
                                     class="text-[15px] text-navy hover:text-india-green transition-colors">Privacy
                                     Policy</a></li>
-                            <li><a href="#"
+                            <li><a href="{{ url('/refund-policy') }}"
                                     class="text-[15px] text-navy hover:text-india-green transition-colors">Refund
                                     Policy</a></li>
                             <li><a href="#"
                                     class="text-[15px] text-navy hover:text-india-green transition-colors">Social
                                     Responsibility</a></li>
-                            <li><a href="#"
+                            <li><a href="{{ url('/terms-conditions') }}"
                                     class="text-[15px] text-navy hover:text-india-green transition-colors">Terms
                                     and Conditions</a></li>
                         </ul>

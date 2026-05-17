@@ -66,6 +66,34 @@ Route::get('/reviews', function () {
     return view('reviews');
 });
 
-Route::get('/tour/kashmir-tour-package-tsp-161', function () {
+Route::get('/tour/{slug}', function () {
     return view('tour-detail');
+});
+
+Route::get('/hotel/{slug}', function () {
+    return view('hotel-detail');
+});
+
+Route::get('/activity/{slug}', function () {
+    return view('activity-detail');
+});
+
+Route::get('/car/{slug}', function () {
+    return view('car-detail');
+});
+
+Route::get('/become-local-expert', function () {
+    return view('become-local-expert');
+});
+
+Route::get('/privacy-policy', function () {
+    return view('privacy-policy');
+});
+
+Route::get('/refund-policy', function () {
+    return view('refund-policy');
+});
+
+Route::get('/terms-conditions', function () {
+    return view('terms-conditions');
 });

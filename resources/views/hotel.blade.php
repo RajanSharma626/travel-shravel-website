@@ -285,6 +285,7 @@
                                 :reviewCount="$hotel['reviews']"
                                 price="₹{{ $hotel['price'] }}"
                                 :featured="$hotel['featured'] ?? false"
+                                link="{{ url('/hotel/' . Str::slug($hotel['name'])) }}"
                             />
                         @endforeach
                     </div>

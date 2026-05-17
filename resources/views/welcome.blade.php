@@ -362,6 +362,7 @@
                     location="Leh, Ladakh, India"
                     :stars="1"
                     price="₹2,850.00"
+                    link="{{ url('/hotel/glacier-view-guest-house-leh') }}"
                 />
 
                 <x-hotel-card 
@@ -370,6 +371,7 @@
                     location="Kargil, Ladakh, India"
                     :stars="2"
                     price="₹5,500.00"
+                    link="{{ url('/hotel/hotel-zojila-residency-kargil') }}"
                 />
 
                 <x-hotel-card 
@@ -379,6 +381,7 @@
                     :stars="3"
                     :featured="true"
                     price="₹4,250.00"
+                    link="{{ url('/hotel/morpho-hotel-calangute-north-goa') }}"
                 />
 
             </div>
@@ -394,6 +397,7 @@
                     rating="4.5"
                     price="₹2,299.00"
                     duration="8 Hours"
+                    link="{{ url('/activity/day-trip-to-patnitop') }}"
                 />
 
                 <x-activity-card 
@@ -404,6 +408,7 @@
                     rating="2.6"
                     price="₹1,799.00"
                     duration="6 Hours"
+                    link="{{ url('/activity/day-tour-to-mansar-lake') }}"
                 />
 
                 <x-activity-card 
@@ -414,6 +419,7 @@
                     rating="3.2"
                     price="₹1,149.00"
                     duration="5 Hours"
+                    link="{{ url('/activity/jammu-local-sightseeing') }}"
                 />
 
             </div>
@@ -431,6 +437,7 @@
                     bags="3"
                     doors="4"
                     price="₹5,000.00"
+                    link="{{ url('/car/toyota-innova') }}"
                 />
 
                 <x-car-card 
@@ -443,6 +450,7 @@
                     bags="0"
                     doors="0"
                     price="₹3,500.00"
+                    link="{{ url('/car/toyota-etios') }}"
                 />
 
                 <x-car-card 
@@ -455,6 +463,7 @@
                     bags="2"
                     doors="4"
                     price="₹3,500.00"
+                    link="{{ url('/car/maruti-suzuki-dzire') }}"
                 />
 
             </div>

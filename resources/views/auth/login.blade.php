@@ -21,7 +21,7 @@
 
                 {{-- Email or Username --}}
                 <div class="relative group">
-                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
+                    <input id="email" type="text" name="email" value="{{ old('email') }}" required autocomplete="username" autofocus
                            class="block w-full px-5 py-3 rounded-xl bg-white border border-gray-200 text-navy font-medium placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-india-green/20 focus:border-india-green transition-all @error('email') border-red-500 @enderror"
                            placeholder="Email or Username">
                     <div class="absolute right-5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-india-green transition-colors">

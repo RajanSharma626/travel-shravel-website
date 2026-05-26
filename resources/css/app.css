@@ -3,18 +3,18 @@
 @tailwind utilities;
 
 :root {
-    /* PRIMARY — SAFFRON ORANGE */
-    --color-saffron: #FF9933;
-    --color-saffron-deep: #E6881F;
-    --color-saffron-tint: #FFF3E0;
+    /* PRIMARY BLUE FAMILY */
+    --color-saffron: #2563EB; /* Vibrant Primary Blue (Replaces saffron) */
+    --color-saffron-deep: #1D4ED8;
+    --color-saffron-tint: #EFF6FF;
 
-    /* SECONDARY — INDIA GREEN */
-    --color-india-green: #138808;
-    --color-green-deep: #0F6B06;
-    --color-green-tint: #E8F5E9;
+    /* SECONDARY GREEN FAMILY */
+    --color-india-green: #10B981; /* Secondary Tropical Green */
+    --color-green-deep: #047857;
+    --color-green-tint: #ECFDF5;
 
-    /* ACCENT — ASHOKA BLUE */
-    --color-ashoka-navy: #000080;
-    --color-navy-deep: #003580;
-    --color-navy-tint: #E8EAF6;
+    /* DARK NAVY BLUE (For structure/headers in the primary blue family) */
+    --color-ashoka-navy: #1E3A8A; /* Deep Primary Blue */
+    --color-navy-deep: #172554;
+    --color-navy-tint: #DBEAFE;
 }

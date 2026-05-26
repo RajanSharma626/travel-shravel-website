@@ -92,7 +92,7 @@
                         class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
                     {{-- Sepia/Warm Overlay --}}
                     <div
-                        class="absolute inset-0 bg-orange-900/40 mix-blend-multiply group-hover:bg-orange-800/30 transition-all">
+                        class="absolute inset-0 bg-blue-900/40 mix-blend-multiply group-hover:bg-blue-800/30 transition-all">
                     </div>
 
                     <div
@@ -106,7 +106,7 @@
                             Find Your Perfect Tour Packages. Get the best prices on 100+ destinations.
                         </p>
                         <a href="#"
-                            class="inline-block border-2 border-white text-white font-bold text-xs uppercase tracking-widest px-8 py-3 rounded-sm hover:bg-white hover:text-orange-900 transition-all duration-300">
+                            class="inline-block border-2 border-white text-white font-bold text-xs uppercase tracking-widest px-8 py-3 rounded-sm hover:bg-white hover:text-navy transition-all duration-300">
                             See Deals
                         </a>
                     </div>
@@ -135,7 +135,7 @@
                             Join for free and get our tailored newsletters full of hot travel deals.
                         </p>
                         <a href="#"
-                            class="inline-block border-2 border-white text-white font-bold text-xs uppercase tracking-widest px-8 py-3 rounded-sm hover:bg-white hover:text-orange-950 transition-all duration-300">
+                            class="inline-block border-2 border-white text-white font-bold text-xs uppercase tracking-widest px-8 py-3 rounded-sm hover:bg-white hover:text-navy transition-all duration-300">
                             Sign Up
                         </a>
                     </div>
@@ -148,7 +148,7 @@
                         class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
                     {{-- Sepia/Warm Overlay --}}
                     <div
-                        class="absolute inset-0 bg-orange-950/50 mix-blend-multiply group-hover:bg-orange-900/40 transition-all">
+                        class="absolute inset-0 bg-blue-950/55 mix-blend-multiply group-hover:bg-blue-900/40 transition-all">
                     </div>
 
                     <div
@@ -162,7 +162,7 @@
                             Find Your Perfect Hotels. Get the best prices on 20,000+ properties.
                         </p>
                         <a href="#"
-                            class="inline-block border-2 border-white text-white font-bold text-xs uppercase tracking-widest px-8 py-3 rounded-sm hover:bg-white hover:text-orange-950 transition-all duration-300">
+                            class="inline-block border-2 border-white text-white font-bold text-xs uppercase tracking-widest px-8 py-3 rounded-sm hover:bg-white hover:text-navy transition-all duration-300">
                             See Deals
                         </a>
                     </div>

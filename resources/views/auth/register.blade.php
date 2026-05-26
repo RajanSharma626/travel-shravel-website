@@ -21,45 +21,61 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     {{-- Username --}}
-                    <div class="relative group">
-                        <input id="username" type="text" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus
-                               class="block w-full px-5 py-3 rounded-xl bg-white border border-gray-200 text-navy font-medium placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-india-green/20 focus:border-india-green transition-all"
-                               placeholder="Username *">
-                        <div class="absolute right-5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-india-green transition-colors">
-                            <i class="fa-solid fa-user text-lg"></i>
+                    <div>
+                        <div class="relative group">
+                            <input id="username" type="text" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus
+                                   class="block w-full px-5 py-3 rounded-xl bg-white border border-gray-200 text-navy font-medium placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-india-green/20 focus:border-india-green transition-all @error('username') border-red-500 @enderror"
+                                   placeholder="Username *">
+                            <div class="absolute right-5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-india-green transition-colors">
+                                <i class="fa-solid fa-user text-lg"></i>
+                            </div>
                         </div>
+                        @error('username')
+                            <p class="mt-1 text-xs text-red-500 font-bold tracking-tight">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Full Name --}}
-                    <div class="relative group">
-                        <input id="name" type="text" name="name" value="{{ old('name') }}" required autocomplete="name"
-                               class="block w-full px-5 py-3 rounded-xl bg-white border border-gray-200 text-navy font-medium placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-india-green/20 focus:border-india-green transition-all"
-                               placeholder="Full Name">
-                        <div class="absolute right-5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-india-green transition-colors">
-                            <i class="fa-solid fa-circle-question text-lg"></i>
+                    <div>
+                        <div class="relative group">
+                            <input id="name" type="text" name="name" value="{{ old('name') }}" required autocomplete="name"
+                                   class="block w-full px-5 py-3 rounded-xl bg-white border border-gray-200 text-navy font-medium placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-india-green/20 focus:border-india-green transition-all @error('name') border-red-500 @enderror"
+                                   placeholder="Full Name">
+                            <div class="absolute right-5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-india-green transition-colors">
+                                <i class="fa-solid fa-circle-question text-lg"></i>
+                            </div>
                         </div>
+                        @error('name')
+                            <p class="mt-1 text-xs text-red-500 font-bold tracking-tight">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
                 {{-- Email --}}
                 <div class="relative group">
                     <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email"
-                           class="block w-full px-5 py-3 rounded-xl bg-white border border-gray-200 text-navy font-medium placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-india-green/20 focus:border-india-green transition-all"
+                           class="block w-full px-5 py-3 rounded-xl bg-white border border-gray-200 text-navy font-medium placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-india-green/20 focus:border-india-green transition-all @error('email') border-red-500 @enderror"
                            placeholder="Email *">
                     <div class="absolute right-5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-india-green transition-colors">
                         <i class="fa-solid fa-envelope text-lg"></i>
                     </div>
                 </div>
+                @error('email')
+                    <p class="mt-1 text-xs text-red-500 font-bold tracking-tight">{{ $message }}</p>
+                @enderror
 
                 {{-- Password --}}
                 <div class="relative group">
                     <input id="password" type="password" name="password" required autocomplete="new-password"
-                           class="block w-full px-5 py-3 rounded-xl bg-white border border-gray-200 text-navy font-medium placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-india-green/20 focus:border-india-green transition-all"
+                           class="block w-full px-5 py-3 rounded-xl bg-white border border-gray-200 text-navy font-medium placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-india-green/20 focus:border-india-green transition-all @error('password') border-red-500 @enderror"
                            placeholder="Password *">
                     <div class="absolute right-5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-india-green transition-colors">
                         <i class="fa-solid fa-lock text-lg"></i>
                     </div>
                 </div>
+                @error('password')
+                    <p class="mt-1 text-xs text-red-500 font-bold tracking-tight">{{ $message }}</p>
+                @enderror
 
                 {{-- Select User Type --}}
                 <div class="pt-2">

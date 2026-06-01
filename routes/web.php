@@ -21,14 +21,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 // Navbar Placeholder Routes
 Route::get('/flights', function () { return view('welcome'); });
 Route::get('/hotels', function () { return view('welcome'); });
-Route::get('/trains', function () { return view('welcome'); });
+Route::get('/trains', function () { return view('train'); });
 Route::get('/tours', function () { return view('welcome'); });
 Route::get('/activities', function () { return view('welcome'); });
 Route::get('/cars', function () { return view('welcome'); });
-Route::get('/bus', function () { return view('welcome'); });
-Route::get('/cruise', function () { return view('welcome'); });
-Route::get('/insurance', function () { return view('welcome'); });
-Route::get('/visa', function () { return view('welcome'); });
+Route::get('/bus', function () { return view('bus'); });
+Route::get('/cruise', function () { return view('cruise'); });
+Route::get('/insurance', function () { return view('insurance'); });
+Route::get('/visa', function () { return view('visa'); });
 
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');

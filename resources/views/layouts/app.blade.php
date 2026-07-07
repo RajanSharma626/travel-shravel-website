@@ -121,8 +121,8 @@
                         class="text-xs tracking-widest {{ url('/tour') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">TOUR</a>
                     <a href="{{ url('/activities') }}"
                         class="text-xs tracking-widest {{ url('/activities') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">ACTIVITIES</a>
-                    <a href="{{ url('/car') }}"
-                        class="text-xs tracking-widest {{ url('/car') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">CAR</a>
+                    <a href="{{ url('/cars') }}"
+                        class="text-xs tracking-widest {{ url('/cars') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">CAR</a>
                     {{-- More Dropdown --}}
                     <div class="relative group">
                         <button

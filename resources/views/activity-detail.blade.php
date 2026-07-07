@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Day Trip to Patnitop - Travel Shravel')
+@section('title', $activity->title . ' - Travel Shravel')
 
 @section('content')
     {{-- Top Header Section --}}
@@ -11,26 +11,26 @@
                 <span class="mx-2">/</span>
                 <a href="{{ url('/activities') }}" class="hover:text-navy transition-colors">Activities</a>
                 <span class="mx-2">/</span>
-                <span class="text-navy font-medium">Day Trip to Patnitop</span>
+                <span class="text-navy font-medium">{{ $activity->title }}</span>
             </nav>
             
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <h1 class="text-3xl md:text-3xl leading-tight mb-3">Day Trip to Patnitop</h1>
+                    <h1 class="text-3xl md:text-3xl leading-tight mb-3">{{ $activity->title }}</h1>
                     <div class="flex items-center gap-4">
-                        <span class="px-3 py-1 bg-india-green/10 text-india-green text-xs font-semibold rounded-lg uppercase tracking-wider">Day Trip</span>
+                        <span class="px-3 py-1 bg-india-green/10 text-india-green text-xs font-semibold rounded-lg uppercase tracking-wider">Activity</span>
                         <div class="flex items-center gap-2 text-gray-500 text-sm">
                             <i class="fa-solid fa-location-dot text-india-green"></i>
-                            <span>Patnitop, Jammu and Kashmir, India</span>
+                            <span>{{ $activity->location }}</span>
                         </div>
                         <div class="flex text-saffron text-xs ml-2">
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star-half-stroke"></i>
+                            <i class="fa-solid fa-star"></i>
                         </div>
-                        <span class="text-gray-400 text-sm">(4.5 Ratings)</span>
+                        <span class="text-gray-400 text-sm">(0 Reviews)</span>
                     </div>
                 </div>
                 <div class="flex gap-3">
@@ -45,21 +45,18 @@
     <section class="py-10 bg-white">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="relative rounded-2xl overflow-hidden h-[500px] border border-gray-200 group" id="hero-slider">
+                @php
+                    $slides = !empty($activity->images) && is_array($activity->images) ? $activity->images : [$activity->primary_image ?: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80'];
+                @endphp
                 {{-- Slides --}}
-                <div class="absolute inset-0 transition-opacity duration-1000 opacity-100" data-slide="0">
-                    <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80" 
-                        alt="Patnitop Landscape" class="w-full h-full object-cover">
-                </div>
-                <div class="absolute inset-0 transition-opacity duration-1000 opacity-0" data-slide="1">
-                    <img src="https://images.unsplash.com/photo-1617112818585-79b88ef77916?auto=format&fit=crop&w=1600&q=80" 
-                        alt="Patnitop View" class="w-full h-full object-cover">
-                </div>
-                <div class="absolute inset-0 transition-opacity duration-1000 opacity-0" data-slide="2">
-                    <img src="https://images.unsplash.com/photo-1562016600-ece13e8ba570?auto=format&fit=crop&w=1600&q=80" 
-                        alt="Nature" class="w-full h-full object-cover">
-                </div>
+                @foreach($slides as $index => $slide)
+                    <div class="absolute inset-0 transition-opacity duration-1000 {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}" data-slide="{{ $index }}">
+                        <img src="{{ $slide }}" alt="{{ $activity->title }} Image {{ $index + 1 }}" class="w-full h-full object-cover">
+                    </div>
+                @endforeach
 
                 {{-- Controls --}}
+                @if(count($slides) > 1)
                 <div class="absolute inset-0 flex items-center justify-between px-6 pointer-events-none transition-opacity duration-300">
                     <button onclick="prevSlide()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-navy shadow-sm pointer-events-auto hover:bg-india-green hover:text-white transition-all">
                         <i class="fa-solid fa-chevron-left text-sm"></i>
@@ -71,10 +68,11 @@
 
                 {{-- Dots indicator --}}
                 <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
-                    <div class="w-3 h-3 rounded-full bg-white transition-all cursor-pointer" onclick="goToSlide(0)" id="dot-0"></div>
-                    <div class="w-3 h-3 rounded-full bg-white/40 transition-all cursor-pointer" onclick="goToSlide(1)" id="dot-1"></div>
-                    <div class="w-3 h-3 rounded-full bg-white/40 transition-all cursor-pointer" onclick="goToSlide(2)" id="dot-2"></div>
+                    @foreach($slides as $index => $slide)
+                        <div class="w-3 h-3 rounded-full {{ $index === 0 ? 'bg-white' : 'bg-white/40' }} transition-all cursor-pointer" onclick="goToSlide({{ $index }})" id="dot-{{ $index }}"></div>
+                    @endforeach
                 </div>
+                @endif
             </div>
 
             {{-- Quick Stats Bar --}}
@@ -83,21 +81,21 @@
                     <div class="w-12 h-12 bg-navy/5 rounded-2xl flex items-center justify-center text-navy text-xl"><i class="fa-regular fa-clock"></i></div>
                     <div>
                         <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Duration</p>
-                        <p class="text-md font-semibold">8 Hours</p>
+                        <p class="text-md font-semibold">{{ $activity->duration }}</p>
                     </div>
                 </div>
                 <div class="bg-gray-50 p-6 rounded-2xl flex items-center gap-4 border border-gray-100">
                     <div class="w-12 h-12 bg-navy/5 rounded-2xl flex items-center justify-center text-navy text-xl"><i class="fa-solid fa-ban"></i></div>
                     <div>
                         <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Cancellation</p>
-                        <p class="text-md font-semibold">Free up to 24h</p>
+                        <p class="text-md font-semibold">Flexible Policy</p>
                     </div>
                 </div>
                 <div class="bg-gray-50 p-6 rounded-2xl flex items-center gap-4 border border-gray-100">
                     <div class="w-12 h-12 bg-navy/5 rounded-2xl flex items-center justify-center text-navy text-xl"><i class="fa-solid fa-people-group"></i></div>
                     <div>
                         <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Group Size</p>
-                        <p class="text-md font-semibold">Up to 15 People</p>
+                        <p class="text-md font-semibold">Open Group</p>
                     </div>
                 </div>
                 <div class="bg-gray-50 p-6 rounded-2xl flex items-center gap-4 border border-gray-100">
@@ -126,42 +124,38 @@
                             Description
                         </h2>
                         <div class="text-gray-600 leading-relaxed text-[15px] space-y-6">
-                            <p>Located in the Udhampur district of Jammu and Kashmir, Patnitop is a famous hill resort perched on a beautiful plateau. Discover the breathtaking scenic views of the Chenab basin and the Pir Panjal range on this guided day trip.</p>
-                            <p>This full-day trip will allow you to relax in the meadows, explore the thick forests of Deodar and Pine, and visit the historical Naag Mandir. Suitable for families, couples, and solo travelers seeking a refreshing escape from the city.</p>
+                            <p>{!! nl2br(e($activity->description)) !!}</p>
                         </div>
                     </div>
 
                     {{-- Highlights --}}
+                    @if(!empty($activity->highlights) && is_array($activity->highlights))
                     <div>
                         <h2 class="text-2xl font-semibold text-navy mb-8 flex items-center gap-3">
                             <span class="w-2 h-8 bg-india-green rounded-full"></span>
                             Highlights
                         </h2>
                         <ul class="space-y-4">
+                            @foreach($activity->highlights as $index => $highlight)
                             <li class="bg-gray-50 p-5 rounded-2xl border border-gray-100 flex gap-4">
-                                <div class="w-8 h-8 rounded-full bg-navy text-white flex-none flex items-center justify-center text-xs font-bold">01</div>
-                                <p class="text-gray-600 font-medium">Breathtaking panoramic views of the Shivalik range.</p>
+                                <div class="w-8 h-8 rounded-full bg-navy text-white flex-none flex items-center justify-center text-xs font-bold">{{ sprintf('%02d', $index + 1) }}</div>
+                                <p class="text-gray-600 font-medium">{{ $highlight }}</p>
                             </li>
-                            <li class="bg-gray-50 p-5 rounded-2xl border border-gray-100 flex gap-4">
-                                <div class="w-8 h-8 rounded-full bg-navy text-white flex-none flex items-center justify-center text-xs font-bold">02</div>
-                                <p class="text-gray-600 font-medium">Visit the 600-year-old Naag Mandir and experience local spirituality.</p>
-                            </li>
-                            <li class="bg-gray-50 p-5 rounded-2xl border border-gray-100 flex gap-4">
-                                <div class="w-8 h-8 rounded-full bg-navy text-white flex-none flex items-center justify-center text-xs font-bold">03</div>
-                                <p class="text-gray-600 font-medium">Explore local parks and take a peaceful walk through the Pine forests.</p>
-                            </li>
+                            @endforeach
                         </ul>
                     </div>
+                    @endif
 
                     {{-- Included & Excluded --}}
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        @if(!empty($activity->inclusions) && is_array($activity->inclusions))
                         <div>
                             <h2 class="text-2xl font-semibold text-navy mb-8 flex items-center gap-3">
                                 <span class="w-2 h-8 bg-green-500 rounded-full"></span>
                                 Included
                             </h2>
                             <ul class="space-y-4">
-                                @foreach(['Hotel pickup and drop-off', 'Air-conditioned vehicle', 'Professional local guide', 'All tolls and taxes'] as $item)
+                                @foreach($activity->inclusions as $item)
                                     <li class="flex items-start gap-3">
                                         <i class="fa-solid fa-circle-check text-green-500 mt-1"></i>
                                         <span class="text-gray-600 font-medium">{{ $item }}</span>
@@ -169,13 +163,15 @@
                                 @endforeach
                             </ul>
                         </div>
+                        @endif
+                        @if(!empty($activity->exclusions) && is_array($activity->exclusions))
                         <div>
                             <h2 class="text-2xl font-semibold text-navy mb-8 flex items-center gap-3">
                                 <span class="w-2 h-8 bg-red-400 rounded-full"></span>
                                 Excluded
                             </h2>
                             <ul class="space-y-4">
-                                @foreach(['Meals and beverages', 'Personal expenses', 'Optional activity fees', 'Gratuities'] as $item)
+                                @foreach($activity->exclusions as $item)
                                     <li class="flex items-start gap-3">
                                         <i class="fa-solid fa-circle-xmark text-red-300 mt-1"></i>
                                         <span class="text-gray-400 font-medium">{{ $item }}</span>
@@ -183,6 +179,7 @@
                                 @endforeach
                             </ul>
                         </div>
+                        @endif
                     </div>
 
                 </div>
@@ -195,7 +192,7 @@
                         <div class="bg-white rounded-xl border border-gray-100 overflow-hidden" id="booking-widget">
                             {{-- Price Header --}}
                             <div class="bg-navy p-6 text-white">
-                                <p class="text-[13px] opacity-80 mb-1">from <span class="text-2xl font-semibold ml-1">₹2,299.00</span></p>
+                                <p class="text-[13px] opacity-80 mb-1">from <span class="text-2xl font-semibold ml-1">₹{{ number_format($activity->price, 2) }}</span></p>
                             </div>
 
                             {{-- Tab Switcher --}}
@@ -332,14 +329,21 @@
                 <h2 class="text-2xl font-semibold text-navy">Activity's Location</h2>
                 <div class="flex items-center gap-2 text-gray-500 text-sm">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span>Patnitop, Jammu and Kashmir, India</span>
+                    <span>{{ $activity->location }}</span>
                 </div>
             </div>
             <div class="w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 h-[450px]">
-                <iframe 
-                    src="https://maps.google.com/maps?q=33.0889,75.3267&t=m&z=12&output=embed&iwloc=near" 
-                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+                @if($activity->map_url)
+                    <iframe 
+                        src="{{ $activity->map_url }}" 
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                @else
+                    <iframe 
+                        src="https://maps.google.com/maps?q={{ urlencode($activity->title . ' ' . $activity->location) }}&t=m&z=12&output=embed&iwloc=near" 
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                @endif
             </div>
         </div>
     </section>

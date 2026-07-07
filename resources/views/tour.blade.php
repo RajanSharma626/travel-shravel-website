@@ -196,94 +196,28 @@
 
                     {{-- Tour Grid --}}
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
-                        
-                        @php
-                            $tours = [
-                                [
-                                    'title' => 'UK with Scotland and Ireland // TSP 014',
-                                    'location' => 'UK',
-                                    'price' => '₹280,000.00',
-                                    'rating' => 0,
-                                    'reviews' => 0,
-                                    'duration' => '9 Nights',
-                                    'img' => 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => true
-                                ],
-                                [
-                                    'title' => 'Mystic Charm of Pir Panjal // TSP 194',
-                                    'location' => 'Jammu and Kashmir, India',
-                                    'price' => '₹27,999.00',
-                                    'rating' => 0,
-                                    'reviews' => 0,
-                                    'duration' => '5 Nights',
-                                    'img' => 'https://images.unsplash.com/photo-1598305072040-590fb86444fd?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => true
-                                ],
-                                [
-                                    'title' => 'Kishtwar - Jewel of Chenab // TSP 192',
-                                    'location' => 'Jammu and Kashmir, India',
-                                    'price' => '₹21,499.00',
-                                    'rating' => 0,
-                                    'reviews' => 0,
-                                    'duration' => '4 Nights',
-                                    'img' => 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => true
-                                ],
-                                [
-                                    'title' => 'Ramban Trails // TSP 193',
-                                    'location' => 'Jammu and Kashmir, India',
-                                    'price' => '₹21,499.00',
-                                    'rating' => 0,
-                                    'reviews' => 0,
-                                    'duration' => '4 Nights',
-                                    'img' => 'https://images.unsplash.com/photo-1548013146-72479768b741?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => true
-                                ],
-                                [
-                                    'title' => 'Jammu Border Trails // TSP 190',
-                                    'location' => 'Jammu and Kashmir, India',
-                                    'price' => '₹14,999.00',
-                                    'rating' => 0,
-                                    'reviews' => 0,
-                                    'duration' => '3 Nights',
-                                    'img' => 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => true
-                                ],
-                                [
-                                    'title' => 'Samba Kathua Beyond Ordinary // TSP 195',
-                                    'location' => 'Jammu & Kashmir, India',
-                                    'price' => '₹25,699.00',
-                                    'rating' => 0,
-                                    'reviews' => 0,
-                                    'duration' => '5 Nights',
-                                    'img' => 'https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => true
-                                ],
-                            ];
-                        @endphp
-
-                        @foreach($tours as $tour)
+                        @forelse($tours as $tour)
                             <x-tour-card 
-                                :title="$tour['title']"
-                                :image="$tour['img']"
-                                :location="$tour['location']"
-                                :price="$tour['price']"
-                                :duration="$tour['duration']"
-                                :rating="$tour['rating']"
-                                :featured="$tour['featured']"
+                                :title="$tour->title"
+                                :image="$tour->primary_image ?: (!empty($tour->images) && is_array($tour->images) ? $tour->images[0] : 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&q=80&w=800')"
+                                :location="$tour->location"
+                                :price="'₹' . number_format($tour->price, 2)"
+                                :duration="$tour->duration"
+                                :rating="0"
+                                :featured="$tour->is_featured"
+                                :link="url('/tour/' . $tour->slug)"
                             />
-                        @endforeach
+                        @empty
+                            <div class="col-span-full py-12 text-center text-gray-500 font-medium">
+                                <i class="fa-solid fa-map-location-dot text-4xl mb-3 text-gray-300 block"></i>
+                                No tours found matching your search.
+                            </div>
+                        @endforelse
                     </div>
 
                     {{-- Pagination --}}
-                    <div class="mt-16 flex justify-center items-center gap-3">
-                        <button class="h-10 w-10 flex items-center justify-center rounded-lg bg-india-green text-white shadow-md shadow-blue-500/20 transition-all">1</button>
-                        <button class="h-10 w-10 flex items-center justify-center rounded-lg bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all">2</button>
-                        <span class="px-2 text-gray-400">...</span>
-                        <button class="h-10 w-10 flex items-center justify-center rounded-lg bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all">9</button>
-                        <button class="h-10 w-10 flex items-center justify-center rounded-lg bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all">
-                            <i class="fa-solid fa-chevron-right text-xs"></i>
-                        </button>
+                    <div class="mt-16 flex justify-center items-center">
+                        {{ $tours->links() }}
                     </div>
                 </div>
             </div>

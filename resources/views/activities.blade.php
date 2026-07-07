@@ -196,91 +196,28 @@
 
                     {{-- Activity Grid --}}
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
-                        
-                        @php
-                            $activities = [
-                                [
-                                    'title' => 'Suchetgarh Jammu Border Ceremony',
-                                    'location' => 'RS Pura, Jammu, India',
-                                    'price' => '₹1,149.00',
-                                    'rating' => 0,
-                                    'reviews' => 0,
-                                    'duration' => '3 Hours',
-                                    'img' => 'https://images.unsplash.com/photo-1598305072040-590fb86444fd?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => true
-                                ],
-                                [
-                                    'title' => 'Day Trip to Sudh Mahadev',
-                                    'location' => 'SudhMahadev, Jammu & Kashmir',
-                                    'price' => '₹2,299.00',
-                                    'rating' => 0,
-                                    'reviews' => 0,
-                                    'duration' => '7 Hours',
-                                    'img' => 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => false
-                                ],
-                                [
-                                    'title' => 'Day Trip to Patnitop',
-                                    'location' => 'Patnitop, Jammu & Kashmir',
-                                    'price' => '₹2,299.00',
-                                    'rating' => 4.5,
-                                    'reviews' => 12,
-                                    'duration' => '8 Hours',
-                                    'img' => 'https://images.unsplash.com/photo-1548013146-72479768b741?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => true
-                                ],
-                                [
-                                    'title' => 'Day Tour to Mansar Lake',
-                                    'location' => 'Samba, Jammu & Kashmir',
-                                    'price' => '₹1,799.00',
-                                    'rating' => 2.6,
-                                    'reviews' => 8,
-                                    'duration' => '6 Hours',
-                                    'img' => 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => true
-                                ],
-                                [
-                                    'title' => 'Jammu Local Sightseeing',
-                                    'location' => 'Jammu City, India',
-                                    'price' => '₹1,149.00',
-                                    'rating' => 3.2,
-                                    'reviews' => 15,
-                                    'duration' => '5 Hours',
-                                    'img' => 'https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => true
-                                ],
-                                [
-                                    'title' => 'Day Trip to Akhnoor',
-                                    'location' => 'Akhnoor, Jammu, India',
-                                    'price' => '₹1,149.00',
-                                    'rating' => 0,
-                                    'reviews' => 0,
-                                    'duration' => '4 Hours',
-                                    'img' => 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => true
-                                ],
-                            ];
-                        @endphp
-
-                        @foreach($activities as $activity)
+                        @forelse($activities as $activity)
                             <x-activity-card 
-                                :image="$activity['img']"
-                                :featured="$activity['featured']"
-                                :location="$activity['location']"
-                                :title="$activity['title']"
-                                :rating="$activity['rating']"
-                                :price="$activity['price']"
-                                :duration="$activity['duration']"
+                                :image="$activity->primary_image ?: (!empty($activity->images) && is_array($activity->images) ? $activity->images[0] : 'https://images.unsplash.com/photo-1598305072040-590fb86444fd?auto=format&fit=crop&q=80&w=800')"
+                                :featured="$activity->is_featured"
+                                :location="$activity->location"
+                                :title="$activity->title"
+                                :rating="0"
+                                :price="'₹' . number_format($activity->price, 2)"
+                                :duration="$activity->duration"
+                                :link="url('/activity/' . $activity->slug)"
                             />
-                        @endforeach
+                        @empty
+                            <div class="col-span-full py-12 text-center text-gray-500 font-medium">
+                                <i class="fa-solid fa-person-hiking text-4xl mb-3 text-gray-300 block"></i>
+                                No activities found matching your search.
+                            </div>
+                        @endforelse
                     </div>
 
                     {{-- Pagination --}}
-                    <div class="mt-16 flex justify-center items-center gap-3">
-                        <button class="h-10 w-10 flex items-center justify-center rounded-lg bg-india-green text-white shadow-md shadow-blue-500/20 transition-all">1</button>
-                        <button class="h-10 w-10 flex items-center justify-center rounded-lg bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all">
-                            <i class="fa-solid fa-chevron-right text-xs"></i>
-                        </button>
+                    <div class="mt-16 flex justify-center items-center">
+                        {{ $activities->links() }}
                     </div>
                 </div>
             </div>

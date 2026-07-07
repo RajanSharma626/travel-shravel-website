@@ -259,40 +259,30 @@
 
                     {{-- Hotel Grid --}}
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
-                        
-                        @php
-                            $hotels = [
-                                ['name' => 'Orange Classic Rishikesh', 'location' => 'Rishikesh, Uttarakhand, India', 'price' => '2,500.00', 'rating' => 5, 'reviews' => 1, 'score' => 'Excellent', 'img' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800', 'stars' => 2],
-                                ['name' => 'Classic Cottage Nubra', 'location' => 'Nubra, Ladakh, India', 'price' => '3,200.00', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=800', 'stars' => 1],
-                                ['name' => 'Hotel Regent, Pahalgam', 'location' => 'Pahalgam, Jammu and Kashmir, India', 'price' => '4,800.00', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=800', 'stars' => 0],
-                                ['name' => 'Hotel Diamond Manali', 'location' => 'Manali, Himachal Pradesh, India', 'price' => '4,000.00', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=800', 'stars' => 2],
-                                ['name' => 'Hotel Madhuban Srinagar', 'location' => 'Srinagar, Jammu and Kashmir, India', 'price' => '3,633.33', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&q=80&w=800', 'stars' => 2, 'featured' => true],
-                                ['name' => 'Hotel Grand Habib', 'location' => 'Srinagar, Jammu and Kashmir, India', 'price' => '3,750.00', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800', 'stars' => 3, 'featured' => true],
-                                ['name' => 'Morpho Hotel, Calangute', 'location' => 'Goa, India', 'price' => '4,250.00', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1571896349842-3378fb9f0f94?auto=format&fit=crop&q=80&w=800', 'stars' => 3, 'featured' => true],
-                                ['name' => 'Hotel Zojila Residency, Kargil', 'location' => 'Kargil, Ladakh, India', 'price' => '5,500.00', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&q=80&w=800', 'stars' => 2],
-                                ['name' => 'Glacier View Guest House', 'location' => 'Leh, Ladakh, India', 'price' => '2,850.00', 'rating' => 0, 'reviews' => 0, 'score' => 'Not Rated', 'img' => 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&q=80&w=800', 'stars' => 1],
-                            ];
-                        @endphp
-                        
-                        @foreach($hotels as $hotel)
+                        @forelse($hotels as $hotel)
                             <x-hotel-card 
-                                :title="$hotel['name']"
-                                :image="$hotel['img']"
-                                :stars="$hotel['stars']"
-                                :location="$hotel['location']"
-                                ratingValue="{{ $hotel['rating'] }} / 5"
-                                :ratingLabel="$hotel['score']"
-                                :reviewCount="$hotel['reviews']"
-                                price="₹{{ $hotel['price'] }}"
-                                :featured="$hotel['featured'] ?? false"
-                                link="{{ url('/hotel/' . Str::slug($hotel['name'])) }}"
+                                :title="$hotel->name"
+                                :image="$hotel->primary_image ?: (!empty($hotel->images) && is_array($hotel->images) ? $hotel->images[0] : 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800')"
+                                :stars="$hotel->stars"
+                                :location="$hotel->location"
+                                ratingValue="5.0 / 5"
+                                ratingLabel="Excellent"
+                                :reviewCount="0"
+                                price="₹{{ number_format($hotel->price, 2) }}"
+                                :featured="false"
+                                link="{{ url('/hotel/' . $hotel->slug) }}"
                             />
-                        @endforeach
+                        @empty
+                            <div class="col-span-full py-12 text-center text-gray-500 font-medium">
+                                <i class="fa-solid fa-hotel text-4xl mb-3 text-gray-300 block"></i>
+                                No hotels found matching your search.
+                            </div>
+                        @endforelse
                     </div>
 
-                    {{-- Pagination Placeholder --}}
+                    {{-- Pagination --}}
                     <div class="mt-12 flex justify-center">
-                        <button class="h-10 w-10 flex items-center justify-center rounded-lg bg-india-green text-white shadow-md shadow-blue-500/20 transition-all">1</button>
+                        {{ $hotels->links() }}
                     </div>
                 </div>
             </div>

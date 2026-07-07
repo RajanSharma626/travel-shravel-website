@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Toyota Innova - Travel Shravel')
+@section('title', $car->name . ' - Travel Shravel')
 
 @section('content')
     {{-- Top Header Section --}}
@@ -9,21 +9,21 @@
             <nav class="flex mb-6 text-sm text-gray-400">
                 <a href="{{ url('/') }}" class="hover:text-navy transition-colors">Home</a>
                 <span class="mx-2">/</span>
-                <a href="{{ url('/cars') }}" class="hover:text-navy transition-colors">India</a>
+                <a href="{{ url('/cars') }}" class="hover:text-navy transition-colors">Cars</a>
                 <span class="mx-2">/</span>
-                <span class="text-navy font-medium">Toyota Innova</span>
+                <span class="text-navy font-medium">{{ $car->name }}</span>
             </nav>
             
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <h1 class="text-3xl md:text-3xl leading-tight mb-2">Toyota Innova</h1>
+                    <h1 class="text-3xl md:text-3xl leading-tight mb-2">{{ $car->name }}</h1>
                     <div class="flex items-center gap-4">
                         <div class="flex text-gray-300 text-xs">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star text-saffron"></i>
+                            <i class="fa-solid fa-star text-saffron"></i>
+                            <i class="fa-solid fa-star text-saffron"></i>
+                            <i class="fa-solid fa-star text-saffron"></i>
+                            <i class="fa-solid fa-star text-saffron"></i>
                         </div>
                         <span class="text-gray-400 text-sm hover:text-navy cursor-pointer transition-colors hover:underline">View 0 reviews</span>
                     </div>
@@ -34,24 +34,16 @@
                 </div>
             </div>
             
+            @if(!empty($car->features) && is_array($car->features))
             <div class="flex flex-wrap items-center gap-6 mt-6">
+                @foreach($car->features as $feature)
                 <div class="flex items-center gap-2 text-sm text-gray-600">
                     <i class="fa-solid fa-check text-red-500"></i>
-                    <span>Free Cancellation</span>
+                    <span>{{ $feature }}</span>
                 </div>
-                <div class="flex items-center gap-2 text-sm text-gray-600">
-                    <i class="fa-solid fa-check text-red-500"></i>
-                    <span>Pay at Pickup</span>
-                </div>
-                <div class="flex items-center gap-2 text-sm text-gray-600">
-                    <i class="fa-solid fa-check text-red-500"></i>
-                    <span>Unlimited Mileage</span>
-                </div>
-                <div class="flex items-center gap-2 text-sm text-gray-600">
-                    <i class="fa-solid fa-check text-red-500"></i>
-                    <span>Meet and Greet</span>
-                </div>
+                @endforeach
             </div>
+            @endif
         </div>
     </section>
 
@@ -65,8 +57,8 @@
                     
                     {{-- Hero Image --}}
                     <div class="relative bg-gray-50 rounded-2xl overflow-hidden h-[400px] border border-gray-100 flex items-center justify-center p-8 group">
-                        <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1600&q=80" 
-                            alt="Toyota Innova" class="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-700">
+                        <img src="{{ $car->primary_image ?: (!empty($car->images) && is_array($car->images) ? $car->images[0] : 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1600&q=80') }}" 
+                            alt="{{ $car->name }}" class="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-700">
                         
                         <div class="absolute top-6 right-6 flex flex-col gap-3">
                             <button class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-500 hover:text-navy transition-colors"><i class="fa-solid fa-share"></i></button>
@@ -81,43 +73,33 @@
                             <i class="fa-solid fa-chevron-up text-xs text-gray-400 ml-auto"></i>
                         </h2>
                         <div class="text-gray-600 leading-relaxed text-[15px] space-y-4">
-                            <p>The Toyota Innova is the perfect MUV (Multi Utility Vehicle) for your family trips and group tours in India. Known for its reliability, comfort, and spacious interior, the Innova provides an exceptionally smooth ride even on rough terrains.</p>
-                            
-                            <ul class="list-disc pl-6 space-y-2 text-gray-500">
-                                <li>Spacious seating for up to 6 passengers.</li>
-                                <li>Powerful AC with individual vents for all rows.</li>
-                                <li>Ample boot space for luggage and travel gear.</li>
-                            </ul>
-                            
-                            <p>Whether you're planning a weekend getaway or a long-distance road trip, the Toyota Innova ensures that every passenger travels in comfort. Equipped with modern safety features and a robust engine, it stands out as the preferred choice for long rentals.</p>
-                            
-                            <a href="#" class="text-india-green text-sm font-semibold hover:underline">Read More</a>
+                            <p>{!! nl2br(e($car->description)) !!}</p>
                         </div>
                     </div>
 
                     {{-- Pickup Features --}}
                     <div>
                         <h2 class="text-2xl font-semibold text-navy mb-6 flex items-center gap-3 border-b border-gray-100 pb-4">
-                            Pickup Features
+                            Specifications
                             <i class="fa-solid fa-chevron-up text-xs text-gray-400 ml-auto"></i>
                         </h2>
                         
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                             <div class="flex items-center gap-3 text-gray-600">
                                 <i class="fa-solid fa-users text-xl text-navy w-6"></i>
-                                <span class="font-medium">6 Pax</span>
+                                <span class="font-medium">{{ $car->passengers }} Pax</span>
                             </div>
                             <div class="flex items-center gap-3 text-gray-600">
                                 <i class="fa-solid fa-gear text-xl text-navy w-6"></i>
-                                <span class="font-medium">Manual</span>
+                                <span class="font-medium">{{ $car->transmission }}</span>
                             </div>
                             <div class="flex items-center gap-3 text-gray-600">
                                 <i class="fa-solid fa-briefcase text-xl text-navy w-6"></i>
-                                <span class="font-medium">3 Bags</span>
+                                <span class="font-medium">{{ $car->bags }} Bags</span>
                             </div>
                             <div class="flex items-center gap-3 text-gray-600">
                                 <i class="fa-solid fa-door-open text-xl text-navy w-6"></i>
-                                <span class="font-medium">4 Doors</span>
+                                <span class="font-medium">{{ $car->doors }} Doors</span>
                             </div>
                         </div>
                     </div>
@@ -126,10 +108,17 @@
                     <div>
                         <h2 class="text-2xl font-semibold text-navy mb-6">Car's Location</h2>
                         <div class="w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 h-[300px]">
-                            <iframe 
-                                src="https://maps.google.com/maps?q=Jammu&t=m&z=10&output=embed&iwloc=near" 
-                                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                            </iframe>
+                            @if($car->map_url)
+                                <iframe 
+                                    src="{{ $car->map_url }}" 
+                                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                            @else
+                                <iframe 
+                                    src="https://maps.google.com/maps?q={{ urlencode($car->name) }}&t=m&z=10&output=embed&iwloc=near" 
+                                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                            @endif
                         </div>
                     </div>
 
@@ -176,7 +165,7 @@
                         <div class="bg-white rounded-xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
                             {{-- Price Header --}}
                             <div class="bg-[#5D99FF] p-6 text-white">
-                                <p class="text-[13px] opacity-90 mb-1">from <span class="text-2xl font-bold ml-1">₹5,000.00</span> /day</p>
+                                <p class="text-[13px] opacity-90 mb-1">from <span class="text-2xl font-bold ml-1">₹{{ number_format($car->price, 2) }}</span> /day</p>
                             </div>
 
                             {{-- Tab Switcher --}}

@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\HotelController;
+use App\Http\Controllers\TourController;
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\CarController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,11 +24,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 
 // Navbar Placeholder Routes
 Route::get('/flights', function () { return view('welcome'); });
-Route::get('/hotels', function () { return view('welcome'); });
 Route::get('/trains', function () { return view('train'); });
-Route::get('/tours', function () { return view('welcome'); });
-Route::get('/activities', function () { return view('welcome'); });
-Route::get('/cars', function () { return view('welcome'); });
 Route::get('/bus', function () { return view('bus'); });
 Route::get('/cruise', function () { return view('cruise'); });
 Route::get('/insurance', function () { return view('insurance'); });
@@ -38,21 +38,12 @@ Route::post('/forgot-password', function () {
     return back()->with('status', 'We have emailed your password reset link!');
 })->name('password.email');
 
-Route::get('/hotel-search-layout', function () {
-    return view('hotel');   
-});
-
-Route::get('/tour', function () {
-    return view('tour');
-});
-
-Route::get('/activities', function () {
-    return view('activities');
-});
-
-Route::get('/car', function () {
-    return view('car');
-});
+Route::get('/hotel-search-layout', [HotelController::class, 'index']);
+Route::get('/hotels', [HotelController::class, 'index']);
+Route::get('/tour', [TourController::class, 'index']);
+Route::get('/tours', [TourController::class, 'index']);
+Route::get('/activities', [ActivityController::class, 'index']);
+Route::get('/cars', [CarController::class, 'index']);
 
 Route::get('/about-us', function () {
     return view('about-us');
@@ -70,21 +61,10 @@ Route::get('/reviews', function () {
     return view('reviews');
 });
 
-Route::get('/tour/{slug}', function () {
-    return view('tour-detail');
-});
-
-Route::get('/hotel/{slug}', function () {
-    return view('hotel-detail');
-});
-
-Route::get('/activity/{slug}', function () {
-    return view('activity-detail');
-});
-
-Route::get('/car/{slug}', function () {
-    return view('car-detail');
-});
+Route::get('/tour/{slug}', [TourController::class, 'show']);
+Route::get('/hotel/{slug}', [HotelController::class, 'show']);
+Route::get('/activity/{slug}', [ActivityController::class, 'show']);
+Route::get('/car/{slug}', [CarController::class, 'show']);
 
 Route::get('/become-local-expert', function () {
     return view('become-local-expert');
@@ -112,3 +92,33 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/booking-history/detail', [ProfileController::class, 'bookingDetail'])->name('profile.booking-detail');
     Route::get('/profile/wishlist', [ProfileController::class, 'wishlist'])->name('profile.wishlist');
 });
+
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminHotelController;
+use App\Http\Controllers\Admin\AdminTourController;
+use App\Http\Controllers\Admin\AdminActivityController;
+use App\Http\Controllers\Admin\AdminCarController;
+use App\Http\Middleware\AdminMiddleware;
+
+$adminPath = env('ADMIN_PATH', 'portal-tsh-78a9c2');
+
+Route::prefix($adminPath)->middleware([AdminMiddleware::class])->name('admin.')->group(function () {
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/users', [AdminDashboardController::class, 'users'])->name('users');
+    Route::post('/users/{id}/role', [AdminDashboardController::class, 'updateUserType'])->name('users.role');
+    Route::post('/users/{id}', [AdminDashboardController::class, 'updateUser'])->name('users.update');
+    Route::delete('/users/{id}', [AdminDashboardController::class, 'destroyUser'])->name('users.destroy');
+
+    // Hotel Management Routes
+    Route::resource('/hotels', AdminHotelController::class);
+
+    // Tour Management Routes
+    Route::resource('/tours', AdminTourController::class);
+
+    // Activity Management Routes
+    Route::resource('/activities', AdminActivityController::class);
+
+    // Car Management Routes
+    Route::resource('/cars', AdminCarController::class);
+});
+

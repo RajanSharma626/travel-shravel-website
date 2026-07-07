@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Jannat-e-Kashmir (4N Srinagar) - TSP-161 - Travel Shravel')
+@section('title', $tour->title . ' - Travel Shravel')
 
 @section('content')
     {{-- Top Header Section --}}
@@ -9,16 +9,16 @@
             <nav class="flex mb-6 text-sm text-gray-400">
                 <a href="{{ url('/') }}" class="hover:text-navy transition-colors">Home</a>
                 <span class="mx-2">/</span>
-                <a href="{{ url('/tour') }}" class="hover:text-navy transition-colors">Tours</a>
+                <a href="{{ url('/tours') }}" class="hover:text-navy transition-colors">Tours</a>
                 <span class="mx-2">/</span>
-                <span class="text-navy font-medium">Jannat-e-Kashmir</span>
+                <span class="text-navy font-medium">{{ $tour->title }}</span>
             </nav>
             
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <h1 class="text-3xl md:text-3xl leading-tight mb-3">Jannat-e-Kashmir (4N Srinagar) - TSP-161</h1>
+                    <h1 class="text-3xl md:text-3xl leading-tight mb-3">{{ $tour->title }}</h1>
                     <div class="flex items-center gap-4">
-                        <span class="px-3 py-1 bg-india-green/10 text-india-green text-xs font-semibold rounded-lg uppercase tracking-wider">Honeymoon</span>
+                        <span class="px-3 py-1 bg-india-green/10 text-india-green text-xs font-semibold rounded-lg uppercase tracking-wider">{{ $tour->tour_type }}</span>
                         <div class="flex text-saffron text-xs">
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
@@ -26,7 +26,7 @@
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                         </div>
-                        <span class="text-gray-400 text-sm">(15 Reviews)</span>
+                        <span class="text-gray-400 text-sm">(0 Reviews)</span>
                     </div>
                 </div>
                 <div class="flex gap-3">
@@ -41,21 +41,18 @@
     <section class="py-10 bg-white">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="relative rounded-2xl overflow-hidden h-[500px] border border-gray-200 group" id="hero-slider">
+                @php
+                    $slides = !empty($tour->images) && is_array($tour->images) ? $tour->images : [$tour->primary_image ?: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1600&q=80'];
+                @endphp
                 {{-- Slides --}}
-                <div class="absolute inset-0 transition-opacity duration-1000 opacity-100" data-slide="0">
-                    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1600&q=80" 
-                        alt="Dal Lake" class="w-full h-full object-cover">
-                </div>
-                <div class="absolute inset-0 transition-opacity duration-1000 opacity-0" data-slide="1">
-                    <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=80" 
-                        alt="Kashmir Mountains" class="w-full h-full object-cover">
-                </div>
-                <div class="absolute inset-0 transition-opacity duration-1000 opacity-0" data-slide="2">
-                    <img src="https://images.unsplash.com/photo-1433838552652-f9a46b332c40?auto=format&fit=crop&w=1600&q=80" 
-                        alt="Kashmiri Culture" class="w-full h-full object-cover">
-                </div>
+                @foreach($slides as $index => $slide)
+                    <div class="absolute inset-0 transition-opacity duration-1000 {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}" data-slide="{{ $index }}">
+                        <img src="{{ $slide }}" alt="{{ $tour->title }} Image {{ $index + 1 }}" class="w-full h-full object-cover">
+                    </div>
+                @endforeach
 
                 {{-- Controls --}}
+                @if(count($slides) > 1)
                 <div class="absolute inset-0 flex items-center justify-between px-6 pointer-events-none transition-opacity duration-300">
                     <button onclick="prevSlide()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-navy shadow-sm pointer-events-auto hover:bg-india-green hover:text-white transition-all">
                         <i class="fa-solid fa-chevron-left text-sm"></i>
@@ -67,10 +64,11 @@
 
                 {{-- Dots indicator --}}
                 <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
-                    <div class="w-3 h-3 rounded-full bg-white transition-all cursor-pointer" onclick="goToSlide(0)" id="dot-0"></div>
-                    <div class="w-3 h-3 rounded-full bg-white/40 transition-all cursor-pointer" onclick="goToSlide(1)" id="dot-1"></div>
-                    <div class="w-3 h-3 rounded-full bg-white/40 transition-all cursor-pointer" onclick="goToSlide(2)" id="dot-2"></div>
+                    @foreach($slides as $index => $slide)
+                        <div class="w-3 h-3 rounded-full {{ $index === 0 ? 'bg-white' : 'bg-white/40' }} transition-all cursor-pointer" onclick="goToSlide({{ $index }})" id="dot-{{ $index }}"></div>
+                    @endforeach
                 </div>
+                @endif
             </div>
 
             {{-- Quick Stats Bar --}}
@@ -79,21 +77,21 @@
                     <div class="w-12 h-12 bg-navy/5 rounded-2xl flex items-center justify-center text-navy text-xl"><i class="fa-regular fa-clock"></i></div>
                     <div>
                         <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Duration</p>
-                        <p class="text-md font-semibold">5 Days / 4 Nights</p>
+                        <p class="text-md font-semibold">{{ $tour->duration }}</p>
                     </div>
                 </div>
                 <div class="bg-gray-50 p-6 rounded-2xl flex items-center gap-4 border border-gray-100">
                     <div class="w-12 h-12 bg-navy/5 rounded-2xl flex items-center justify-center text-navy text-xl"><i class="fa-solid fa-people-group"></i></div>
                     <div>
                         <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Group Size</p>
-                        <p class="text-md font-semibold">Max 10 People</p>
+                        <p class="text-md font-semibold">Max {{ $tour->group_size }} People</p>
                     </div>
                 </div>
                 <div class="bg-gray-50 p-6 rounded-2xl flex items-center gap-4 border border-gray-100">
                     <div class="w-12 h-12 bg-navy/5 rounded-2xl flex items-center justify-center text-navy text-xl"><i class="fa-solid fa-earth-asia"></i></div>
                     <div>
                         <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Tour Type</p>
-                        <p class="text-md font-semibold">Honeymoon</p>
+                        <p class="text-md font-semibold">{{ $tour->tour_type }}</p>
                     </div>
                 </div>
                 <div class="bg-gray-50 p-6 rounded-2xl flex items-center gap-4 border border-gray-100">
@@ -122,52 +120,30 @@
                             Description
                         </h2>
                         <div class="text-gray-600 leading-relaxed text-[15px] space-y-6">
-                            <p class="font-semibold">Kashmir Tour Package</p>
-                            <p>Kashmir Valley is one of the most popular travel destinations among nature lovers, romantic couples and honeymooners. Our 5-day tour explores the pristine beauty of Srinagar and its surroundings.</p>
-                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <li class="flex items-start gap-2">
-                                    <i class="fa-solid fa-circle-check text-india-green mt-1 text-xs"></i>
-                                    <span>Experience Shikara rides on Dal Lake</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <i class="fa-solid fa-circle-check text-india-green mt-1 text-xs"></i>
-                                    <span>Stay in traditional luxury Houseboats</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <i class="fa-solid fa-circle-check text-india-green mt-1 text-xs"></i>
-                                    <span>Visit the famous Mughal Gardens</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <i class="fa-solid fa-circle-check text-india-green mt-1 text-xs"></i>
-                                    <span>Hassle-free airport transfers</span>
-                                </li>
-                            </ul>
+                            <p>{!! nl2br(e($tour->description)) !!}</p>
                         </div>
                     </div>
 
                     {{-- Highlights --}}
+                    @if(!empty($tour->highlights) && is_array($tour->highlights))
                     <div>
                         <h2 class="text-2xl font-semibold text-navy mb-8 flex items-center gap-3">
                             <span class="w-2 h-8 bg-india-green rounded-full"></span>
                             Highlights
                         </h2>
                         <ul class="space-y-4">
+                            @foreach($tour->highlights as $index => $highlight)
                             <li class="bg-gray-50 p-5 rounded-2xl border border-gray-100 flex gap-4">
-                                <div class="w-8 h-8 rounded-full bg-navy text-white flex-none flex items-center justify-center text-xs font-bold">01</div>
-                                <p class="text-gray-600 font-medium">Enjoy a romantic Sunset Shikara Ride on the tranquil Dal Lake in Srinagar.</p>
+                                <div class="w-8 h-8 rounded-full bg-navy text-white flex-none flex items-center justify-center text-xs font-bold">{{ sprintf('%02d', $index + 1) }}</div>
+                                <p class="text-gray-600 font-medium">{{ $highlight }}</p>
                             </li>
-                            <li class="bg-gray-50 p-5 rounded-2xl border border-gray-100 flex gap-4">
-                                <div class="w-8 h-8 rounded-full bg-navy text-white flex-none flex items-center justify-center text-xs font-bold">02</div>
-                                <p class="text-gray-600 font-medium">Overnight stay in a handcrafted luxury Houseboat for authentic Kashmiri vibes.</p>
-                            </li>
-                            <li class="bg-gray-50 p-5 rounded-2xl border border-gray-100 flex gap-4">
-                                <div class="w-8 h-8 rounded-full bg-navy text-white flex-none flex items-center justify-center text-xs font-bold">03</div>
-                                <p class="text-gray-600 font-medium">Explore the vibrant floral beauty of Nishat and Shalimar Mughal Gardens.</p>
-                            </li>
+                            @endforeach
                         </ul>
                     </div>
+                    @endif
 
                     {{-- Itinerary --}}
+                    @if(!empty($tour->itinerary) && is_array($tour->itinerary))
                     <div>
                         <div class="flex items-center justify-between mb-8">
                             <h2 class="text-2xl font-semibold text-navy flex items-center gap-3">
@@ -176,37 +152,39 @@
                             </h2>
                         </div>
                         <div class="space-y-4 relative before:absolute before:left-8 before:top-4 before:bottom-4 before:w-0.5 before:bg-gray-100 before:z-0">
-                            @foreach([['Day 1: Arrival & Dal Lake', 'Meet our representative at Srinagar airport. Enjoy your first night in a luxurious Houseboat on Dal Lake.'], ['Day 2: Srinagar Local Sightseeing', 'Visit Mughal Gardens (Shalimar & Nishat Bagh), Chesma Shahi and Hazratbal Shrine.'], ['Day 3: Day trip to Gulmarg', 'Explore the "Meadow of Flowers", enjoy Gondola rides and breathtaking mountain views.'], ['Day 4: Day trip to Pahalgam', 'Visit Betaab valley and Aru valley, experience the serene Lidder river.'], ['Day 5: Departure', 'Morning at leisure. Final transfer to Srinagar International Airport for your flight home.']] as $i => $day)
+                            @foreach($tour->itinerary as $i => $day)
                                 <div class="relative z-10">
                                     <button onclick="toggleDay({{ $i }})" class="w-full bg-white border border-gray-100 rounded-3xl p-6 flex items-center justify-between hover:shadow-lg transition-all text-left shadow-sm group">
                                         <div class="flex items-center gap-6">
                                             <div id="day-num-{{ $i }}" class="w-16 h-16 rounded-2xl bg-gray-50 text-navy font-bold flex flex-col items-center justify-center text-xs uppercase tracking-tighter group-hover:bg-navy group-hover:text-white transition-all">
                                                 <span class="opacity-50">Day</span>
-                                                <span class="text-xl">0{{ $i+1 }}</span>
+                                                <span class="text-xl">{{ sprintf('%02d', $i + 1) }}</span>
                                             </div>
-                                            <h4 class="text-lg font-semibold">{{ $day[0] }}</h4>
+                                            <h4 class="text-lg font-semibold">{{ $day['title'] ?? '' }}</h4>
                                         </div>
                                         <i class="fa-solid fa-chevron-down text-gray-300 transition-transform duration-300" id="day-icon-{{ $i }}"></i>
                                     </button>
                                     <div id="day-content-{{ $i }}" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out pl-24">
                                         <div class="p-8 text-gray-500 leading-relaxed border-l-2 border-india-green/20 ml-2">
-                                            {{ $day[1] }}
+                                            {!! nl2br(e($day['content'] ?? '')) !!}
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                     </div>
+                    @endif
 
                     {{-- Included & Excluded --}}
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        @if(!empty($tour->inclusions) && is_array($tour->inclusions))
                         <div>
                             <h2 class="text-2xl font-semibold text-navy mb-8 flex items-center gap-3">
                                 <span class="w-2 h-8 bg-green-500 rounded-full"></span>
                                 Included
                             </h2>
                             <ul class="space-y-4">
-                                @foreach(['Stay in 3-star luxury hotels', '4 Nights in Srinagar, 1 Night Houseboat', 'Daily Breakfast & Dinner', 'Private surface transport for all sightseeing'] as $item)
+                                @foreach($tour->inclusions as $item)
                                     <li class="flex items-start gap-3">
                                         <i class="fa-solid fa-circle-check text-green-500 mt-1"></i>
                                         <span class="text-gray-600 font-medium">{{ $item }}</span>
@@ -214,13 +192,15 @@
                                 @endforeach
                             </ul>
                         </div>
+                        @endif
+                        @if(!empty($tour->exclusions) && is_array($tour->exclusions))
                         <div>
                             <h2 class="text-2xl font-semibold text-navy mb-8 flex items-center gap-3">
                                 <span class="w-2 h-8 bg-red-400 rounded-full"></span>
                                 Excluded
                             </h2>
                             <ul class="space-y-4">
-                                @foreach(['Airfare / Train fare', 'Lunch and personal meals', 'Gondola charges / Ponny rides', 'Monument entrance fees'] as $item)
+                                @foreach($tour->exclusions as $item)
                                     <li class="flex items-start gap-3">
                                         <i class="fa-solid fa-circle-xmark text-red-300 mt-1"></i>
                                         <span class="text-gray-400 font-medium">{{ $item }}</span>
@@ -228,6 +208,7 @@
                                 @endforeach
                             </ul>
                         </div>
+                        @endif
                     </div>
 
                 </div>
@@ -240,7 +221,7 @@
                         <div class="bg-white rounded-xl border border-gray-100 overflow-hidden" id="booking-widget">
                             {{-- Price Header --}}
                             <div class="bg-navy p-6 text-white">
-                                <p class="text-[13px] opacity-80 mb-1">from <span class="text-2xl font-semibold ml-1">₹0.00</span></p>
+                                <p class="text-[13px] opacity-80 mb-1">from <span class="text-2xl font-semibold ml-1">₹{{ number_format($tour->price, 2) }}</span></p>
                             </div>
 
                             {{-- Tab Switcher --}}
@@ -388,14 +369,21 @@
                 <h2 class="text-2xl font-semibold text-navy">Tour's Location</h2>
                 <div class="flex items-center gap-2 text-gray-500 text-sm">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span>Kashmir, Jammu and Kashmir, India</span>
+                    <span>{{ $tour->location }}</span>
                 </div>
             </div>
             <div class="w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 h-[450px]">
-                <iframe 
-                    src="https://maps.google.com/maps?q=32.737197799182695%2C%2074.77650185258123&t=m&z=12&output=embed&iwloc=near" 
-                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+                @if($tour->map_url)
+                    <iframe 
+                        src="{{ $tour->map_url }}" 
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                @else
+                    <iframe 
+                        src="https://maps.google.com/maps?q={{ urlencode($tour->title . ' ' . $tour->location) }}&t=m&z=12&output=embed&iwloc=near" 
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                @endif
             </div>
         </div>
     </section>

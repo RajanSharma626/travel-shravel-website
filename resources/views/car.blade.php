@@ -175,99 +175,30 @@
 
                     {{-- Car Grid --}}
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
-                        
-                        @php
-                            $cars = [
-                                [
-                                    'name' => 'Toyota Innova',
-                                    'category' => 'MUV',
-                                    'price' => '₹5,000.00',
-                                    'passengers' => 6,
-                                    'transmission' => 'Manual',
-                                    'bags' => 3,
-                                    'doors' => 4,
-                                    'img' => 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => true
-                                ],
-                                [
-                                    'name' => 'Toyota Etios',
-                                    'category' => 'Sedan',
-                                    'price' => '₹3,500.00',
-                                    'passengers' => 4,
-                                    'transmission' => 'Manual',
-                                    'bags' => 2,
-                                    'doors' => 4,
-                                    'img' => 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => true
-                                ],
-                                [
-                                    'name' => 'Maruti Suzuki Dzire',
-                                    'category' => 'Sedan',
-                                    'price' => '₹3,500.00',
-                                    'passengers' => 4,
-                                    'transmission' => 'Manual',
-                                    'bags' => 2,
-                                    'doors' => 4,
-                                    'img' => 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => true
-                                ],
-                                [
-                                    'name' => 'Traveller',
-                                    'category' => 'Minivans',
-                                    'price' => '₹8,000.00',
-                                    'passengers' => 12,
-                                    'transmission' => 'Manual',
-                                    'bags' => 5,
-                                    'doors' => 3,
-                                    'img' => 'https://images.unsplash.com/photo-1523983254347-9799927951f5?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => false
-                                ],
-                                [
-                                    'name' => 'Toyota Innova Crysta',
-                                    'category' => 'MUV',
-                                    'price' => '₹6,500.00',
-                                    'passengers' => 7,
-                                    'transmission' => 'Manual',
-                                    'bags' => 4,
-                                    'doors' => 4,
-                                    'img' => 'https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => false
-                                ],
-                                [
-                                    'name' => 'Mahindra Xylo',
-                                    'category' => 'SUVs',
-                                    'price' => '₹5,500.00',
-                                    'passengers' => 7,
-                                    'transmission' => 'Manual',
-                                    'bags' => 3,
-                                    'doors' => 4,
-                                    'img' => 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800',
-                                    'featured' => false
-                                ],
-                            ];
-                        @endphp
-
-                        @foreach($cars as $car)
+                        @forelse($cars as $car)
                             <x-car-card 
-                                :image="$car['img']"
-                                :featured="$car['featured']"
-                                :type="$car['category']"
-                                :title="$car['name']"
-                                :pax="$car['passengers']"
-                                :transmission="$car['transmission']"
-                                :bags="$car['bags']"
-                                :doors="$car['doors']"
-                                :price="$car['price']"
+                                :image="$car->primary_image ?: (!empty($car->images) && is_array($car->images) ? $car->images[0] : 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800')"
+                                :featured="$car->is_featured"
+                                :type="$car->category"
+                                :title="$car->name"
+                                :pax="$car->passengers"
+                                :transmission="$car->transmission"
+                                :bags="$car->bags"
+                                :doors="$car->doors"
+                                :price="'₹' . number_format($car->price, 2)"
+                                :link="url('/car/' . $car->slug)"
                             />
-                        @endforeach
+                        @empty
+                            <div class="col-span-full py-12 text-center text-gray-500 font-medium">
+                                <i class="fa-solid fa-car text-4xl mb-3 text-gray-300 block"></i>
+                                No cars found matching your search.
+                            </div>
+                        @endforelse
                     </div>
 
                     {{-- Pagination --}}
-                    <div class="mt-16 flex justify-center items-center gap-3">
-                        <button class="h-10 w-10 flex items-center justify-center rounded-lg bg-india-green text-white shadow-md shadow-blue-500/20 transition-all">1</button>
-                        <button class="h-10 w-10 flex items-center justify-center rounded-lg bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all">
-                            <i class="fa-solid fa-chevron-right text-xs"></i>
-                        </button>
+                    <div class="mt-16 flex justify-center items-center">
+                        {{ $cars->links() }}
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Hotel Madhuban Srinagar - Travel Shravel')
+@section('title', $hotel->name . ' - Travel Shravel')
 
 @section('content')
     {{-- Top Header Section --}}
@@ -9,26 +9,28 @@
             <nav class="flex mb-6 text-sm text-gray-400">
                 <a href="{{ url('/') }}" class="hover:text-navy transition-colors">Home</a>
                 <span class="mx-2">/</span>
-                <a href="{{ url('/hotel') }}" class="hover:text-navy transition-colors">Hotels</a>
+                <a href="{{ url('/hotels') }}" class="hover:text-navy transition-colors">Hotels</a>
                 <span class="mx-2">/</span>
-                <span class="text-navy font-medium">Hotel Madhuban Srinagar</span>
+                <span class="text-navy font-medium">{{ $hotel->name }}</span>
             </nav>
             
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <h1 class="text-3xl md:text-3xl leading-tight mb-3">Hotel Madhuban Srinagar</h1>
+                    <h1 class="text-3xl md:text-3xl leading-tight mb-3">{{ $hotel->name }}</h1>
                     <div class="flex items-center gap-4">
-                        <span class="px-3 py-1 bg-saffron/10 text-saffron text-xs font-semibold rounded-lg uppercase tracking-wider">3 Stars</span>
+                        <span class="px-3 py-1 bg-saffron/10 text-saffron text-xs font-semibold rounded-lg uppercase tracking-wider">{{ $hotel->stars }} Stars</span>
                         <div class="flex items-center gap-2 text-gray-500 text-sm">
                             <i class="fa-solid fa-location-dot"></i>
-                            <span>Srinagar, Jammu and Kashmir, India</span>
+                            <span>{{ $hotel->location }}</span>
                         </div>
                         <div class="flex text-saffron text-xs ml-4">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
+                            @for($i = 1; $i <= 5; $i++)
+                                @if($i <= $hotel->stars)
+                                    <i class="fa-solid fa-star"></i>
+                                @else
+                                    <i class="fa-regular fa-star"></i>
+                                @endif
+                            @endfor
                         </div>
                         <span class="text-gray-400 text-sm">(0 Reviews)</span>
                     </div>
@@ -45,21 +47,18 @@
     <section class="py-10 bg-white">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="relative rounded-2xl overflow-hidden h-[500px] border border-gray-200 group" id="hero-slider">
+                @php
+                    $slides = !empty($hotel->images) && is_array($hotel->images) ? $hotel->images : [$hotel->primary_image ?: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80'];
+                @endphp
                 {{-- Slides --}}
-                <div class="absolute inset-0 transition-opacity duration-1000 opacity-100" data-slide="0">
-                    <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1600&q=80" 
-                        alt="Hotel Exterior" class="w-full h-full object-cover">
-                </div>
-                <div class="absolute inset-0 transition-opacity duration-1000 opacity-0" data-slide="1">
-                    <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=1600&q=80" 
-                        alt="Hotel Room" class="w-full h-full object-cover">
-                </div>
-                <div class="absolute inset-0 transition-opacity duration-1000 opacity-0" data-slide="2">
-                    <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1600&q=80" 
-                        alt="Hotel Lobby" class="w-full h-full object-cover">
-                </div>
+                @foreach($slides as $index => $slide)
+                    <div class="absolute inset-0 transition-opacity duration-1000 {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}" data-slide="{{ $index }}">
+                        <img src="{{ $slide }}" alt="{{ $hotel->name }} Image {{ $index + 1 }}" class="w-full h-full object-cover">
+                    </div>
+                @endforeach
 
                 {{-- Controls --}}
+                @if(count($slides) > 1)
                 <div class="absolute inset-0 flex items-center justify-between px-6 pointer-events-none transition-opacity duration-300">
                     <button onclick="prevSlide()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-navy shadow-sm pointer-events-auto hover:bg-india-green hover:text-white transition-all">
                         <i class="fa-solid fa-chevron-left text-sm"></i>
@@ -71,10 +70,11 @@
 
                 {{-- Dots indicator --}}
                 <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
-                    <div class="w-3 h-3 rounded-full bg-white transition-all cursor-pointer" onclick="goToSlide(0)" id="dot-0"></div>
-                    <div class="w-3 h-3 rounded-full bg-white/40 transition-all cursor-pointer" onclick="goToSlide(1)" id="dot-1"></div>
-                    <div class="w-3 h-3 rounded-full bg-white/40 transition-all cursor-pointer" onclick="goToSlide(2)" id="dot-2"></div>
+                    @foreach($slides as $index => $slide)
+                        <div class="w-3 h-3 rounded-full {{ $index === 0 ? 'bg-white' : 'bg-white/40' }} transition-all cursor-pointer" onclick="goToSlide({{ $index }})" id="dot-{{ $index }}"></div>
+                    @endforeach
                 </div>
+                @endif
             </div>
 
             {{-- Quick Stats Bar --}}
@@ -82,8 +82,8 @@
                 <div class="bg-gray-50 p-6 rounded-2xl flex items-center gap-4 border border-gray-100">
                     <div class="w-12 h-12 bg-navy/5 rounded-2xl flex items-center justify-center text-navy text-xl"><i class="fa-solid fa-bed"></i></div>
                     <div>
-                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Room Types</p>
-                        <p class="text-md font-semibold">Deluxe, Suite</p>
+                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Hotel Rating</p>
+                        <p class="text-md font-semibold">{{ $hotel->stars }} Stars</p>
                     </div>
                 </div>
                 <div class="bg-gray-50 p-6 rounded-2xl flex items-center gap-4 border border-gray-100">
@@ -104,7 +104,7 @@
                     <div class="w-12 h-12 bg-navy/5 rounded-2xl flex items-center justify-center text-navy text-xl"><i class="fa-solid fa-utensils"></i></div>
                     <div>
                         <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Dining</p>
-                        <p class="text-md font-semibold">Restaurant & Cafe</p>
+                        <p class="text-md font-semibold">Inhouse Restaurant</p>
                     </div>
                 </div>
             </div>
@@ -126,8 +126,7 @@
                             Description
                         </h2>
                         <div class="text-gray-600 leading-relaxed text-[15px] space-y-6">
-                            <p>Located in the heart of Srinagar, Hotel Madhuban offers a comfortable and luxurious stay with breathtaking views of the surrounding mountains and Dal Lake. Whether you are here for a romantic honeymoon, a family vacation, or a business trip, our hotel provides top-notch amenities and exceptional service.</p>
-                            <p>Our elegantly furnished rooms are designed to offer maximum comfort. Enjoy complimentary Wi-Fi, 24-hour room service, and delicious local and international cuisines at our in-house restaurant.</p>
+                            <p>{!! nl2br(e($hotel->description)) !!}</p>
                             <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <li class="flex items-start gap-2">
                                     <i class="fa-solid fa-circle-check text-india-green mt-1 text-xs"></i>
@@ -185,8 +184,8 @@
                         </h2>
                         <div class="space-y-6">
                             @foreach([
-                                ['Deluxe Room', 'Spacious room with modern amenities, perfect for couples.', '₹3,633.33', 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=400&q=80'],
-                                ['Premium Suite', 'Luxury suite featuring a separate living area and premium views.', '₹5,200.00', 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=400&q=80']
+                                ['Deluxe Room', 'Spacious room with modern amenities, perfect for couples.', $hotel->price, 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=400&q=80'],
+                                ['Premium Suite', 'Luxury suite featuring a separate living area and premium views.', $hotel->price * 1.5, 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=400&q=80']
                             ] as $room)
                             <div class="bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden flex flex-col sm:flex-row group transition-all hover:shadow-lg">
                                 <div class="sm:w-1/3 h-48 sm:h-auto overflow-hidden">
@@ -205,7 +204,7 @@
                                     <div class="flex items-end justify-between mt-4 border-t border-gray-200/60 pt-4">
                                         <div>
                                             <p class="text-xs text-gray-400 mb-1">Price per night</p>
-                                            <p class="text-xl font-bold text-navy">{{ $room[2] }}</p>
+                                            <p class="text-xl font-bold text-navy">₹{{ number_format($room[2], 2) }}</p>
                                         </div>
                                         <button class="bg-india-green text-white px-6 py-2 rounded-xl text-sm font-semibold shadow-lg shadow-india-green/20 hover:bg-india-green/90 transition-all active:scale-95">Select Room</button>
                                     </div>
@@ -260,7 +259,7 @@
                         <div class="bg-white rounded-xl border border-gray-100 overflow-hidden" id="booking-widget">
                             {{-- Price Header --}}
                             <div class="bg-navy p-6 text-white">
-                                <p class="text-[13px] opacity-80 mb-1">from <span class="text-2xl font-semibold ml-1">₹3,633.33</span> /night</p>
+                                <p class="text-[13px] opacity-80 mb-1">from <span class="text-2xl font-semibold ml-1">₹{{ number_format($hotel->price, 2) }}</span> /night</p>
                             </div>
 
                             {{-- Tab Switcher --}}
@@ -412,14 +411,21 @@
                 <h2 class="text-2xl font-semibold text-navy">Hotel Location</h2>
                 <div class="flex items-center gap-2 text-gray-500 text-sm">
                     <i class="fa-solid fa-location-dot text-india-green"></i>
-                    <span>Srinagar, Jammu and Kashmir, India</span>
+                    <span>{{ $hotel->location }}</span>
                 </div>
             </div>
             <div class="w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 h-[450px]">
-                <iframe 
-                    src="https://maps.google.com/maps?q=34.083656,74.797371&t=m&z=14&output=embed&iwloc=near" 
-                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+                @if($hotel->map_url)
+                    <iframe 
+                        src="{{ $hotel->map_url }}" 
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                @else
+                    <iframe 
+                        src="https://maps.google.com/maps?q={{ urlencode($hotel->name . ' ' . $hotel->location) }}&t=m&z=14&output=embed&iwloc=near" 
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                @endif
             </div>
         </div>
     </section>

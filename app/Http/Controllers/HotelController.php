@@ -26,18 +26,46 @@ class HotelController extends Controller
 
         // Optional stars filter
         if ($request->filled('stars')) {
-            $query->where('stars', $request->input('stars'));
+            $stars = $request->input('stars');
+            if (is_array($stars)) {
+                $query->whereIn('stars', $stars);
+            } else {
+                $query->where('stars', $stars);
+            }
         }
 
         // Optional price ranges
-        if ($request->filled('min_price')) {
+        if ($request->filled('min_price') && $request->input('min_price') > 0) {
             $query->where('price', '>=', $request->input('min_price'));
         }
-        if ($request->filled('max_price')) {
+        if ($request->filled('max_price') && $request->input('max_price') > 0) {
             $query->where('price', '<=', $request->input('max_price'));
         }
 
-        $hotels = $query->orderBy('created_at', 'desc')->paginate(9)->withQueryString();
+        // Sorting logic
+        $sortBy = $request->input('sort_by', 'recommended');
+        switch ($sortBy) {
+            case 'new':
+                $query->orderBy('created_at', 'desc');
+                break;
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'name_asc':
+                $query->orderBy('name', 'asc');
+                break;
+            case 'name_desc':
+                $query->orderBy('name', 'desc');
+                break;
+            default: // recommended
+                $query->orderBy('id', 'asc');
+                break;
+        }
+
+        $hotels = $query->paginate(9)->withQueryString();
 
         return view('hotel', compact('hotels'));
     }

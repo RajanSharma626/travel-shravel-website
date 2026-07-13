@@ -494,12 +494,23 @@
                                     ? $hotel->images[0]
                                     : 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800')" :stars="$hotel->stars" :location="$hotel->location"
                                 ratingValue="5 / 5" ratingLabel="Excellent" :reviewCount="1"
-                                price="₹{{ number_format($hotel->price, 2) }}" :featured="$hotel->featured ?? false"
+                                price="₹{{ number_format($hotel->price, 0) }}" :featured="$hotel->featured ?? false"
                                 link="{{ url('/hotel/' . $hotel->slug) }}" />
                         @empty
-                            <div class="col-span-full py-12 text-center text-gray-500 font-medium">
-                                <i class="fa-solid fa-hotel text-4xl mb-3 text-gray-300 block"></i>
-                                No hotels found matching your search.
+                            <div class="col-span-full py-20 flex flex-col items-center justify-center text-center">
+                                <div class="w-20 h-20 bg-saffron-tint text-saffron rounded-full flex items-center justify-center mb-6">
+                                    <i class="fa-solid fa-hotel text-3xl"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">No Hotels Found</h3>
+                                <p class="text-gray-500 text-[14px] max-w-md leading-relaxed mb-8">
+                                    We couldn't find any hotels matching your current search or filters.
+                                </p>
+                                @if(request()->filled('search') || (request()->filled('min_price') && request('min_price') > 0) || (request()->filled('max_price') && request('max_price') > 0) || request()->filled('stars'))
+                                    <a href="{{ request()->url() }}" class="inline-flex items-center gap-2 px-6 py-3 bg-saffron text-white rounded-xl text-[13px] font-semibold hover:bg-saffron-deep shadow-lg shadow-saffron/10 hover:shadow-saffron/20 transition-all duration-200">
+                                        <i class="fa-solid fa-rotate-right text-xs"></i>
+                                        Reset Search & Filters
+                                    </a>
+                                @endif
                             </div>
                         @endforelse
                     </div>

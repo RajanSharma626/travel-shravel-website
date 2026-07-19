@@ -321,171 +321,111 @@
 
             {{-- Tours Grid --}}
             <div id="grid-tour" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 category-grid">
-
-                <x-tour-card 
-                    image="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=800"
-                    :featured="true"
-                    title="Darshan of Shri Mata Vaishno Devi // TSP 075"
-                    location="Jammu and Kashmir, India"
-                    price="₹0.00"
-                    duration="2 Nights"
-                />
-
-                <x-tour-card 
-                    image="https://images.unsplash.com/photo-1614056965546-42fbe24eb36c?auto=format&fit=crop&q=80&w=800"
-                    :featured="true"
-                    title="Jannat-e-Kashmir (4N Srinagar) // TSP 161"
-                    location="Kashmir, Jammu and Kashmir, India"
-                    rating="5"
-                    price="₹0.00"
-                    duration="4 Nights"
-                    link="{{ url('/tour/kashmir-tour-package-tsp-161') }}"
-                />
-
-                <x-tour-card 
-                    image="https://images.unsplash.com/photo-1717502713522-543a97e13dab?auto=format&fit=crop&q=80&w=800"
-                    :featured="true"
-                    title="Katra with Raghunath Temple // TSP 076"
-                    location="Katra, Jammu and Kashmir, India"
-                    price="₹0.00"
-                    duration="3 Nights"
-                />
-
+                @forelse($featuredTours as $tour)
+                    <x-tour-card 
+                        :image="$tour->primary_image ?: (!empty($tour->images) && is_array($tour->images) ? $tour->images[0] : 'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=800')"
+                        :featured="true"
+                        :title="$tour->title"
+                        :location="$tour->location"
+                        :price="'₹' . number_format($tour->price, 2)"
+                        :duration="($tour->duration_nights > 0 ? $tour->duration_nights . ' Nights' : 'Day Tour')"
+                        :link="url('/tour/' . $tour->slug)"
+                    />
+                @empty
+                    <div class="col-span-full py-8 text-center text-gray-500">No featured tours available at the moment.</div>
+                @endforelse
+            </div>
+            
+            <div id="pagination-tour" class="mt-12 flex justify-center items-center pagination-container">
+                {{ $featuredTours->links() }}
             </div>
 
             {{-- Hotels Grid --}}
             <div id="grid-hotel" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 category-grid">
-                
-                <x-hotel-card 
-                    image="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&q=80&w=800"
-                    title="Glacier View Guest House, Leh"
-                    location="Leh, Ladakh, India"
-                    :stars="1"
-                    price="₹2,850.00"
-                    link="{{ url('/hotel/glacier-view-guest-house-leh') }}"
-                />
-
-                <x-hotel-card 
-                    image="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800"
-                    title="Hotel Zojila Residency, Kargil"
-                    location="Kargil, Ladakh, India"
-                    :stars="2"
-                    price="₹5,500.00"
-                    link="{{ url('/hotel/hotel-zojila-residency-kargil') }}"
-                />
-
-                <x-hotel-card 
-                    image="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=800"
-                    title="Morpho Hotel, Calangute, North Goa"
-                    location="Goa, India"
-                    :stars="3"
-                    :featured="true"
-                    price="₹4,250.00"
-                    link="{{ url('/hotel/morpho-hotel-calangute-north-goa') }}"
-                />
-
+                @forelse($featuredHotels as $hotel)
+                    <x-hotel-card 
+                        :image="$hotel->primary_image ?: (!empty($hotel->images) && is_array($hotel->images) ? $hotel->images[0] : 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&q=80&w=800')"
+                        :title="$hotel->name"
+                        :location="$hotel->city . ', ' . $hotel->state"
+                        :stars="$hotel->star_rating ?? 3"
+                        :featured="true"
+                        :price="'₹' . number_format($hotel->price, 2)"
+                        :link="url('/hotel/' . $hotel->slug)"
+                    />
+                @empty
+                    <div class="col-span-full py-8 text-center text-gray-500">No featured hotels available at the moment.</div>
+                @endforelse
+            </div>
+            
+            <div id="pagination-hotel" class="hidden mt-12 flex justify-center items-center pagination-container">
+                {{ $featuredHotels->links() }}
             </div>
 
             {{-- Activity Grid --}}
             <div id="grid-activity" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 category-grid">
-                
-                <x-activity-card 
-                    image="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=800"
-                    :featured="true"
-                    location="Patnitop, Jammu and Kashmir, India"
-                    title="Day Trip to Patnitop"
-                    rating="4.5"
-                    price="₹2,299.00"
-                    duration="8 Hours"
-                    link="{{ url('/activity/day-trip-to-patnitop') }}"
-                />
-
-                <x-activity-card 
-                    image="https://images.unsplash.com/photo-1617112818585-79b88ef77916?auto=format&fit=crop&q=80&w=800"
-                    :featured="true"
-                    location="Samba, Jammu and Kashmir, India"
-                    title="Day Tour to Mansar Lake"
-                    rating="2.6"
-                    price="₹1,799.00"
-                    duration="6 Hours"
-                    link="{{ url('/activity/day-tour-to-mansar-lake') }}"
-                />
-
-                <x-activity-card 
-                    image="https://images.unsplash.com/photo-1598091383021-15ddea10925d?auto=format&fit=crop&q=80&w=800"
-                    :featured="true"
-                    location="Jammu, Jammu and Kashmir, India"
-                    title="Jammu Local Sightseeing"
-                    rating="3.2"
-                    price="₹1,149.00"
-                    duration="5 Hours"
-                    link="{{ url('/activity/jammu-local-sightseeing') }}"
-                />
-
+                @forelse($featuredActivities as $activity)
+                    <x-activity-card 
+                        :image="$activity->primary_image ?: (!empty($activity->images) && is_array($activity->images) ? $activity->images[0] : 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=800')"
+                        :featured="true"
+                        :location="$activity->location ?? $activity->city"
+                        :title="$activity->title"
+                        rating="4.5"
+                        :price="'₹' . number_format($activity->price, 2)"
+                        :duration="$activity->duration_hours . ' Hours'"
+                        :link="url('/activity/' . $activity->slug)"
+                    />
+                @empty
+                    <div class="col-span-full py-8 text-center text-gray-500">No featured activities available at the moment.</div>
+                @endforelse
+            </div>
+            
+            <div id="pagination-activity" class="hidden mt-12 flex justify-center items-center pagination-container">
+                {{ $featuredActivities->links() }}
             </div>
 
             {{-- Car Grid --}}
             <div id="grid-car" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 category-grid">
-                
-                <x-car-card 
-                    image="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800"
-                    :featured="true"
-                    type="MUV"
-                    title="Toyota Innova"
-                    pax="6"
-                    transmission="manual"
-                    bags="3"
-                    doors="4"
-                    price="₹5,000.00"
-                    link="{{ url('/car/toyota-innova') }}"
-                />
-
-                <x-car-card 
-                    image="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800"
-                    :featured="true"
-                    type="Sedan"
-                    title="Toyota Etios"
-                    pax="4"
-                    transmission="manual"
-                    bags="0"
-                    doors="0"
-                    price="₹3,500.00"
-                    link="{{ url('/car/toyota-etios') }}"
-                />
-
-                <x-car-card 
-                    image="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800"
-                    :featured="true"
-                    type="Sedan"
-                    title="Maruti Suzuki Dzire"
-                    pax="4"
-                    transmission="manual"
-                    bags="2"
-                    doors="4"
-                    price="₹3,500.00"
-                    link="{{ url('/car/maruti-suzuki-dzire') }}"
-                />
-
+                @forelse($featuredCars as $car)
+                    <x-car-card 
+                        :image="$car->primary_image ?: (!empty($car->images) && is_array($car->images) ? $car->images[0] : 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800')"
+                        :featured="true"
+                        :type="$car->category"
+                        :title="$car->name"
+                        :pax="$car->passengers"
+                        :transmission="$car->transmission"
+                        :bags="$car->bags"
+                        :doors="$car->doors"
+                        :price="'₹' . number_format($car->price, 0)"
+                        :link="url('/car/' . $car->slug)"
+                    />
+                @empty
+                    <div class="col-span-full py-8 text-center text-gray-500">No featured cars available at the moment.</div>
+                @endforelse
             </div>
-
-            {{-- Pagination --}}
-            <div class="mt-16 flex justify-center items-center gap-3">
-                <button
-                    class="h-10 w-10 flex items-center justify-center rounded-lg bg-navy text-white shadow-md shadow-navy/20 transition-all">1</button>
-                <button
-                    class="h-10 w-10 flex items-center justify-center rounded-lg bg-white text-gray-600 border border-gray-200  hover:bg-gray-50 hover:border-navy/20 transition-all">2</button>
-                <span class="px-2 text-gray-400 ">...</span>
-                <button
-                    class="h-10 w-10 flex items-center justify-center rounded-lg bg-white text-gray-600 border border-gray-200  hover:bg-gray-50 hover:border-navy/20 transition-all">27</button>
-                <button
-                    class="h-10 w-10 flex items-center justify-center rounded-lg bg-white text-gray-600 border border-gray-200  hover:bg-gray-50 hover:border-navy/20 transition-all">
-                    <i class="fa-solid fa-chevron-right text-xs"></i>
-                </button>
+            
+            <div id="pagination-car" class="hidden mt-12 flex justify-center items-center pagination-container">
+                {{ $featuredCars->links() }}
             </div>
         </div>
     </section>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if there is an active tab in the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            let activeCategory = 'tour'; // Default
+            
+            if (urlParams.has('hotel_page')) {
+                activeCategory = 'hotel';
+            } else if (urlParams.has('activity_page')) {
+                activeCategory = 'activity';
+            } else if (urlParams.has('car_page')) {
+                activeCategory = 'car';
+            }
+            
+            switchCategory(activeCategory);
+        });
+
         function switchCategory(category) {
             // Update active button state
             document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -493,8 +433,10 @@
                 btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
             });
             const activeBtn = document.getElementById(`btn-${category}`);
-            activeBtn.classList.add('bg-navy', 'text-white', 'border-transparent', 'shadow-sm');
-            activeBtn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
+            if (activeBtn) {
+                activeBtn.classList.add('bg-navy', 'text-white', 'border-transparent', 'shadow-sm');
+                activeBtn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
+            }
 
             // Toggle grid visibility
             document.querySelectorAll('.category-grid').forEach(grid => {
@@ -503,6 +445,15 @@
             const activeGrid = document.getElementById(`grid-${category}`);
             if (activeGrid) {
                 activeGrid.classList.remove('hidden');
+            }
+            
+            // Toggle pagination visibility
+            document.querySelectorAll('.pagination-container').forEach(pagination => {
+                pagination.classList.add('hidden');
+            });
+            const activePagination = document.getElementById(`pagination-${category}`);
+            if (activePagination) {
+                activePagination.classList.remove('hidden');
             }
         }
     </script>

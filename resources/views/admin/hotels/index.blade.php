@@ -53,7 +53,7 @@
                 @endif
 
                 <!-- Status Badge -->
-                <div class="absolute top-3 left-3">
+                <div class="absolute top-3 left-3 flex flex-wrap items-center gap-1.5">
                     @if($hotel->is_active)
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white shadow-sm">
                             Active
@@ -61,6 +61,12 @@
                     @else
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-slate-500 text-white shadow-sm">
                             Inactive
+                        </span>
+                    @endif
+
+                    @if($hotel->is_featured)
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-amber-500 text-white shadow-sm">
+                            <i class="fa-solid fa-star mr-1 text-[8px]"></i> Featured
                         </span>
                     @endif
                 </div>

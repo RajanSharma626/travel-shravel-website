@@ -62,12 +62,18 @@
                         @error('price') <p class="text-rose-500 text-[10px] mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <!-- Active status -->
-                    <div class="flex items-center pt-5">
+                    <!-- Toggles: Active & Featured -->
+                    <div class="flex items-center gap-6 pt-5">
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_active" value="1" {{ old('is_active', $hotel->is_active) ? 'checked' : '' }} class="sr-only peer">
                             <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
-                            <span class="ml-2 text-xs font-semibold text-slate-600">Active (Visible on frontend)</span>
+                            <span class="ml-2 text-xs font-semibold text-slate-600">Active</span>
+                        </label>
+
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $hotel->is_featured) ? 'checked' : '' }} class="sr-only peer">
+                            <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-500"></div>
+                            <span class="ml-2 text-xs font-semibold text-slate-600">Featured</span>
                         </label>
                     </div>
                 </div>

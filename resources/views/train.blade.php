@@ -148,7 +148,23 @@
             </div>
 
             {{-- Inquiry Form --}}
-            <form action="#" method="POST" class="p-6 md:p-8 space-y-6">
+            @if(session('success'))
+                <div class="m-6 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded-lg">
+                    <p class="font-bold">Success!</p>
+                    <p>{{ session('success') }}</p>
+                </div>
+            @endif
+            @if ($errors->any())
+                <div class="m-6 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-lg">
+                    <ul class="list-disc pl-5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('train.inquiry.store') }}" method="POST" class="p-6 md:p-8 space-y-6">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {{-- Origin/Source --}}

@@ -109,6 +109,36 @@
                     <i class="fa-solid fa-users text-base {{ $route === 'admin.users' ? '' : 'group-hover:scale-105 transition' }}"></i>
                     <span class="font-medium text-xs">Users</span>
                 </a>
+                <a href="{{ route('admin.faqs.index') }}" 
+                   class="flex items-center gap-2.5 px-3 py-2 rounded-lg transition duration-205 group {{ str_starts_with($route, 'admin.faqs') ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+                    <i class="fa-solid fa-circle-question text-base {{ str_starts_with($route, 'admin.faqs') ? '' : 'group-hover:scale-105 transition' }}"></i>
+                    <span class="font-medium text-xs">FAQs</span>
+                </a>
+                <a href="{{ route('admin.partners.index') }}" 
+                   class="flex items-center gap-2.5 px-3 py-2 rounded-lg transition duration-205 group {{ str_starts_with($route, 'admin.partners') ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+                    <i class="fa-solid fa-handshake text-base {{ str_starts_with($route, 'admin.partners') ? '' : 'group-hover:scale-105 transition' }}"></i>
+                    <span class="font-medium text-xs">Partners</span>
+                </a>
+                <a href="{{ route('admin.train-inquiries.index') }}" 
+                   class="flex items-center gap-2.5 px-3 py-2 rounded-lg transition duration-205 group {{ str_starts_with($route, 'admin.train-inquiries') ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+                    <i class="fa-solid fa-train text-base {{ str_starts_with($route, 'admin.train-inquiries') ? '' : 'group-hover:scale-105 transition' }}"></i>
+                    <span class="font-medium text-xs">Train Inquiries</span>
+                </a>
+                <a href="{{ route('admin.bus-inquiries.index') }}" 
+                   class="flex items-center gap-2.5 px-3 py-2 rounded-lg transition duration-205 group {{ str_starts_with($route, 'admin.bus-inquiries') ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+                    <i class="fa-solid fa-bus text-base {{ str_starts_with($route, 'admin.bus-inquiries') ? '' : 'group-hover:scale-105 transition' }}"></i>
+                    <span class="font-medium text-xs">Bus Inquiries</span>
+                </a>
+                <a href="{{ route('admin.cruise-inquiries.index') }}" 
+                   class="flex items-center gap-2.5 px-3 py-2 rounded-lg transition duration-205 group {{ str_starts_with($route, 'admin.cruise-inquiries') ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+                    <i class="fa-solid fa-ship text-base {{ str_starts_with($route, 'admin.cruise-inquiries') ? '' : 'group-hover:scale-105 transition' }}"></i>
+                    <span class="font-medium text-xs">Cruise Inquiries</span>
+                </a>
+                <a href="{{ route('admin.insurance-inquiries.index') }}" 
+                   class="flex items-center gap-2.5 px-3 py-2 rounded-lg transition duration-205 group {{ str_starts_with($route, 'admin.insurance-inquiries') ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+                    <i class="fa-solid fa-shield-heart text-base {{ str_starts_with($route, 'admin.insurance-inquiries') ? '' : 'group-hover:scale-105 transition' }}"></i>
+                    <span class="font-medium text-xs">Insurance Inquiries</span>
+                </a>
                 <a href="/" target="_blank"
                    class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition duration-205">
                     <i class="fa-solid fa-globe text-base"></i>

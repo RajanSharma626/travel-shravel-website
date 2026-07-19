@@ -24,7 +24,7 @@
             <i class="fa-regular fa-heart"></i>
         </button>
     </div>
-    <div class="flex-1 p-4 flex flex-col justify-between">
+    <div class="flex-1 p-3 flex flex-col justify-between">
         <div>
             <div class="flex items-center gap-1.5 text-gray-400 text-[11px] font-medium mb-2">
                 <i class="fa-solid fa-location-dot"></i>

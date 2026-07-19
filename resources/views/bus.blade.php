@@ -176,7 +176,13 @@
             </div>
 
             {{-- Inquiry Form --}}
-            <form action="#" method="POST" class="p-6 md:p-8 space-y-6">
+            @if(session('success'))
+                <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded relative m-6" role="alert">
+                    <span class="block sm:inline">{{ session('success') }}</span>
+                </div>
+            @endif
+
+            <form action="{{ route('bus.inquiry.store') }}" method="POST" class="p-6 md:p-8 space-y-6">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {{-- Origin/Source --}}

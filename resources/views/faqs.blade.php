@@ -30,46 +30,13 @@
             </div>
 
             <div class="space-y-4">
-                @php
-                    $faqs = [
-                        [
-                            'q' => 'How do I book a tour with Travel Shravel?',
-                            'a' => 'You can book your dream vacation directly through our website, by calling our 24/7 helpline at +91 90 86 421601, or by visiting our office in Jammu. Simply select your destination, choose your preferred dates, and follow our secure booking process.'
-                        ],
-                        [
-                            'q' => 'What payment methods do you accept?',
-                            'a' => 'We accept all major credit and debit cards (Visa, Mastercard, Amex), UPI (Google Pay, PhonePe), Net Banking from all Indian banks, and direct bank transfers. For offline bookings at our office, we also accept cash and cheques.'
-                        ],
-                        [
-                            'q' => 'Can I cancel or modify my booking after it\'s confirmed?',
-                            'a' => 'Yes, modifications and cancellations are possible. However, refund amounts and rescheduling fees depend on the specific package and how close you are to the departure date. Please refer to our detailed cancellation policy provided during booking or contact your travel consultant.'
-                        ],
-                        [
-                            'q' => 'Is travel insurance included in my package?',
-                            'a' => 'While some premium packages include basic travel insurance, it is generally offered as an optional add-on. We strongly recommend all our travelers to opt for comprehensive travel insurance to cover medical emergencies, trip delays, and luggage loss.'
-                        ],
-                        [
-                            'q' => 'Do you provide assistance with international visas?',
-                            'a' => 'Absolutely! We provide end-to-end visa assistance for all international destinations, including document verification, appointment scheduling, and guidance for embassy interviews. Please note that visa issuance is ultimately at the discretion of the respective embassy.'
-                        ],
-                        [
-                            'q' => 'What should I do if my flight is delayed or cancelled during the trip?',
-                            'a' => 'In case of any disruptions, our 24/7 dedicated support team is available to assist you. We will coordinate with the airline and update your hotel/transport transfers to match the revised schedule, ensuring a seamless experience despite the changes.'
-                        ],
-                        [
-                            'q' => 'Are your tour packages customizable?',
-                            'a' => 'Yes, we specialize in tailor-made itineraries! If you have specific interests or requirements, our travel experts can customize any package to match your preferences, budget, and travel style. Just click on "Enquire Now" or contact us with your details.'
-                        ]
-                    ];
-                @endphp
-
                 @foreach ($faqs as $index => $faq)
                     <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 transition-all hover:shadow-md">
                         <button 
                             onclick="toggleFaq({{ $index }})" 
                             class="w-full flex items-center justify-between p-6 md:p-8 text-left outline-none group"
                         >
-                            <span class="text-lg font-bold text-navy group-hover:text-india-green transition-colors">{{ $faq['q'] }}</span>
+                            <span class="text-lg font-bold text-navy group-hover:text-india-green transition-colors">{{ $faq->question }}</span>
                             <div id="icon-{{ $index }}" class="w-10 h-10 rounded-2xl bg-gray-50 flex items-center justify-center transition-all duration-300">
                                 <i class="fa-solid fa-plus text-gray-400 transition-colors"></i>
                             </div>
@@ -77,7 +44,7 @@
                         <div id="faq-{{ $index }}" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
                             <div class="px-6 pb-8 md:px-8 md:pb-10">
                                 <div class="p-6 bg-gray-50 rounded-2xl border-l-4 border-india-green">
-                                    <p class="text-gray-600 leading-relaxed">{{ $faq['a'] }}</p>
+                                    <p class="text-gray-600 leading-relaxed">{{ $faq->answer }}</p>
                                 </div>
                             </div>
                         </div>

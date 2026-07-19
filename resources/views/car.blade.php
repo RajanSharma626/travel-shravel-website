@@ -99,6 +99,10 @@
             line-clamp: none !important;
             -webkit-line-clamp: none !important;
         }
+        .list-layout .list-view-horizontal .md\:list-view-features-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+            max-width: 100% !important;
+        }
     }
 </style>
 @endpush

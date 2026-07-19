@@ -115,8 +115,8 @@
                         class="text-xs tracking-widest {{ url('/flights') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">FLIGHTS</a>
                     <a href="{{ url('/hotel-search-layout') }}"
                         class="text-xs tracking-widest {{ url('/hotel-search-layout') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">HOTEL</a>
-                    <a href="{{ url('/trains') }}"
-                        class="text-xs tracking-widest {{ url('/trains') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">TRAIN</a>
+                    <a href="{{ url('/train') }}"
+                        class="text-xs tracking-widest {{ url('/train') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">TRAIN</a>
                     <a href="{{ url('/tour') }}"
                         class="text-xs tracking-widest {{ url('/tour') == Request::url() ? 'text-saffron ' : 'text-white hover:text-saffron' }} transition-all">TOUR</a>
                     <a href="{{ url('/activities') }}"
@@ -170,35 +170,17 @@
                     <h2 class="text-xl font-semibold text-navy mb-10 border-l-4 border-india-green pl-4">Recognised By</h2>
     
                     <div class="logo-carousel">
-    
+                        @php
+                            $partners = \App\Models\Partner::where('is_active', true)->orderBy('created_at', 'asc')->get();
+                        @endphp
+
+                        @foreach($partners as $partner)
                         <div class="px-8 outline-none">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Booking.com_logo.svg/1200px-Booking.com_logo.svg.png"
-                                alt="Booking.com"
-                                class="h-8 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300 mx-auto">
+                            <img src="{{ $partner->image_url }}"
+                                alt="{{ $partner->name }}"
+                                class="h-10 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300 mx-auto object-contain">
                         </div>
-    
-                        <div class="px-8 outline-none">
-                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9b/Qatar_Airways_Logo.svg/1920px-Qatar_Airways_Logo.svg.png"
-                                alt="Qatar Airways"
-                                class="h-12 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300 mx-auto">
-                        </div>
-                        <div class="px-8 outline-none">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Emirates_logo.svg/1200px-Emirates_logo.svg.png"
-                                alt="Emirates"
-                                class="h-10 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300 mx-auto">
-                        </div>
-    
-                        <div class="px-8 outline-none">
-                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Singapore_Airlines_Logo_2.svg/1200px-Singapore_Airlines_Logo_2.svg.png"
-                                alt="Singapore Airlines"
-                                class="h-8 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300 mx-auto">
-                        </div>
-    
-                        <div class="px-8 outline-none">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Kayak_Logo.svg/1200px-Kayak_Logo.svg.png"
-                                alt="Kayak"
-                                class="h-10 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300 mx-auto">
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </section>

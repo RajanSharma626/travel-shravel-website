@@ -8,9 +8,9 @@ use App\Http\Controllers\TourController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CarController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\HomeController;
+
+Route::get('/', [HomeController::class, 'index']);
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -24,10 +24,17 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 
 // Navbar Placeholder Routes
 Route::get('/flights', function () { return view('welcome'); });
-Route::get('/trains', function () { return view('train'); });
+Route::get('/train', function () {
+    return view('train');
+});
+
+Route::post('/train-inquiry', [\App\Http\Controllers\TrainInquiryController::class, 'store'])->name('train.inquiry.store');
 Route::get('/bus', function () { return view('bus'); });
+Route::post('/bus-inquiry', [\App\Http\Controllers\BusInquiryController::class, 'store'])->name('bus.inquiry.store');
 Route::get('/cruise', function () { return view('cruise'); });
+Route::post('/cruise-inquiry', [\App\Http\Controllers\CruiseInquiryController::class, 'store'])->name('cruise.inquiry.store');
 Route::get('/insurance', function () { return view('insurance'); });
+Route::post('/insurance-inquiry', [\App\Http\Controllers\InsuranceInquiryController::class, 'store'])->name('insurance.inquiry.store');
 Route::get('/visa', function () { return view('visa'); });
 
 Route::get('/forgot-password', function () {
@@ -54,7 +61,8 @@ Route::get('/contact', function () {
 });
 
 Route::get('/faqs', function () {
-    return view('faqs');
+    $faqs = \App\Models\Faq::where('is_active', true)->get();
+    return view('faqs', compact('faqs'));
 });
 
 Route::get('/reviews', function () {
@@ -98,6 +106,9 @@ use App\Http\Controllers\Admin\AdminHotelController;
 use App\Http\Controllers\Admin\AdminTourController;
 use App\Http\Controllers\Admin\AdminActivityController;
 use App\Http\Controllers\Admin\AdminCarController;
+use App\Http\Controllers\Admin\AdminFaqController;
+use App\Http\Controllers\Admin\AdminPartnerController;
+use App\Http\Controllers\Admin\AdminTrainInquiryController;
 use App\Http\Middleware\AdminMiddleware;
 
 $adminPath = env('ADMIN_PATH', 'portal-tsh-78a9c2');
@@ -120,5 +131,23 @@ Route::prefix($adminPath)->middleware([AdminMiddleware::class])->name('admin.')-
 
     // Car Management Routes
     Route::resource('/cars', AdminCarController::class);
+
+    // FAQ Management Routes
+    Route::resource('/faqs', AdminFaqController::class);
+
+    // Partner Management Routes
+    Route::resource('/partners', AdminPartnerController::class);
+
+    // Train Inquiry Management Routes
+    Route::resource('/train-inquiries', AdminTrainInquiryController::class)->only(['index', 'destroy']);
+
+    // Bus Inquiry Management Routes
+    Route::resource('/bus-inquiries', \App\Http\Controllers\Admin\AdminBusInquiryController::class)->only(['index', 'destroy']);
+
+    // Cruise Inquiry Management Routes
+    Route::resource('/cruise-inquiries', \App\Http\Controllers\Admin\AdminCruiseInquiryController::class)->only(['index', 'destroy']);
+
+    // Insurance Inquiry Management Routes
+    Route::resource('/insurance-inquiries', \App\Http\Controllers\Admin\AdminInsuranceInquiryController::class)->only(['index', 'destroy']);
 });
 

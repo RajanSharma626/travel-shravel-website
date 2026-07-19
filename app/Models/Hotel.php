@@ -28,6 +28,7 @@ class Hotel extends Model
         'check_out_time',
         'room_types',
         'is_active',
+        'is_featured',
         'map_url',
     ];
 
@@ -78,6 +79,7 @@ class Hotel extends Model
             'amenities' => 'array',
             'room_types' => 'array',
             'is_active' => 'boolean',
+            'is_featured' => 'boolean',
             'price' => 'decimal:2',
         ];
     }

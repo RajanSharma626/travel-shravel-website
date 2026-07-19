@@ -56,6 +56,7 @@ class AdminHotelController extends Controller
             'check_in_time' => 'required|string|max:255',
             'check_out_time' => 'required|string|max:255',
             'is_active' => 'nullable|boolean',
+            'is_featured' => 'nullable|boolean',
             'amenities' => 'nullable|array',
             'room_types' => 'nullable|array',
             'images' => 'nullable|array',
@@ -66,6 +67,7 @@ class AdminHotelController extends Controller
 
         // Default properties
         $validated['is_active'] = $request->has('is_active') ? true : false;
+        $validated['is_featured'] = $request->has('is_featured') ? true : false;
         
         // Clean array inputs
         $validated['amenities'] = array_filter($request->input('amenities', []));
@@ -137,6 +139,7 @@ class AdminHotelController extends Controller
             'check_in_time' => 'required|string|max:255',
             'check_out_time' => 'required|string|max:255',
             'is_active' => 'nullable|boolean',
+            'is_featured' => 'nullable|boolean',
             'amenities' => 'nullable|array',
             'room_types' => 'nullable|array',
             'images' => 'nullable|array',
@@ -146,6 +149,7 @@ class AdminHotelController extends Controller
         ]);
 
         $validated['is_active'] = $request->has('is_active') ? true : false;
+        $validated['is_featured'] = $request->has('is_featured') ? true : false;
         
         // Clean array inputs
         $validated['amenities'] = array_filter($request->input('amenities', []));

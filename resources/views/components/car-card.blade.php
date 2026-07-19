@@ -30,7 +30,7 @@
                 {{ $title }}
             </h3>
             
-            <div class="grid grid-cols-4 gap-2 mb-4 md:max-w-xs">
+            <div class="grid grid-cols-2 gap-2 mb-4 md:max-w-xs md:list-view-features-grid">
                 <div class="bg-gray-50 rounded-lg p-1 text-center text-gray-500 border border-gray-50/80">
                     <i class="fa-solid fa-users text-[11px] block mb-1"></i>
                     <span class="text-[11px] font-semibold text-gray-700">{{ $pax }}</span>

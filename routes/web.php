@@ -123,6 +123,10 @@ Route::prefix($adminPath)->middleware([AdminMiddleware::class])->name('admin.')-
     // Hotel Management Routes
     Route::resource('/hotels', AdminHotelController::class);
 
+    Route::get('/settings', [\App\Http\Controllers\Admin\AdminSettingController::class, 'index'])->name('settings');
+    Route::post('/settings/profile', [\App\Http\Controllers\Admin\AdminSettingController::class, 'updateProfile'])->name('settings.profile');
+    Route::post('/settings/site', [\App\Http\Controllers\Admin\AdminSettingController::class, 'updateSiteSettings'])->name('settings.site');
+
     // Tour Management Routes
     Route::resource('/tours', AdminTourController::class);
 

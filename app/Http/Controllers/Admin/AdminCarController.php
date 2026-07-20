@@ -24,7 +24,7 @@ class AdminCarController extends Controller
             });
         }
 
-        $cars = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        $cars = $query->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
 
         return view('admin.cars.index', compact('cars'));
     }

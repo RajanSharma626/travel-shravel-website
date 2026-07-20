@@ -22,7 +22,7 @@ class AdminInsuranceInquiryController extends Controller
             });
         }
 
-        $inquiries = $query->orderBy('created_at', 'desc')->paginate(10);
+        $inquiries = $query->orderBy('created_at', 'desc')->paginate(20);
 
         return view('admin.insurance_inquiries.index', compact('inquiries'));
     }

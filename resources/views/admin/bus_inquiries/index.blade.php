@@ -6,7 +6,7 @@
 @section('content')
 <div class="space-y-4">
     <!-- Filters & Search -->
-    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-3">
         <!-- Search Form -->
         <form action="{{ route('admin.bus-inquiries.index') }}" method="GET" class="w-full md:max-w-md flex flex-col sm:flex-row gap-2.5">
             <div class="relative flex-1">
@@ -31,7 +31,7 @@
     @if(count($inquiries) > 0)
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         @foreach($inquiries as $inquiry)
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow relative">
+        <div class="bg-white rounded-xl border border-slate-200 border-t-4 border-t-amber-500 shadow-sm overflow-hidden hover:shadow-md transition-shadow relative">
             <div class="p-4 border-b border-slate-100 flex justify-between items-start">
                 <div>
                     <h4 class="text-sm font-bold text-slate-800">{{ $inquiry->name }}</h4>
@@ -64,9 +64,9 @@
 
                 <!-- Date & Class -->
                 <div class="grid grid-cols-2 gap-2">
-                    <div class="bg-blue-50/50 p-2 rounded-lg border border-blue-100/50">
+                    <div class="bg-amber-50/50 p-2 rounded-lg border border-amber-100/50">
                         <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Date</span>
-                        <div class="flex items-center gap-1.5 text-[11px] font-medium text-primary">
+                        <div class="flex items-center gap-1.5 text-[11px] font-medium text-amber-600">
                             <i class="fa-regular fa-calendar-days"></i> {{ \Carbon\Carbon::parse($inquiry->travel_date)->format('d M, Y') }}
                         </div>
                     </div>

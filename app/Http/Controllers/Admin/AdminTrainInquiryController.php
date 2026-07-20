@@ -19,7 +19,7 @@ class AdminTrainInquiryController extends Controller
                              ->orWhere('email', 'like', "%{$search}%");
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(15);
+            ->paginate(20);
             
         return view('admin.train_inquiries.index', compact('inquiries'));
     }

@@ -25,7 +25,7 @@ class AdminActivityController extends Controller
             });
         }
 
-        $activities = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        $activities = $query->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
 
         return view('admin.activities.index', compact('activities'));
     }

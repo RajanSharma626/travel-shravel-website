@@ -64,7 +64,7 @@
         <!-- Sidebar -->
         <aside class="w-full md:w-56 h-auto md:h-full bg-slateDark text-white flex flex-col z-30 transition-all duration-300 flex-shrink-0 overflow-y-auto">
             <!-- Sidebar Header / Logo -->
-            <div class="py-3 px-4 border-b border-slate-800 flex items-center justify-between">
+            <div class="h-[60px] shrink-0 px-4 border-b border-slate-800 flex items-center justify-between">
                 <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
                     <img src="{{ asset('assets/img/logo-travel-shravel.png') }}" alt="Travel Shravel" class="h-6 w-auto object-contain">
                     <div>
@@ -139,6 +139,11 @@
                     <i class="fa-solid fa-shield-heart text-base {{ str_starts_with($route, 'admin.insurance-inquiries') ? '' : 'group-hover:scale-105 transition' }}"></i>
                     <span class="font-medium text-xs">Insurance Inquiries</span>
                 </a>
+                <a href="{{ route('admin.settings') }}" 
+                   class="flex items-center gap-2.5 px-3 py-2 rounded-lg transition duration-205 group {{ str_starts_with($route, 'admin.settings') ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+                    <i class="fa-solid fa-gear text-base {{ str_starts_with($route, 'admin.settings') ? '' : 'group-hover:scale-105 transition' }}"></i>
+                    <span class="font-medium text-xs">Settings</span>
+                </a>
                 <a href="/" target="_blank"
                    class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition duration-205">
                     <i class="fa-solid fa-globe text-base"></i>
@@ -169,7 +174,7 @@
         <!-- Main Body Panel -->
         <main class="flex-1 flex flex-col min-w-0 h-full overflow-y-auto">
             <!-- Top Navbar -->
-            <header class="bg-white border-b border-slate-200 px-4 py-2 flex items-center justify-between sticky top-0 z-20">
+            <header class="h-[60px] shrink-0 bg-white border-b border-slate-200 px-4 flex items-center justify-between sticky top-0 z-20">
                 <div class="flex items-center gap-3">
                     <h2 class="text-base font-bold text-slate-800">@yield('page_title', 'Overview')</h2>
                 </div>

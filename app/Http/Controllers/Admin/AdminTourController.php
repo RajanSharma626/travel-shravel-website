@@ -25,7 +25,7 @@ class AdminTourController extends Controller
             });
         }
 
-        $tours = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        $tours = $query->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
 
         return view('admin.tours.index', compact('tours'));
     }

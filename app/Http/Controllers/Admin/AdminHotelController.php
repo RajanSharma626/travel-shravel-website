@@ -25,7 +25,7 @@ class AdminHotelController extends Controller
             });
         }
 
-        $hotels = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        $hotels = $query->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
 
         return view('admin.hotels.index', compact('hotels'));
     }

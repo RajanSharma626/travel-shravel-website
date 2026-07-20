@@ -47,7 +47,7 @@ class AdminDashboardController extends Controller
             $query->where('user_type', $request->input('type'));
         }
 
-        $users = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        $users = $query->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
 
         return view('admin.users', compact('users'));
     }

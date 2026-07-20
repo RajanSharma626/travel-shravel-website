@@ -6,9 +6,9 @@
 @section('content')
 <div class="space-y-4">
     <!-- Filters, Search & Add Button -->
-    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-3">
         <!-- Search Form -->
-        <form action="{{ route('admin.faqs.index') }}" method="GET" class="w-full flex-1 flex flex-col sm:flex-row gap-2.5">
+        <form action="{{ route('admin.faqs.index') }}" method="GET" class="w-full md:max-w-md flex flex-col sm:flex-row gap-2.5">
             <div class="relative flex-1">
                 <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                 <input type="text" name="search" value="{{ request('search') }}" 

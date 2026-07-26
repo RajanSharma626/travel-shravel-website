@@ -185,46 +185,6 @@
                 </div>
             </section>
     
-            {{-- Newsletter Section --}}
-            <section class="py-20 bg-white">
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div
-                        class="bg-gray-50 rounded-[40px] px-8 py-16 md:px-16 md:py-20 flex flex-col lg:flex-row items-center justify-between gap-12 overflow-hidden relative group">
-                        {{-- Decorative background elements --}}
-                        <div
-                            class="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 bg-india-green/5 rounded-full blur-3xl group-hover:bg-india-green/10 transition-all duration-700">
-                        </div>
-                        <div
-                            class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-saffron/5 rounded-full blur-3xl group-hover:bg-saffron/10 transition-all duration-700">
-                        </div>
-    
-                        <div class="relative z-10 max-w-xl text-center lg:text-left">
-                            <h2 class="text-3xl font-bold text-navy mb-3 tracking-tight">
-                                Get Updates & More
-                            </h2>
-                            <p class="text-gray-500 text-xl font-medium">
-                                Thoughtful thoughts to your inbox
-                            </p>
-                        </div>
-    
-                        <div class="relative z-10 w-full max-w-md">
-                            <form action="#" class="relative group/form">
-                                <div
-                                    class="absolute -inset-1 bg-gradient-to-r from-india-green/20 to-saffron/20 rounded-3xl blur opacity-0 group-focus-within/form:opacity-100 transition duration-500">
-                                </div>
-                                <div class="relative flex flex-col sm:flex-row gap-3">
-                                    <input type="email" placeholder="Your email address"
-                                        class="flex-1 px-8 py-3 rounded-2xl bg-white border border-gray-200 focus:outline-none focus:ring-2 focus:ring-india-green/30 focus:border-india-green transition-all shadow-sm text-lg font-medium">
-                                    <button type="submit"
-                                        class="px-10 bg-india-green text-white rounded-2xl hover:bg-india-green/90 transition-all shadow-lg shadow-india-green/20 active:scale-95 whitespace-nowrap">
-                                        Subscribe
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
         @endif
     
         {{-- Footer --}}

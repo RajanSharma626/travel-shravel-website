@@ -42,9 +42,9 @@
     </section>
 
     {{-- Hero Slider --}}
-    <section class="py-10 bg-white">
+    <section class="py-6 sm:py-10 bg-white">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="relative rounded-2xl overflow-hidden h-[500px] border border-gray-200 group" id="hero-slider">
+            <div class="relative rounded-2xl overflow-hidden h-[260px] sm:h-[380px] md:h-[480px] border border-gray-200 group" id="hero-slider">
                 @php
                     $slides = !empty($activity->images) && is_array($activity->images) ? $activity->images : [$activity->primary_image ?: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80'];
                 @endphp

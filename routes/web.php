@@ -23,7 +23,7 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 // Navbar Placeholder Routes
-Route::get('/flights', function () { return view('welcome'); });
+Route::get('/flights', [HomeController::class, 'index']);
 Route::get('/train', function () {
     return view('train');
 });

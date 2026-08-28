@@ -306,7 +306,7 @@
                     <div class="h-48 overflow-hidden relative">
                         <img src="https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&q=80&w=800" alt="Resorts World Cruises"
                             class="w-full h-full object-cover">
-                        <span class="absolute top-4 left-4 px-2.5 py-1 text-[10px] font-bold tracking-widest rounded-md bg-saffron text-white uppercase shadow-sm">Featured</span>
+                        <span class="absolute top-4 left-4 px-2.5 py-1 text-[10px] font-bold tracking-widest rounded-md bg-india-green text-white uppercase shadow-sm">Featured</span>
                     </div>
                     <div class="p-6 flex-1 flex flex-col justify-between space-y-6">
                         <div>

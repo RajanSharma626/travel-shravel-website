@@ -56,7 +56,7 @@
                 <div class="lg:w-2/3 space-y-16">
                     
                     {{-- Hero Image --}}
-                    <div class="relative bg-gray-50 rounded-2xl overflow-hidden h-[400px] border border-gray-100 flex items-center justify-center p-8 group">
+                    <div class="relative bg-gray-50 rounded-2xl overflow-hidden h-[260px] sm:h-[340px] md:h-[400px] border border-gray-100 flex items-center justify-center p-4 sm:p-8 group">
                         <img src="{{ $car->primary_image ?: (!empty($car->images) && is_array($car->images) ? $car->images[0] : 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1600&q=80') }}" 
                             alt="{{ $car->name }}" class="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-700">
                         

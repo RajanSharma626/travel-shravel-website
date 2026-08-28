@@ -14,28 +14,28 @@
                 <span class="text-navy font-medium">{{ $hotel->name }}</span>
             </nav>
             
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 sm:gap-6">
                 <div>
-                    <h1 class="text-3xl md:text-3xl leading-tight mb-3">{{ $hotel->name }}</h1>
-                    <div class="flex items-center gap-4">
+                    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-libre-baskerville text-navy leading-tight mb-3">{{ $hotel->name }}</h1>
+                    <div class="flex flex-wrap items-center gap-2.5 sm:gap-4">
                         <span class="px-3 py-1 bg-saffron/10 text-saffron text-xs font-semibold rounded-lg uppercase tracking-wider">{{ $hotel->stars }} Stars</span>
-                        <div class="flex items-center gap-2 text-gray-500 text-sm">
-                            <i class="fa-solid fa-location-dot"></i>
+                        <div class="flex items-center gap-1.5 text-gray-500 text-xs sm:text-sm">
+                            <i class="fa-solid fa-location-dot text-saffron"></i>
                             <span>{{ $hotel->location }}</span>
                         </div>
-                        <div class="flex text-saffron text-xs ml-4">
+                        <div class="flex text-saffron text-xs">
                             @for($i = 1; $i <= 5; $i++)
                                 @if($i <= $hotel->stars)
                                     <i class="fa-solid fa-star"></i>
                                 @else
-                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star text-gray-300"></i>
                                 @endif
                             @endfor
                         </div>
-                        <span class="text-gray-400 text-sm">(0 Reviews)</span>
+                        <span class="text-gray-400 text-xs sm:text-sm">(0 Reviews)</span>
                     </div>
                 </div>
-                <div class="flex gap-3">
+                <div class="flex gap-3 mt-2 md:mt-0">
                     <button class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-navy hover:text-white hover:border-navy transition-all"><i class="fa-solid fa-share-nodes"></i></button>
                     <button class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-red-500 hover:text-white hover:border-red-500 transition-all"><i class="fa-regular fa-heart"></i></button>
                 </div>
@@ -44,9 +44,9 @@
     </section>
 
     {{-- Hero Slider --}}
-    <section class="py-10 bg-white">
+    <section class="py-6 sm:py-10 bg-white">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="relative rounded-2xl overflow-hidden h-[500px] border border-gray-200 group" id="hero-slider">
+            <div class="relative rounded-2xl overflow-hidden h-[260px] sm:h-[380px] md:h-[480px] border border-gray-200 group" id="hero-slider">
                 @php
                     $slides = !empty($hotel->images) && is_array($hotel->images) ? $hotel->images : [$hotel->primary_image ?: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80'];
                 @endphp

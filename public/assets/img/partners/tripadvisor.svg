@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 70" width="220" height="70" fill="none">
+    <!-- Owls eyes -->
+    <circle cx="28" cy="35" r="14" fill="#00af87"/>
+    <circle cx="28" cy="35" r="9" fill="#ffffff"/>
+    <circle cx="28" cy="35" r="5" fill="#0f172a"/>
+    <circle cx="56" cy="35" r="14" fill="#00af87"/>
+    <circle cx="56" cy="35" r="9" fill="#ffffff"/>
+    <circle cx="56" cy="35" r="5" fill="#0f172a"/>
+    <polygon points="42,32 46,24 38,24" fill="#00af87"/>
+    <polygon points="42,40 37,34 47,34" fill="#f59e0b"/>
+    <text x="80" y="42" font-family="'Poppins', sans-serif" font-size="20" font-weight="800" fill="#0f172a" letter-spacing="-0.5">Tripadvisor</text>
+</svg>

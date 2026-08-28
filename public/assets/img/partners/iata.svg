@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 70" width="200" height="70" fill="none">
+    <circle cx="45" cy="35" r="24" stroke="#0284c7" stroke-width="2.5" fill="none" opacity="0.3"/>
+    <ellipse cx="45" cy="35" rx="14" ry="24" stroke="#0284c7" stroke-width="2" fill="none"/>
+    <line x1="21" y1="35" x2="69" y2="35" stroke="#0284c7" stroke-width="2"/>
+    <text x="80" y="44" font-family="'Poppins', 'Arial Black', sans-serif" font-size="30" font-weight="900" fill="#0369a1" letter-spacing="2">IATA</text>
+    <text x="82" y="56" font-family="'Poppins', sans-serif" font-size="8" font-weight="600" fill="#64748b" letter-spacing="1">ACCREDITED AGENT</text>
+</svg>

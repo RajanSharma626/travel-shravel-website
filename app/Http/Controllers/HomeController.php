@@ -7,6 +7,7 @@ use App\Models\Tour;
 use App\Models\Hotel;
 use App\Models\Activity;
 use App\Models\Car;
+use App\Models\Testimonial;
 
 class HomeController extends Controller
 {
@@ -16,12 +17,14 @@ class HomeController extends Controller
         $featuredHotels = Hotel::where('is_featured', true)->paginate(6, ['*'], 'hotel_page');
         $featuredActivities = Activity::where('is_featured', true)->paginate(6, ['*'], 'activity_page');
         $featuredCars = Car::where('is_featured', true)->paginate(6, ['*'], 'car_page');
+        $testimonials = Testimonial::where('is_active', true)->orderBy('order', 'asc')->get();
 
         return view('welcome', compact(
             'featuredTours',
             'featuredHotels',
             'featuredActivities',
-            'featuredCars'
+            'featuredCars',
+            'testimonials'
         ));
     }
 }

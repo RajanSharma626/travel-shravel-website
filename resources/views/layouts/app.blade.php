@@ -38,8 +38,8 @@
 </head>
 
 <body class="min-h-screen flex flex-col bg-gray-50 text-gray-900">
-    {{-- Top Bar --}}
-    <div class="bg-saffron text-white text-sm py-2.5 relative z-[60]">
+    {{-- Top Bar (Hidden on Mobile) --}}
+    <div class="hidden lg:block bg-saffron text-white text-sm py-2.5 relative z-[60]">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <div class="flex items-center gap-4">
                 <div class="flex gap-3 items-center border-r border-white/20 pr-4">
@@ -82,12 +82,12 @@
                         </div>
                     </div>
                 @else
-                    <div class="flex items-center gap-4 border-r border-white/20 pr-4">
+                    <div class="flex items-center gap-4 border-r border-white/20 pr-4 text-sm">
                         <a href="{{ url('/login') }}" class="hover:text-white/85 transition">Login</a>
                         <a href="{{ url('/register') }}" class="hover:text-white/85 transition">Sign Up</a>
                     </div>
                 @endauth
-                <div class="flex items-center gap-1 group cursor-pointer">
+                <div class="flex items-center gap-1 group cursor-pointer text-sm">
                     <span>INR</span>
                     <i class="fa-solid fa-chevron-down text-[10px] group-hover:text-white/80 transition"></i>
                 </div>
@@ -98,12 +98,12 @@
     {{-- Navbar --}}
     <header class="bg-navy border-b border-white/10 shadow-lg sticky top-0 z-50">
         <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
-            <div class="flex h-20 items-center justify-between">
+            <div class="flex h-16 sm:h-20 items-center justify-between">
                 {{-- Logo Section --}}
                 <div class="flex flex-shrink-0 items-center">
                     <a href="{{ url('/') }}" class="group">
                         <img src="{{ asset('assets/img/logo-travel-shravel.png') }}" alt="Travel Shravel"
-                            class="h-16 w-auto transition-transform duration-300 group-hover:scale-105">
+                            class="h-12 sm:h-16 w-auto transition-transform duration-300 group-hover:scale-105">
                     </a>
                 </div>
 
@@ -148,12 +148,87 @@
 
                 {{-- Mobile Menu Button --}}
                 <div class="flex lg:hidden">
-                    <button type="button"
-                        class="inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-white/10 focus:outline-none">
+                    <button type="button" id="mobile-menu-toggle-btn"
+                        class="inline-flex items-center justify-center rounded-xl p-2.5 text-white hover:bg-white/10 focus:outline-none transition-colors"
+                        aria-label="Open mobile menu">
                         <i class="fa-solid fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
+        </nav>
+    </header>
+
+    {{-- Mobile Sidebar Drawer --}}
+    <div id="mobile-sidebar-container" class="fixed inset-0 z-[100] lg:hidden invisible pointer-events-none transition-all duration-300">
+        {{-- Backdrop Overlay --}}
+        <div id="mobile-sidebar-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+
+        {{-- Sidebar Panel --}}
+        <div id="mobile-sidebar" class="fixed top-0 left-0 bottom-0 w-[350px] sm:w-[420px] max-w-[92vw] bg-navy text-white shadow-2xl flex flex-col z-10 -translate-x-full transition-transform duration-300 ease-in-out border-r border-white/10">
+            {{-- Sidebar Header --}}
+            <div class="flex items-center justify-between px-6 h-20 border-b border-white/10 flex-shrink-0">
+                <a href="{{ url('/') }}" class="group">
+                    <img src="{{ asset('assets/img/logo-travel-shravel.png') }}" alt="Travel Shravel"
+                        class="h-12 w-auto transition-transform group-hover:scale-105">
+                </a>
+                <button type="button" id="mobile-sidebar-close-btn"
+                    class="h-10 w-10 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors focus:outline-none"
+                    aria-label="Close mobile menu">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            {{-- Sidebar Navigation Menu (All Normal Menu Items) --}}
+            <div class="flex-1 overflow-y-auto py-5 px-4 space-y-1.5 no-scrollbar">
+                <a href="{{ url('/') }}"
+                    class="flex items-center px-5 py-3.5 rounded-xl text-xs font-semibold tracking-widest {{ url('/') == Request::url() ? 'bg-saffron text-white shadow-sm' : 'text-white/90 hover:bg-white/10 hover:text-white' }} transition-all">HOME</a>
+                <a href="{{ url('/flights') }}"
+                    class="flex items-center px-5 py-3.5 rounded-xl text-xs font-semibold tracking-widest {{ url('/flights') == Request::url() ? 'bg-saffron text-white shadow-sm' : 'text-white/90 hover:bg-white/10 hover:text-white' }} transition-all">FLIGHTS</a>
+                <a href="{{ url('/hotel-search-layout') }}"
+                    class="flex items-center px-5 py-3.5 rounded-xl text-xs font-semibold tracking-widest {{ url('/hotel-search-layout') == Request::url() ? 'bg-saffron text-white shadow-sm' : 'text-white/90 hover:bg-white/10 hover:text-white' }} transition-all">HOTEL</a>
+                <a href="{{ url('/train') }}"
+                    class="flex items-center px-5 py-3.5 rounded-xl text-xs font-semibold tracking-widest {{ url('/train') == Request::url() ? 'bg-saffron text-white shadow-sm' : 'text-white/90 hover:bg-white/10 hover:text-white' }} transition-all">TRAIN</a>
+                <a href="{{ url('/tour') }}"
+                    class="flex items-center px-5 py-3.5 rounded-xl text-xs font-semibold tracking-widest {{ url('/tour') == Request::url() ? 'bg-saffron text-white shadow-sm' : 'text-white/90 hover:bg-white/10 hover:text-white' }} transition-all">TOUR</a>
+                <a href="{{ url('/activities') }}"
+                    class="flex items-center px-5 py-3.5 rounded-xl text-xs font-semibold tracking-widest {{ url('/activities') == Request::url() ? 'bg-saffron text-white shadow-sm' : 'text-white/90 hover:bg-white/10 hover:text-white' }} transition-all">ACTIVITIES</a>
+                <a href="{{ url('/cars') }}"
+                    class="flex items-center px-5 py-3.5 rounded-xl text-xs font-semibold tracking-widest {{ url('/cars') == Request::url() ? 'bg-saffron text-white shadow-sm' : 'text-white/90 hover:bg-white/10 hover:text-white' }} transition-all">CAR</a>
+                <a href="{{ url('/bus') }}"
+                    class="flex items-center px-5 py-3.5 rounded-xl text-xs font-semibold tracking-widest {{ url('/bus') == Request::url() ? 'bg-saffron text-white shadow-sm' : 'text-white/90 hover:bg-white/10 hover:text-white' }} transition-all">BUS</a>
+                <a href="{{ url('/cruise') }}"
+                    class="flex items-center px-5 py-3.5 rounded-xl text-xs font-semibold tracking-widest {{ url('/cruise') == Request::url() ? 'bg-saffron text-white shadow-sm' : 'text-white/90 hover:bg-white/10 hover:text-white' }} transition-all">CRUISE</a>
+                <a href="{{ url('/insurance') }}"
+                    class="flex items-center px-5 py-3.5 rounded-xl text-xs font-semibold tracking-widest {{ url('/insurance') == Request::url() ? 'bg-saffron text-white shadow-sm' : 'text-white/90 hover:bg-white/10 hover:text-white' }} transition-all">INSURANCE</a>
+                <a href="{{ url('/visa') }}"
+                    class="flex items-center px-5 py-3.5 rounded-xl text-xs font-semibold tracking-widest {{ url('/visa') == Request::url() ? 'bg-saffron text-white shadow-sm' : 'text-white/90 hover:bg-white/10 hover:text-white' }} transition-all">VISA</a>
+            </div>
+
+            {{-- Sidebar Footer (Auth / Actions) --}}
+            <div class="p-5 border-t border-white/10 bg-navy/50 flex-shrink-0">
+                @auth
+                    <div class="flex items-center justify-between px-2 py-1 mb-3">
+                        <div class="flex items-center gap-2 text-white">
+                            <i class="fa-solid fa-circle-user text-lg text-saffron"></i>
+                            <span class="font-semibold text-xs truncate max-w-[140px]">{{ Auth::user()->name }}</span>
+                        </div>
+                        <a href="{{ route('profile') }}" class="text-xs text-white/90 hover:text-saffron underline font-medium">My Profile</a>
+                    </div>
+                    <form method="POST" action="{{ route('logout') }}" class="block">
+                        @csrf
+                        <button type="submit" class="w-full text-center py-2.5 rounded-xl text-xs font-bold bg-white/10 text-red-300 hover:bg-red-500/20 hover:text-red-200 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                        </button>
+                    </form>
+                @else
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="{{ url('/login') }}" class="text-center py-2.5 rounded-xl text-xs font-bold bg-white/10 text-white hover:bg-white/20 transition-all">Login</a>
+                        <a href="{{ url('/register') }}" class="text-center py-2.5 rounded-xl text-xs font-bold bg-saffron text-white hover:bg-saffron/90 transition-all shadow-sm">Sign Up</a>
+                    </div>
+                @endauth
+            </div>
+        </div>
+    </div>
         </nav>
     </header>
 
@@ -176,9 +251,9 @@
 
                         @foreach($partners as $partner)
                         <div class="px-8 outline-none">
-                            <img src="{{ $partner->image_url }}"
+                            <img src="{{ str_starts_with($partner->image_url, 'http') ? $partner->image_url : asset($partner->image_url) }}"
                                 alt="{{ $partner->name }}"
-                                class="h-10 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300 mx-auto object-contain">
+                                class="h-10 w-auto grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 mx-auto object-contain">
                         </div>
                         @endforeach
                     </div>
@@ -189,8 +264,8 @@
     
         {{-- Footer --}}
         <footer class="bg-grey-50 border-t border-gray-100">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-8">
                     {{-- Column 1: NEED HELP? --}}
                     <div>
                         <h3 class="text-[15px] font-semibold text-navy uppercase tracking-widest mb-4">Need Help?</h3>
@@ -321,29 +396,10 @@
             {{-- Bottom Bar --}}
             <div class="border-t border-gray-100 py-8">
                 <div
-                    class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+                    class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
                     <p class="text-[14px] font-medium text-gray-500">
-                        Copyright © {{ date('Y') }} by <span class="text-navy">Travel Shravel</span>
+                        Copyright © {{ date('Y') }} by <span class="text-navy font-semibold">Travel Shravel</span>. All rights reserved.
                     </p>
-                    <div class="flex items-center gap-3">
-                        {{-- Simulated Payment Icons matching design --}}
-                        <div
-                            class="h-10 w-10 rounded-full bg-[#2D3436] flex items-center justify-center group cursor-help transition-all hover:scale-110">
-                            <span class="text-[8px] text-[#55EFC4] leading-tight text-center">₹<br>NEFT</span>
-                        </div>
-                        <div
-                            class="h-10 w-10 rounded-full bg-[#2D3436] flex items-center justify-center group cursor-help transition-all hover:scale-110">
-                            <span class="text-[8px] text-[#55EFC4] leading-tight text-center">₹<br>RTGS</span>
-                        </div>
-                        <div
-                            class="h-10 w-10 rounded-full bg-[#2D3436] flex items-center justify-center group cursor-help transition-all hover:scale-110">
-                            <span class="text-[8px] text-[#55EFC4] leading-tight text-center">₹<br>IMPS</span>
-                        </div>
-                        <div
-                            class="h-10 w-10 rounded-full bg-[#2D3436] flex items-center justify-center group cursor-help transition-all hover:scale-110">
-                            <span class="text-[8px] text-[#55EFC4] leading-tight text-center">₹<br>UPI</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </footer>
@@ -421,6 +477,48 @@
                             if (arrow) arrow.classList.remove('rotate-180');
                         }
                     }
+                })();
+
+                // Mobile Sidebar Drawer Logic
+                (function() {
+                    const openBtn = document.getElementById('mobile-menu-toggle-btn');
+                    const closeBtn = document.getElementById('mobile-sidebar-close-btn');
+                    const container = document.getElementById('mobile-sidebar-container');
+                    const backdrop = document.getElementById('mobile-sidebar-backdrop');
+                    const sidebar = document.getElementById('mobile-sidebar');
+
+                    function openSidebar() {
+                        if (!container || !sidebar || !backdrop) return;
+                        container.classList.remove('invisible', 'pointer-events-none');
+                        void container.offsetWidth;
+                        backdrop.classList.remove('opacity-0');
+                        backdrop.classList.add('opacity-100');
+                        sidebar.classList.remove('-translate-x-full');
+                        sidebar.classList.add('translate-x-0');
+                        document.body.style.overflow = 'hidden';
+                    }
+
+                    function closeSidebar() {
+                        if (!container || !sidebar || !backdrop) return;
+                        backdrop.classList.remove('opacity-100');
+                        backdrop.classList.add('opacity-0');
+                        sidebar.classList.remove('translate-x-0');
+                        sidebar.classList.add('-translate-x-full');
+                        document.body.style.overflow = '';
+                        setTimeout(function() {
+                            container.classList.add('invisible', 'pointer-events-none');
+                        }, 300);
+                    }
+
+                    if (openBtn) openBtn.addEventListener('click', openSidebar);
+                    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+                    if (backdrop) backdrop.addEventListener('click', closeSidebar);
+
+                    document.addEventListener('keydown', function(e) {
+                        if (e.key === 'Escape' && container && !container.classList.contains('invisible')) {
+                            closeSidebar();
+                        }
+                    });
                 })();
             });
         </script>

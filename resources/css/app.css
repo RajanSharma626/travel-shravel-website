@@ -18,3 +18,14 @@
     --color-navy-deep: #172554;
     --color-navy-tint: #DBEAFE;
 }
+
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+

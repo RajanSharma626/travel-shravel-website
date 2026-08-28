@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 70" width="220" height="70" fill="none">
+    <rect x="10" y="14" width="42" height="42" rx="8" fill="#1e3a8a"/>
+    <path d="M 20 28 L 31 19 L 42 28 M 31 22 L 31 46" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="62" y="38" font-family="'Poppins', sans-serif" font-size="24" font-weight="900" fill="#1e3a8a" letter-spacing="1.5">TAAI</text>
+    <text x="62" y="52" font-family="'Poppins', sans-serif" font-size="8.5" font-weight="600" fill="#475569" letter-spacing="0.5">TRAVEL AGENTS ASSOC. OF INDIA</text>
+</svg>

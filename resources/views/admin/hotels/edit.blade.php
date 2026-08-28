@@ -176,8 +176,11 @@
                         $amenities = old('amenities', $hotel->amenities ?? []);
                     @endphp
                     @foreach($amenities as $index => $amenity)
+                    @php
+                        $amenityVal = is_array($amenity) ? ($amenity['name'] ?? ($amenity['title'] ?? '')) : (is_object($amenity) ? ($amenity->name ?? '') : (string)$amenity);
+                    @endphp
                     <div class="flex items-center gap-2" id="amenity-row-{{ $index }}">
-                        <input type="text" name="amenities[]" value="{{ $amenity }}" 
+                        <input type="text" name="amenities[]" value="{{ $amenityVal }}" 
                                class="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition">
                         <button type="button" onclick="removeElement('amenity-row-{{ $index }}')" class="w-8 h-8 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-lg flex items-center justify-center transition flex-shrink-0 shadow-sm" title="Remove">
                             <i class="fa-solid fa-trash-can text-[10px]"></i>
@@ -185,120 +188,171 @@
                     </div>
                     @endforeach
                 </div>
-            </div>
-
-            <!-- Section: Room Types (Dynamic list) -->
+            </div>            <!-- Section: Room Types (Dynamic list with Name, Price, Capacity, Description & Image) -->
             <div class="space-y-4 pt-2">
                 <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-                    <h4 class="text-xs font-bold text-primary uppercase tracking-wider">5. Room Types</h4>
+                    <div>
+                        <h4 class="text-xs font-bold text-primary uppercase tracking-wider">5. Room Types & Rates</h4>
+                        <p class="text-[10px] text-slate-400">Configure different room categories, custom prices per night, guest capacity, and room photos.</p>
+                    </div>
                     <button type="button" onclick="addRoomType()" class="px-3 py-1 bg-blue-50 hover:bg-blue-100 text-primary border border-blue-200 rounded-lg text-[10px] font-bold transition flex items-center gap-1 shadow-sm">
-                        <i class="fa-solid fa-plus"></i> Add Room Type
+                        <i class="fa-solid fa-plus"></i> Add Room Category
                     </button>
                 </div>
-                <div id="room-types-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                
+                <div id="room-types-container" class="space-y-4">
                     @php
                         $roomTypes = old('room_types', $hotel->room_types ?? []);
+                        if (empty($roomTypes)) {
+                            $roomTypes = [
+                                ['name' => 'Deluxe Room', 'price' => $hotel->price ?? 4999, 'capacity' => '2 Adults', 'description' => 'Comfortable and spacious room with modern amenities.', 'image' => null],
+                            ];
+                        }
                     @endphp
                     @foreach($roomTypes as $index => $room)
-                    <div class="flex items-center gap-2" id="room-row-{{ $index }}">
-                        <input type="text" name="room_types[]" value="{{ $room }}" 
-                               class="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition">
-                        <button type="button" onclick="removeElement('room-row-{{ $index }}')" class="w-8 h-8 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-lg flex items-center justify-center transition flex-shrink-0 shadow-sm" title="Remove">
-                            <i class="fa-solid fa-trash-can text-[10px]"></i>
-                        </button>
+                    @php
+                        $rName = is_array($room) ? ($room['name'] ?? '') : (string)$room;
+                        $rPrice = is_array($room) && isset($room['price']) ? $room['price'] : ($hotel->price ?? '');
+                        $rCapacity = is_array($room) && isset($room['capacity']) ? $room['capacity'] : '2 Adults';
+                        $rDesc = is_array($room) && isset($room['description']) ? $room['description'] : '';
+                        $rImage = is_array($room) && isset($room['image']) ? $room['image'] : '';
+                    @endphp
+                    <div class="p-4 bg-slate-50/70 border border-slate-200 rounded-xl space-y-3 relative group" id="room-card-{{ $index }}">
+                        <div class="flex items-center justify-between border-b border-slate-200/60 pb-2">
+                            <span class="text-xs font-bold text-slate-700 flex items-center gap-2">
+                                <i class="fa-solid fa-door-open text-primary"></i>
+                                <span class="room-title-label">Room Category #{{ $index + 1 }}</span>
+                            </span>
+                            <button type="button" onclick="removeRoomType('room-card-{{ $index }}')" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-lg text-[10px] font-bold transition flex items-center gap-1 shadow-sm" title="Remove Room">
+                                <i class="fa-solid fa-trash-can"></i> Remove
+                            </button>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                            <!-- Room Name -->
+                            <div class="sm:col-span-2">
+                                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Room Name <span class="text-rose-500">*</span></label>
+                                <input type="text" name="room_types[{{ $index }}][name]" value="{{ $rName }}" placeholder="e.g. Deluxe Mountain View Room" required
+                                       class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition bg-white">
+                            </div>
+                            
+                            <!-- Room Price -->
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Price / Night (₹) <span class="text-rose-500">*</span></label>
+                                <input type="number" step="0.01" name="room_types[{{ $index }}][price]" value="{{ $rPrice }}" placeholder="e.g. 5999" required
+                                       class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition bg-white">
+                            </div>
+
+                            <!-- Capacity -->
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Guests / Capacity</label>
+                                <input type="text" name="room_types[{{ $index }}][capacity]" value="{{ $rCapacity }}" placeholder="e.g. 2 Adults, 1 Child"
+                                       class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition bg-white">
+                            </div>
+
+                            <!-- Room Description -->
+                            <div class="sm:col-span-2">
+                                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Bed & Feature Details (Optional)</label>
+                                <input type="text" name="room_types[{{ $index }}][description]" value="{{ $rDesc }}" placeholder="e.g. 1 King Bed, Mountain View, Private Balcony"
+                                       class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition bg-white">
+                            </div>
+
+                            <!-- Room Image Upload -->
+                            <div class="sm:col-span-2">
+                                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Room Photo Upload</label>
+                                <input type="hidden" name="room_types[{{ $index }}][existing_image]" id="room-existing-img-{{ $index }}" value="{{ $rImage }}">
+                                
+                                <div class="flex items-center gap-3">
+                                    <div class="w-16 h-12 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden flex items-center justify-center flex-shrink-0" id="room-preview-box-{{ $index }}">
+                                        @if($rImage)
+                                            <img src="{{ $rImage }}" class="w-full h-full object-cover">
+                                        @else
+                                            <i class="fa-regular fa-image text-slate-300 text-lg"></i>
+                                        @endif
+                                    </div>
+                                    <input type="file" name="room_type_images[{{ $index }}]" accept="image/*" onchange="previewRoomImage(this, {{ $index }})" 
+                                           class="text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-blue-50 file:text-primary hover:file:bg-blue-100 transition cursor-pointer">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     @endforeach
                 </div>
             </div>
 
-            <!-- Section: Gallery & Images -->
+            <!-- Section: Gallery & Images (Direct Upload Only) -->
             <div class="space-y-4 pt-2">
                 <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-                    <h4 class="text-xs font-bold text-primary uppercase tracking-wider">6. Gallery & Images</h4>
-                    <button type="button" onclick="addImageUrl()" class="px-3 py-1 bg-blue-50 hover:bg-blue-100 text-primary border border-blue-200 rounded-lg text-[10px] font-bold transition flex items-center gap-1 shadow-sm">
-                        <i class="fa-solid fa-plus"></i> Add Image URL
-                    </button>
+                    <div>
+                        <h4 class="text-xs font-bold text-primary uppercase tracking-wider">6. Hotel Photo Gallery</h4>
+                        <p class="text-[10px] text-slate-400">Directly upload hotel images from your device. Click the gold star to set the primary cover image.</p>
+                    </div>
                 </div>
                 
                 <!-- Hidden input to track primary image selection -->
                 <input type="hidden" name="primary_image" id="primary-image-input" value="{{ old('primary_image', $hotel->primary_image ?? '') }}">
 
-                <!-- URL list -->
-                <div class="space-y-2">
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Image URLs</label>
-                    <div id="image-urls-container" class="space-y-2">
-                        @php
-                            $images = old('images', $hotel->images ?? []);
-                            $externalImages = [];
-                            $localImages = [];
-                            foreach ($images as $img) {
-                                if (str_contains($img, '/storage/')) {
-                                    $localImages[] = $img;
-                                } else {
-                                    $externalImages[] = $img;
-                                }
-                            }
-                        @endphp
-                        
-                        <!-- Hidden container for preloaded local images so they submit with the form -->
-                        <div id="local-images-hidden-container" class="hidden">
-                            @foreach($localImages as $index => $localImg)
-                            <input type="hidden" name="images[]" id="local-img-input-{{ $index }}" value="{{ $localImg }}">
-                            @endforeach
-                        </div>
-
-                        @foreach($externalImages as $index => $imageUrl)
-                        <div class="flex items-center gap-2" id="image-url-{{ $index }}">
-                            <input type="url" name="images[]" value="{{ $imageUrl }}" oninput="updateUrlPreview(this, {{ $index }})" placeholder="https://example.com/hotel-image.jpg" 
-                                   class="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition">
-                            <button type="button" onclick="removeImageUrlInput({{ $index }}, '{{ $imageUrl }}')" class="w-8 h-8 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-lg flex items-center justify-center transition flex-shrink-0 shadow-sm" title="Remove">
-                                <i class="fa-solid fa-trash-can text-[10px]"></i>
-                            </button>
-                        </div>
-                        @endforeach
-                    </div>
+                <!-- Hidden inputs container for existing saved images -->
+                <div id="existing-images-hidden-container">
+                    @php
+                        $existingImages = old('images', $hotel->images ?? []);
+                    @endphp
+                    @foreach($existingImages as $index => $img)
+                        @if(!empty($img))
+                            <input type="hidden" name="existing_images[]" id="existing-img-input-{{ $index }}" value="{{ $img }}">
+                        @endif
+                    @endforeach
                 </div>
 
-                <!-- File uploads wrapper -->
+                <!-- File uploads drag & drop dropzone -->
                 <div class="space-y-1">
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Upload Local Image Files</label>
-                    <div class="relative bg-slate-50 border-2 border-dashed border-slate-300 hover:border-primary/50 rounded-xl p-6 transition flex flex-col items-center justify-center text-center cursor-pointer group" id="dropzone" onclick="document.getElementById('local-file-selector').click()">
-                        <!-- Hidden file input -->
-                        <input type="file" id="local-file-selector" multiple accept="image/*" onchange="handleLocalFileSelect(this)" class="hidden">
-                        <i class="fa-solid fa-cloud-arrow-up text-2xl text-slate-400 group-hover:text-primary transition mb-2 animate-bounce-slow"></i>
-                        <p class="text-xs font-semibold text-slate-600">Drag & drop your images here, or <span class="text-primary hover:underline">browse</span></p>
-                        <p class="text-[9px] text-slate-400 mt-1">Supports JPG, PNG, GIF, WebP. Multiple selections allowed.</p>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Upload Gallery Images</label>
+                    <div class="relative bg-slate-50 border-2 border-dashed border-slate-300 hover:border-primary/50 rounded-xl p-8 transition flex flex-col items-center justify-center text-center cursor-pointer group" id="dropzone" onclick="document.getElementById('local-file-selector').click()">
+                        <!-- File input -->
+                        <input type="file" name="image_files[]" id="local-file-selector" multiple accept="image/*" onchange="handleLocalFileSelect(this)" class="hidden">
+                        <i class="fa-solid fa-cloud-arrow-up text-3xl text-slate-400 group-hover:text-primary transition mb-2"></i>
+                        <p class="text-xs font-bold text-slate-700">Drag & drop photos here, or <span class="text-primary hover:underline">Browse from Computer</span></p>
+                        <p class="text-[10px] text-slate-400 mt-1">Supports JPG, PNG, WEBP, GIF. You can select multiple images at once.</p>
                     </div>
                 </div>
 
                 <!-- Hidden inputs container for local uploads -->
                 <div id="hidden-file-inputs-container" class="hidden"></div>
 
-                <!-- Preview Gallery Grid -->
+                <!-- Gallery Preview Grid -->
                 <div class="space-y-2 mt-4">
-                    <label class="block text-xs font-semibold text-slate-600">Gallery Previews</label>
-                    <div id="gallery-preview-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-3 bg-slate-50 rounded-xl border border-slate-200 min-h-[100px] items-center justify-center text-center">
-                        <!-- Preloaded local images -->
-                        @foreach($localImages as $index => $localImg)
-                        @php
-                            $isPrimary = ($localImg === ($hotel->primary_image ?? ''));
-                            $starClass = $isPrimary ? 'text-amber-400' : 'text-slate-400 hover:text-amber-400';
-                        @endphp
-                        <div class="relative group rounded-lg overflow-hidden border border-slate-200 aspect-video bg-white shadow-sm" id="preview-preloaded-{{ $index }}">
-                            <img src="{{ $localImg }}" class="w-full h-full object-cover">
-                            <button type="button" onclick="setPrimaryImage(this, '{{ $localImg }}')" class="primary-star absolute top-1.5 left-1.5 w-6 h-6 bg-black/45 rounded-full flex items-center justify-center {{ $starClass }} transition cursor-pointer z-10" title="Set as Primary">
-                                <i class="fa-solid fa-star text-xs"></i>
-                            </button>
-                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center p-2">
-                                <button type="button" onclick="removePreloadedLocalImage({{ $index }}, '{{ $localImg }}')" class="w-8 h-8 bg-rose-600 hover:bg-rose-700 text-white rounded-full flex items-center justify-center transition shadow">
-                                    <i class="fa-solid fa-xmark text-sm"></i>
-                                </button>
-                            </div>
-                        </div>
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-bold text-slate-700">Photo Previews & Primary Cover</label>
+                        <span class="text-[10px] text-slate-400 flex items-center gap-1"><i class="fa-solid fa-star text-amber-400"></i> Gold star indicates Primary Cover</span>
+                    </div>
+                    
+                    <div id="gallery-preview-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4 bg-slate-50/70 rounded-xl border border-slate-200 min-h-[120px] items-center">
+                        <!-- Preloaded existing images -->
+                        @foreach($existingImages as $index => $img)
+                            @if(!empty($img))
+                                @php
+                                    $isPrimary = ($img === ($hotel->primary_image ?? ''));
+                                @endphp
+                                <div class="relative group rounded-xl overflow-hidden border border-slate-200 aspect-video bg-white shadow-sm" id="preview-existing-{{ $index }}">
+                                    <img src="{{ $img }}" class="w-full h-full object-cover">
+                                    <button type="button" onclick="setPrimaryImage(this, '{{ $img }}')" class="primary-star absolute top-2 left-2 w-7 h-7 bg-black/50 backdrop-blur rounded-full flex items-center justify-center {{ $isPrimary ? 'text-amber-400' : 'text-white/70 hover:text-amber-400' }} transition z-10" title="Set as Primary Cover">
+                                        <i class="fa-solid fa-star text-xs"></i>
+                                    </button>
+                                    @if($isPrimary)
+                                        <span class="primary-badge absolute bottom-2 left-2 px-2 py-0.5 bg-amber-500 text-white text-[9px] font-extrabold rounded-md shadow uppercase tracking-wider z-10">Primary Cover</span>
+                                    @endif
+                                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center p-2">
+                                        <button type="button" onclick="removeExistingImage({{ $index }}, '{{ $img }}')" class="w-8 h-8 bg-rose-600 hover:bg-rose-700 text-white rounded-full flex items-center justify-center transition shadow" title="Delete Photo">
+                                            <i class="fa-solid fa-trash-can text-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endif
                         @endforeach
 
-                        <p id="empty-gallery-msg" class="col-span-full text-slate-400 text-xs py-4" style="{{ count($images) > 0 ? 'display: none;' : '' }}">
-                            No images added yet. Paste a URL above or upload local files to see previews.
+                        <p id="empty-gallery-msg" class="col-span-full text-slate-400 text-xs py-6 text-center" style="{{ count($existingImages) > 0 ? 'display: none;' : '' }}">
+                            <i class="fa-regular fa-images text-2xl text-slate-300 block mb-1"></i>
+                            No photos uploaded yet. Drag & drop or browse photos above.
                         </p>
                     </div>
                 </div>
@@ -322,7 +376,6 @@
 <script>
     let amenityCounter = {{ count($amenities) }};
     let roomCounter = {{ count($roomTypes) }};
-    let imageCounter = {{ max(count($images), 1) }};
     let localFileCounter = 0;
 
     function addAmenity() {
@@ -344,37 +397,81 @@
 
     function addRoomType() {
         const container = document.getElementById('room-types-container');
-        const rowId = `room-row-${roomCounter}`;
+        const id = roomCounter;
+        const cardId = `room-card-${id}`;
 
         const html = `
-            <div class="flex items-center gap-2" id="${rowId}">
-                <input type="text" name="room_types[]" placeholder="Enter Room Type" 
-                       class="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition">
-                <button type="button" onclick="removeElement('${rowId}')" class="w-8 h-8 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-lg flex items-center justify-center transition flex-shrink-0 shadow-sm" title="Remove">
-                    <i class="fa-solid fa-trash-can text-[10px]"></i>
-                </button>
+            <div class="p-4 bg-slate-50/70 border border-slate-200 rounded-xl space-y-3 relative group" id="${cardId}">
+                <div class="flex items-center justify-between border-b border-slate-200/60 pb-2">
+                    <span class="text-xs font-bold text-slate-700 flex items-center gap-2">
+                        <i class="fa-solid fa-door-open text-primary"></i>
+                        <span class="room-title-label">Room Category #${id + 1}</span>
+                    </span>
+                    <button type="button" onclick="removeRoomType('${cardId}')" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-lg text-[10px] font-bold transition flex items-center gap-1 shadow-sm" title="Remove Room">
+                        <i class="fa-solid fa-trash-can"></i> Remove
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Room Name <span class="text-rose-500">*</span></label>
+                        <input type="text" name="room_types[${id}][name]" placeholder="e.g. Executive Suite Room" required
+                               class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition bg-white">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Price / Night (₹) <span class="text-rose-500">*</span></label>
+                        <input type="number" step="0.01" name="room_types[${id}][price]" placeholder="e.g. 7499" required
+                               class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition bg-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Guests / Capacity</label>
+                        <input type="text" name="room_types[${id}][capacity]" value="2 Adults" placeholder="e.g. 2 Adults"
+                               class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition bg-white">
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Bed & Feature Details (Optional)</label>
+                        <input type="text" name="room_types[${id}][description]" placeholder="e.g. 1 King Bed, Panoramic Views"
+                               class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition bg-white">
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Room Photo Upload</label>
+                        <input type="hidden" name="room_types[${id}][existing_image]" id="room-existing-img-${id}" value="">
+                        
+                        <div class="flex items-center gap-3">
+                            <div class="w-16 h-12 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden flex items-center justify-center flex-shrink-0" id="room-preview-box-${id}">
+                                <i class="fa-regular fa-image text-slate-300 text-lg"></i>
+                            </div>
+                            <input type="file" name="room_type_images[${id}]" accept="image/*" onchange="previewRoomImage(this, ${id})" 
+                                   class="text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-blue-50 file:text-primary hover:file:bg-blue-100 transition cursor-pointer">
+                        </div>
+                    </div>
+                </div>
             </div>
         `;
         container.insertAdjacentHTML('beforeend', html);
         roomCounter++;
     }
 
-    function addImageUrl() {
-        const container = document.getElementById('image-urls-container');
-        const id = imageCounter;
-        const rowId = `image-url-${id}`;
+    function removeRoomType(cardId) {
+        const el = document.getElementById(cardId);
+        if (el) {
+            el.remove();
+        }
+    }
 
-        const html = `
-            <div class="flex items-center gap-2" id="${rowId}">
-                <input type="url" name="images[]" oninput="updateUrlPreview(this, ${id})" placeholder="https://example.com/hotel-image.jpg" 
-                       class="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition">
-                <button type="button" onclick="removeImageUrlInput(${id})" class="w-8 h-8 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-lg flex items-center justify-center transition flex-shrink-0 shadow-sm" title="Remove">
-                    <i class="fa-solid fa-trash-can text-[10px]"></i>
-                </button>
-            </div>
-        `;
-        container.insertAdjacentHTML('beforeend', html);
-        imageCounter++;
+    function previewRoomImage(input, index) {
+        const box = document.getElementById(`room-preview-box-${index}`);
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                box.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
     }
 
     function removeElement(id) {
@@ -384,69 +481,7 @@
         }
     }
 
-    // New Image Gallery functions
-    function updateUrlPreview(input, id) {
-        const url = input.value.trim();
-        const grid = document.getElementById('gallery-preview-grid');
-        const emptyMsg = document.getElementById('empty-gallery-msg');
-        
-        let previewCard = document.getElementById(`preview-url-${id}`);
-        
-        if (!url) {
-            if (previewCard) previewCard.remove();
-            checkEmptyGallery();
-            return;
-        }
-
-        if (emptyMsg) emptyMsg.style.display = 'none';
-
-        const primaryValue = document.getElementById('primary-image-input').value;
-        const isPrimary = (url === primaryValue);
-        const starClass = isPrimary ? 'text-amber-400' : 'text-slate-400 hover:text-amber-400';
-
-        if (!previewCard) {
-            const html = `
-                <div class="relative group rounded-lg overflow-hidden border border-slate-200 aspect-video bg-white shadow-sm" id="preview-url-${id}">
-                    <img src="${url}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400?text=Invalid+Image+URL'">
-                    <button type="button" onclick="setPrimaryImage(this, '${url}')" class="primary-star absolute top-1.5 left-1.5 w-6 h-6 bg-black/45 rounded-full flex items-center justify-center ${starClass} transition cursor-pointer z-10" title="Set as Primary">
-                        <i class="fa-solid fa-star text-xs"></i>
-                    </button>
-                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center p-2">
-                        <button type="button" onclick="removeImageUrlInput(${id}, '${url}')" class="w-8 h-8 bg-rose-600 hover:bg-rose-700 text-white rounded-full flex items-center justify-center transition shadow">
-                            <i class="fa-solid fa-xmark text-sm"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-            grid.insertAdjacentHTML('beforeend', html);
-            autoSelectFirstImageAsPrimary();
-        } else {
-            const img = previewCard.querySelector('img');
-            if (img) img.src = url;
-
-            const starBtn = previewCard.querySelector('.primary-star');
-            if (starBtn) {
-                starBtn.setAttribute('onclick', `setPrimaryImage(this, '${url}')`);
-            }
-        }
-    }
-
-    function removeImageUrlInput(id, url) {
-        const row = document.getElementById(`image-url-${id}`);
-        if (row) row.remove();
-        
-        const previewCard = document.getElementById(`preview-url-${id}`);
-        if (previewCard) previewCard.remove();
-
-        const primaryInput = document.getElementById('primary-image-input');
-        if (primaryInput.value === url) {
-            primaryInput.value = '';
-        }
-        
-        checkEmptyGallery();
-        autoSelectFirstImageAsPrimary();
-    }
-
+    // Direct Image Gallery Uploader functions
     function handleLocalFileSelect(selectorInput) {
         const files = selectorInput.files;
         if (!files.length) return;
@@ -480,18 +515,17 @@
             hiddenInputsContainer.appendChild(newInput);
 
             const isPrimary = (file.name === primaryValue);
-            const starClass = isPrimary ? 'text-amber-400' : 'text-slate-400 hover:text-amber-400';
 
             // Add preview card
             const html = `
-                <div class="relative group rounded-lg overflow-hidden border border-slate-200 aspect-video bg-white shadow-sm" id="preview-${fileId}">
+                <div class="relative group rounded-xl overflow-hidden border border-slate-200 aspect-video bg-white shadow-sm" id="preview-${fileId}">
                     <img src="${objectUrl}" class="w-full h-full object-cover">
-                    <button type="button" onclick="setPrimaryImage(this, '${file.name}')" class="primary-star absolute top-1.5 left-1.5 w-6 h-6 bg-black/45 rounded-full flex items-center justify-center ${starClass} transition cursor-pointer z-10" title="Set as Primary">
+                    <button type="button" onclick="setPrimaryImage(this, '${file.name}')" class="primary-star absolute top-2 left-2 w-7 h-7 bg-black/50 backdrop-blur rounded-full flex items-center justify-center ${isPrimary ? 'text-amber-400' : 'text-white/70 hover:text-amber-400'} transition z-10" title="Set as Primary Cover">
                         <i class="fa-solid fa-star text-xs"></i>
                     </button>
                     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center p-2">
-                        <button type="button" onclick="removeLocalFile('${fileId}', '${file.name}')" class="w-8 h-8 bg-rose-600 hover:bg-rose-700 text-white rounded-full flex items-center justify-center transition shadow">
-                            <i class="fa-solid fa-xmark text-sm"></i>
+                        <button type="button" onclick="removeLocalFile('${fileId}', '${file.name}')" class="w-8 h-8 bg-rose-600 hover:bg-rose-700 text-white rounded-full flex items-center justify-center transition shadow" title="Delete Photo">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
                         </button>
                     </div>
                 </div>
@@ -519,11 +553,11 @@
         autoSelectFirstImageAsPrimary();
     }
 
-    function removePreloadedLocalImage(index, imageUrl) {
-        const hiddenInput = document.getElementById(`local-img-input-${index}`);
+    function removeExistingImage(index, imageUrl) {
+        const hiddenInput = document.getElementById(`existing-img-input-${index}`);
         if (hiddenInput) hiddenInput.remove();
 
-        const previewCard = document.getElementById(`preview-preloaded-${index}`);
+        const previewCard = document.getElementById(`preview-existing-${index}`);
         if (previewCard) previewCard.remove();
 
         const primaryInput = document.getElementById('primary-image-input');
@@ -538,15 +572,22 @@
     function setPrimaryImage(buttonEl, value) {
         document.getElementById('primary-image-input').value = value;
         
-        // Reset all star buttons to default style
+        // Reset all star buttons to default style and remove badges
         document.querySelectorAll('.primary-star').forEach(starBtn => {
             starBtn.classList.remove('text-amber-400');
-            starBtn.classList.add('text-slate-400', 'hover:text-amber-400');
+            starBtn.classList.add('text-white/70', 'hover:text-amber-400');
         });
+        document.querySelectorAll('.primary-badge').forEach(badge => badge.remove());
         
         // Highlight clicked star
-        buttonEl.classList.remove('text-slate-400', 'hover:text-amber-400');
+        buttonEl.classList.remove('text-white/70', 'hover:text-amber-400');
         buttonEl.classList.add('text-amber-400');
+
+        // Add badge to parent
+        const parentCard = buttonEl.closest('.relative');
+        if (parentCard) {
+            parentCard.insertAdjacentHTML('beforeend', '<span class="primary-badge absolute bottom-2 left-2 px-2 py-0.5 bg-amber-500 text-white text-[9px] font-extrabold rounded-md shadow uppercase tracking-wider z-10">Primary Cover</span>');
+        }
     }
 
     function autoSelectFirstImageAsPrimary() {
@@ -569,16 +610,6 @@
             document.getElementById('primary-image-input').value = '';
         }
     }
-
-    // Initialize previews for existing images on load
-    document.addEventListener("DOMContentLoaded", () => {
-        const urlInputs = document.querySelectorAll("#image-urls-container input[type='url']");
-        urlInputs.forEach((input, index) => {
-            if (input.value.trim() !== '') {
-                updateUrlPreview(input, index);
-            }
-        });
-    });
 
     // Drag & Drop event listeners
     const dropzone = document.getElementById('dropzone');

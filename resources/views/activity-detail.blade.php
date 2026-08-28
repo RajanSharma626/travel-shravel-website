@@ -46,28 +46,36 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="relative rounded-2xl overflow-hidden h-[260px] sm:h-[380px] md:h-[480px] border border-gray-200 group" id="hero-slider">
                 @php
-                    $slides = !empty($activity->images) && is_array($activity->images) ? $activity->images : [$activity->primary_image ?: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80'];
+                    $slides = !empty($activity->images) && is_array($activity->images) 
+                        ? array_values(array_filter($activity->images, fn($img) => is_string($img) && trim($img) !== '')) 
+                        : [];
+                    if (!empty($activity->primary_image) && !in_array($activity->primary_image, $slides)) {
+                        array_unshift($slides, $activity->primary_image);
+                    }
+                    if (empty($slides)) {
+                        $slides = ['https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80'];
+                    }
                 @endphp
                 {{-- Slides --}}
                 @foreach($slides as $index => $slide)
-                    <div class="absolute inset-0 transition-opacity duration-1000 {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}" data-slide="{{ $index }}">
+                    <div class="absolute inset-0 transition-opacity duration-1000 {{ $index === 0 ? 'opacity-100' : 'opacity-0 pointer-events-none' }}" data-slide="{{ $index }}">
                         <img src="{{ $slide }}" alt="{{ $activity->title }} Image {{ $index + 1 }}" class="w-full h-full object-cover">
                     </div>
                 @endforeach
 
                 {{-- Controls --}}
                 @if(count($slides) > 1)
-                <div class="absolute inset-0 flex items-center justify-between px-6 pointer-events-none transition-opacity duration-300">
-                    <button onclick="prevSlide()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-navy shadow-sm pointer-events-auto hover:bg-india-green hover:text-white transition-all">
+                <div class="absolute inset-0 flex items-center justify-between px-4 sm:px-6 pointer-events-none transition-opacity duration-300">
+                    <button onclick="prevSlide()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-navy shadow-sm pointer-events-auto hover:bg-india-green hover:text-white transition-all focus:outline-none" aria-label="Previous Slide">
                         <i class="fa-solid fa-chevron-left text-sm"></i>
                     </button>
-                    <button onclick="nextSlide()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-navy shadow-sm pointer-events-auto hover:bg-india-green hover:text-white transition-all">
+                    <button onclick="nextSlide()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-navy shadow-sm pointer-events-auto hover:bg-india-green hover:text-white transition-all focus:outline-none" aria-label="Next Slide">
                         <i class="fa-solid fa-chevron-right text-sm"></i>
                     </button>
                 </div>
 
                 {{-- Dots indicator --}}
-                <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+                <div class="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3 z-20">
                     @foreach($slides as $index => $slide)
                         <div class="w-3 h-3 rounded-full {{ $index === 0 ? 'bg-white' : 'bg-white/40' }} transition-all cursor-pointer" onclick="goToSlide({{ $index }})" id="dot-{{ $index }}"></div>
                     @endforeach
@@ -495,36 +503,52 @@
 
     <script>
         let currentSlide = 0;
-        const totalSlides = 3;
-        let slideInterval = setInterval(nextSlide, 5000);
+        let slideInterval = null;
 
-        function showSlide(index) {
+        function getSliderData() {
             const slider = document.getElementById('hero-slider');
+            if (!slider) return { slides: [], dots: [], total: 0 };
             const slides = slider.querySelectorAll('[data-slide]');
             const dots = slider.querySelectorAll('[id^="dot-"]');
+            return { slides, dots, total: slides.length };
+        }
+
+        function showSlide(index) {
+            const { slides, dots, total } = getSliderData();
+            if (total === 0) return;
+
+            currentSlide = (index + total) % total;
 
             slides.forEach((slide, i) => {
-                slide.style.opacity = (i === index) ? '1' : '0';
+                if (i === currentSlide) {
+                    slide.style.opacity = '1';
+                    slide.classList.remove('pointer-events-none');
+                } else {
+                    slide.style.opacity = '0';
+                    slide.classList.add('pointer-events-none');
+                }
             });
 
             dots.forEach((dot, i) => {
-                dot.classList.toggle('bg-white', i === index);
-                dot.classList.toggle('bg-white/40', i !== index);
+                dot.classList.toggle('bg-white', i === currentSlide);
+                dot.classList.toggle('bg-white/40', i !== currentSlide);
             });
-
-            currentSlide = index;
         }
 
         function nextSlide() {
-            let next = (currentSlide + 1) % totalSlides;
-            showSlide(next);
-            resetTimer();
+            const { total } = getSliderData();
+            if (total > 1) {
+                showSlide(currentSlide + 1);
+                resetTimer();
+            }
         }
 
         function prevSlide() {
-            let prev = (currentSlide - 1 + totalSlides) % totalSlides;
-            showSlide(prev);
-            resetTimer();
+            const { total } = getSliderData();
+            if (total > 1) {
+                showSlide(currentSlide - 1);
+                resetTimer();
+            }
         }
 
         function goToSlide(index) {
@@ -533,9 +557,24 @@
         }
 
         function resetTimer() {
-            clearInterval(slideInterval);
-            slideInterval = setInterval(nextSlide, 5000);
+            if (slideInterval) {
+                clearInterval(slideInterval);
+                slideInterval = null;
+            }
+            const { total } = getSliderData();
+            if (total > 1) {
+                slideInterval = setInterval(function() {
+                    const { total: currentTotal } = getSliderData();
+                    if (currentTotal > 1) {
+                        showSlide(currentSlide + 1);
+                    }
+                }, 5000);
+            }
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            resetTimer();
+        });
 
         function switchTab(tab) {
             const bookContent = document.getElementById('content-book');

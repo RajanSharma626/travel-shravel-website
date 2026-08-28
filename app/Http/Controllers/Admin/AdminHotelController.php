@@ -59,8 +59,7 @@ class AdminHotelController extends Controller
             'is_featured' => 'nullable|boolean',
             'amenities' => 'nullable|array',
             'room_types' => 'nullable|array',
-            'images' => 'nullable|array',
-            'images.*' => 'nullable|string',
+            'existing_images' => 'nullable|array',
             'primary_image' => 'nullable|string',
             'map_url' => 'nullable|string',
         ]);
@@ -69,40 +68,77 @@ class AdminHotelController extends Controller
         $validated['is_active'] = $request->has('is_active') ? true : false;
         $validated['is_featured'] = $request->has('is_featured') ? true : false;
         
-        // Clean array inputs
-        $validated['amenities'] = array_filter($request->input('amenities', []));
-        $validated['room_types'] = array_filter($request->input('room_types', []));
-        $validated['images'] = array_filter($request->input('images', []));
+        // Clean amenities
+        $validated['amenities'] = array_values(array_filter($request->input('amenities', [])));
 
-        // Resolve primary image if it's already one of the text URL inputs
-        $primaryInputValue = $request->input('primary_image');
-        if (!empty($primaryInputValue) && in_array($primaryInputValue, $validated['images'])) {
-            $validated['primary_image'] = $primaryInputValue;
-        } else {
-            $validated['primary_image'] = null;
+        // Process structured room types with images and pricing
+        $rawRoomTypes = $request->input('room_types', []);
+        $processedRooms = [];
+        $roomFiles = $request->file('room_type_images', []);
+
+        foreach ($rawRoomTypes as $idx => $roomData) {
+            if (is_string($roomData)) {
+                if (trim($roomData) !== '') {
+                    $processedRooms[] = [
+                        'name' => trim($roomData),
+                        'price' => (float)($validated['price'] ?? 0),
+                        'capacity' => '2 Adults',
+                        'description' => 'Comfortable and spacious room with modern amenities.',
+                        'image' => null,
+                    ];
+                }
+                continue;
+            }
+
+            if (empty($roomData['name']) && empty($roomData['price'])) {
+                continue;
+            }
+
+            $room = [
+                'name' => $roomData['name'] ?? 'Deluxe Room',
+                'price' => !empty($roomData['price']) ? (float)$roomData['price'] : (float)($validated['price'] ?? 0),
+                'capacity' => !empty($roomData['capacity']) ? $roomData['capacity'] : '2 Adults',
+                'description' => $roomData['description'] ?? 'Comfortable and spacious room with modern amenities.',
+                'image' => $roomData['existing_image'] ?? null,
+            ];
+
+            if (isset($roomFiles[$idx]) && $roomFiles[$idx]->isValid()) {
+                $path = $roomFiles[$idx]->store('hotels/rooms', 'public');
+                $room['image'] = asset('storage/' . $path);
+            }
+
+            $processedRooms[] = $room;
         }
+        $validated['room_types'] = $processedRooms;
 
-        // Handle file uploads if any
+        // Process gallery images (direct upload & existing)
+        $existingImages = $request->input('existing_images', []);
+        $galleryImages = is_array($existingImages) ? array_values(array_filter($existingImages)) : [];
+
+        $primaryInputValue = $request->input('primary_image');
+
         if ($request->hasFile('image_files')) {
-            $uploadedImages = [];
             foreach ($request->file('image_files') as $file) {
                 if ($file->isValid()) {
                     $path = $file->store('hotels', 'public');
                     $fullUrl = asset('storage/' . $path);
-                    $uploadedImages[] = $fullUrl;
-                    
-                    // If the user selected this newly uploaded file as primary
+                    $galleryImages[] = $fullUrl;
+
                     if ($primaryInputValue === $file->getClientOriginalName()) {
                         $validated['primary_image'] = $fullUrl;
                     }
                 }
             }
-            $validated['images'] = array_merge($validated['images'], $uploadedImages);
         }
+        $validated['images'] = $galleryImages;
 
-        // Fallback to first image if none resolved/selected
-        if (empty($validated['primary_image']) && !empty($validated['images'])) {
-            $validated['primary_image'] = $validated['images'][0];
+        // Resolve primary image
+        if (!empty($primaryInputValue) && in_array($primaryInputValue, $galleryImages)) {
+            $validated['primary_image'] = $primaryInputValue;
+        } elseif (empty($validated['primary_image']) && !empty($galleryImages)) {
+            $validated['primary_image'] = $galleryImages[0];
+        } else {
+            $validated['primary_image'] = null;
         }
 
         Hotel::create($validated);
@@ -142,8 +178,7 @@ class AdminHotelController extends Controller
             'is_featured' => 'nullable|boolean',
             'amenities' => 'nullable|array',
             'room_types' => 'nullable|array',
-            'images' => 'nullable|array',
-            'images.*' => 'nullable|string',
+            'existing_images' => 'nullable|array',
             'primary_image' => 'nullable|string',
             'map_url' => 'nullable|string',
         ]);
@@ -151,40 +186,77 @@ class AdminHotelController extends Controller
         $validated['is_active'] = $request->has('is_active') ? true : false;
         $validated['is_featured'] = $request->has('is_featured') ? true : false;
         
-        // Clean array inputs
-        $validated['amenities'] = array_filter($request->input('amenities', []));
-        $validated['room_types'] = array_filter($request->input('room_types', []));
-        $validated['images'] = array_filter($request->input('images', []));
+        // Clean amenities
+        $validated['amenities'] = array_values(array_filter($request->input('amenities', [])));
 
-        // Resolve primary image if it's already one of the text URL inputs
-        $primaryInputValue = $request->input('primary_image');
-        if (!empty($primaryInputValue) && in_array($primaryInputValue, $validated['images'])) {
-            $validated['primary_image'] = $primaryInputValue;
-        } else {
-            $validated['primary_image'] = null;
+        // Process structured room types with images and pricing
+        $rawRoomTypes = $request->input('room_types', []);
+        $processedRooms = [];
+        $roomFiles = $request->file('room_type_images', []);
+
+        foreach ($rawRoomTypes as $idx => $roomData) {
+            if (is_string($roomData)) {
+                if (trim($roomData) !== '') {
+                    $processedRooms[] = [
+                        'name' => trim($roomData),
+                        'price' => (float)($validated['price'] ?? 0),
+                        'capacity' => '2 Adults',
+                        'description' => 'Comfortable and spacious room with modern amenities.',
+                        'image' => null,
+                    ];
+                }
+                continue;
+            }
+
+            if (empty($roomData['name']) && empty($roomData['price'])) {
+                continue;
+            }
+
+            $room = [
+                'name' => $roomData['name'] ?? 'Deluxe Room',
+                'price' => !empty($roomData['price']) ? (float)$roomData['price'] : (float)($validated['price'] ?? 0),
+                'capacity' => !empty($roomData['capacity']) ? $roomData['capacity'] : '2 Adults',
+                'description' => $roomData['description'] ?? 'Comfortable and spacious room with modern amenities.',
+                'image' => $roomData['existing_image'] ?? null,
+            ];
+
+            if (isset($roomFiles[$idx]) && $roomFiles[$idx]->isValid()) {
+                $path = $roomFiles[$idx]->store('hotels/rooms', 'public');
+                $room['image'] = asset('storage/' . $path);
+            }
+
+            $processedRooms[] = $room;
         }
+        $validated['room_types'] = $processedRooms;
 
-        // Handle file uploads if any
+        // Process gallery images (direct upload & existing)
+        $existingImages = $request->input('existing_images', []);
+        $galleryImages = is_array($existingImages) ? array_values(array_filter($existingImages)) : [];
+
+        $primaryInputValue = $request->input('primary_image');
+
         if ($request->hasFile('image_files')) {
-            $uploadedImages = [];
             foreach ($request->file('image_files') as $file) {
                 if ($file->isValid()) {
                     $path = $file->store('hotels', 'public');
                     $fullUrl = asset('storage/' . $path);
-                    $uploadedImages[] = $fullUrl;
-                    
-                    // If the user selected this newly uploaded file as primary
+                    $galleryImages[] = $fullUrl;
+
                     if ($primaryInputValue === $file->getClientOriginalName()) {
                         $validated['primary_image'] = $fullUrl;
                     }
                 }
             }
-            $validated['images'] = array_merge($validated['images'], $uploadedImages);
         }
+        $validated['images'] = $galleryImages;
 
-        // Fallback to first image if none resolved/selected
-        if (empty($validated['primary_image']) && !empty($validated['images'])) {
-            $validated['primary_image'] = $validated['images'][0];
+        // Resolve primary image
+        if (!empty($primaryInputValue) && in_array($primaryInputValue, $galleryImages)) {
+            $validated['primary_image'] = $primaryInputValue;
+        } elseif (empty($validated['primary_image']) && !empty($galleryImages)) {
+            $validated['primary_image'] = $galleryImages[0];
+        } else {
+            $validated['primary_image'] = null;
         }
 
         $hotel->update($validated);

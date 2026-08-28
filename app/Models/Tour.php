@@ -91,4 +91,22 @@ class Tour extends Model
             'group_size' => 'integer',
         ];
     }
+
+    /**
+     * Get the formatted duration attribute.
+     */
+    public function getDurationAttribute(): string
+    {
+        if ($this->duration_days > 0 && $this->duration_nights > 0) {
+            return "{$this->duration_days} Days / {$this->duration_nights} Nights";
+        }
+        if ($this->duration_days > 0) {
+            return $this->duration_days . ' ' . ($this->duration_days == 1 ? 'Day' : 'Days');
+        }
+        if ($this->duration_nights > 0) {
+            return $this->duration_nights . ' ' . ($this->duration_nights == 1 ? 'Night' : 'Nights');
+        }
+        return 'Custom';
+    }
 }
+

@@ -101,7 +101,7 @@
                 @if(!empty($hotel->amenities) && is_array($hotel->amenities) && count($hotel->amenities) > 0)
                 <div class="flex flex-wrap gap-1 pt-1">
                     @foreach(array_slice($hotel->amenities, 0, 3) as $amenity)
-                    <span class="text-[8px] font-bold text-slate-600 bg-slate-100 px-1.5 py-0.5 rounded">{{ $amenity }}</span>
+                    <span class="text-[8px] font-bold text-slate-600 bg-slate-100 px-1.5 py-0.5 rounded">{{ is_array($amenity) ? ($amenity['name'] ?? ($amenity['title'] ?? '')) : $amenity }}</span>
                     @endforeach
                     @if(count($hotel->amenities) > 3)
                     <span class="text-[8px] font-bold text-primary bg-blue-50 px-1.5 py-0.5 rounded">+{{ count($hotel->amenities) - 3 }} more</span>

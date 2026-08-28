@@ -77,6 +77,14 @@ class HotelController extends Controller
     {
         $hotel = Hotel::where('slug', $slug)->where('is_active', true)->firstOrFail();
 
-        return view('hotel-detail', compact('hotel'));
+        $similarHotels = Hotel::where('id', '!=', $hotel->id)
+            ->where('is_active', true)
+            ->when($hotel->state, function ($q) use ($hotel) {
+                $q->orderByRaw("CASE WHEN state = ? THEN 0 ELSE 1 END", [$hotel->state]);
+            })
+            ->take(3)
+            ->get();
+
+        return view('hotel-detail', compact('hotel', 'similarHotels'));
     }
 }

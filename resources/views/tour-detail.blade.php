@@ -42,28 +42,36 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="relative rounded-2xl overflow-hidden h-[260px] sm:h-[380px] md:h-[480px] border border-gray-200 group" id="hero-slider">
                 @php
-                    $slides = !empty($tour->images) && is_array($tour->images) ? $tour->images : [$tour->primary_image ?: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1600&q=80'];
+                    $slides = !empty($tour->images) && is_array($tour->images) 
+                        ? array_values(array_filter($tour->images, fn($img) => is_string($img) && trim($img) !== '')) 
+                        : [];
+                    if (!empty($tour->primary_image) && !in_array($tour->primary_image, $slides)) {
+                        array_unshift($slides, $tour->primary_image);
+                    }
+                    if (empty($slides)) {
+                        $slides = ['https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1600&q=80'];
+                    }
                 @endphp
                 {{-- Slides --}}
                 @foreach($slides as $index => $slide)
-                    <div class="absolute inset-0 transition-opacity duration-1000 {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}" data-slide="{{ $index }}">
+                    <div class="absolute inset-0 transition-opacity duration-1000 {{ $index === 0 ? 'opacity-100' : 'opacity-0 pointer-events-none' }}" data-slide="{{ $index }}">
                         <img src="{{ $slide }}" alt="{{ $tour->title }} Image {{ $index + 1 }}" class="w-full h-full object-cover">
                     </div>
                 @endforeach
 
                 {{-- Controls --}}
                 @if(count($slides) > 1)
-                <div class="absolute inset-0 flex items-center justify-between px-6 pointer-events-none transition-opacity duration-300">
-                    <button onclick="prevSlide()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-navy shadow-sm pointer-events-auto hover:bg-india-green hover:text-white transition-all">
+                <div class="absolute inset-0 flex items-center justify-between px-4 sm:px-6 pointer-events-none transition-opacity duration-300">
+                    <button onclick="prevSlide()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-navy shadow-sm pointer-events-auto hover:bg-india-green hover:text-white transition-all focus:outline-none" aria-label="Previous Slide">
                         <i class="fa-solid fa-chevron-left text-sm"></i>
                     </button>
-                    <button onclick="nextSlide()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-navy shadow-sm pointer-events-auto hover:bg-india-green hover:text-white transition-all">
+                    <button onclick="nextSlide()" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-navy shadow-sm pointer-events-auto hover:bg-india-green hover:text-white transition-all focus:outline-none" aria-label="Next Slide">
                         <i class="fa-solid fa-chevron-right text-sm"></i>
                     </button>
                 </div>
 
                 {{-- Dots indicator --}}
-                <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+                <div class="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3 z-20">
                     @foreach($slides as $index => $slide)
                         <div class="w-3 h-3 rounded-full {{ $index === 0 ? 'bg-white' : 'bg-white/40' }} transition-all cursor-pointer" onclick="goToSlide({{ $index }})" id="dot-{{ $index }}"></div>
                     @endforeach
@@ -77,28 +85,38 @@
                     <div class="w-12 h-12 bg-navy/5 rounded-2xl flex items-center justify-center text-navy text-xl"><i class="fa-regular fa-clock"></i></div>
                     <div>
                         <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Duration</p>
-                        <p class="text-md font-semibold">{{ $tour->duration }}</p>
+                        <p class="text-md font-semibold">
+                            @if($tour->duration_days > 0 && $tour->duration_nights > 0)
+                                {{ $tour->duration_days }} Days / {{ $tour->duration_nights }} Nights
+                            @elseif($tour->duration_days > 0)
+                                {{ $tour->duration_days }} {{ Str::plural('Day', $tour->duration_days) }}
+                            @elseif($tour->duration_nights > 0)
+                                {{ $tour->duration_nights }} {{ Str::plural('Night', $tour->duration_nights) }}
+                            @else
+                                {{ $tour->duration ?? 'Custom' }}
+                            @endif
+                        </p>
                     </div>
                 </div>
                 <div class="bg-gray-50 p-6 rounded-2xl flex items-center gap-4 border border-gray-100">
                     <div class="w-12 h-12 bg-navy/5 rounded-2xl flex items-center justify-center text-navy text-xl"><i class="fa-solid fa-people-group"></i></div>
                     <div>
                         <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Group Size</p>
-                        <p class="text-md font-semibold">Max {{ $tour->group_size }} People</p>
+                        <p class="text-md font-semibold">{{ $tour->group_size ? 'Max ' . $tour->group_size . ' People' : 'Custom Group' }}</p>
                     </div>
                 </div>
                 <div class="bg-gray-50 p-6 rounded-2xl flex items-center gap-4 border border-gray-100">
                     <div class="w-12 h-12 bg-navy/5 rounded-2xl flex items-center justify-center text-navy text-xl"><i class="fa-solid fa-earth-asia"></i></div>
                     <div>
                         <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Tour Type</p>
-                        <p class="text-md font-semibold">{{ $tour->tour_type }}</p>
+                        <p class="text-md font-semibold">{{ $tour->tour_type ?: 'Custom Tour' }}</p>
                     </div>
                 </div>
                 <div class="bg-gray-50 p-6 rounded-2xl flex items-center gap-4 border border-gray-100">
                     <div class="w-12 h-12 bg-navy/5 rounded-2xl flex items-center justify-center text-navy text-xl"><i class="fa-solid fa-language"></i></div>
                     <div>
                         <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Languages</p>
-                        <p class="text-md font-semibold">English, Hindi</p>
+                        <p class="text-md font-semibold">{{ $tour->languages ?: 'English, Hindi' }}</p>
                     </div>
                 </div>
             </div>
@@ -516,36 +534,52 @@
 
     <script>
         let currentSlide = 0;
-        const totalSlides = 3;
-        let slideInterval = setInterval(nextSlide, 5000);
+        let slideInterval = null;
 
-        function showSlide(index) {
+        function getSliderData() {
             const slider = document.getElementById('hero-slider');
+            if (!slider) return { slides: [], dots: [], total: 0 };
             const slides = slider.querySelectorAll('[data-slide]');
             const dots = slider.querySelectorAll('[id^="dot-"]');
+            return { slides, dots, total: slides.length };
+        }
+
+        function showSlide(index) {
+            const { slides, dots, total } = getSliderData();
+            if (total === 0) return;
+
+            currentSlide = (index + total) % total;
 
             slides.forEach((slide, i) => {
-                slide.style.opacity = (i === index) ? '1' : '0';
+                if (i === currentSlide) {
+                    slide.style.opacity = '1';
+                    slide.classList.remove('pointer-events-none');
+                } else {
+                    slide.style.opacity = '0';
+                    slide.classList.add('pointer-events-none');
+                }
             });
 
             dots.forEach((dot, i) => {
-                dot.classList.toggle('bg-white', i === index);
-                dot.classList.toggle('bg-white/40', i !== index);
+                dot.classList.toggle('bg-white', i === currentSlide);
+                dot.classList.toggle('bg-white/40', i !== currentSlide);
             });
-
-            currentSlide = index;
         }
 
         function nextSlide() {
-            let next = (currentSlide + 1) % totalSlides;
-            showSlide(next);
-            resetTimer();
+            const { total } = getSliderData();
+            if (total > 1) {
+                showSlide(currentSlide + 1);
+                resetTimer();
+            }
         }
 
         function prevSlide() {
-            let prev = (currentSlide - 1 + totalSlides) % totalSlides;
-            showSlide(prev);
-            resetTimer();
+            const { total } = getSliderData();
+            if (total > 1) {
+                showSlide(currentSlide - 1);
+                resetTimer();
+            }
         }
 
         function goToSlide(index) {
@@ -554,9 +588,24 @@
         }
 
         function resetTimer() {
-            clearInterval(slideInterval);
-            slideInterval = setInterval(nextSlide, 5000);
+            if (slideInterval) {
+                clearInterval(slideInterval);
+                slideInterval = null;
+            }
+            const { total } = getSliderData();
+            if (total > 1) {
+                slideInterval = setInterval(function() {
+                    const { total: currentTotal } = getSliderData();
+                    if (currentTotal > 1) {
+                        showSlide(currentSlide + 1);
+                    }
+                }, 5000);
+            }
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            resetTimer();
+        });
 
         function toggleDay(index) {
             const content = document.getElementById(`day-content-${index}`);

@@ -59,6 +59,9 @@ class AdminHotelController extends Controller
             'is_featured' => 'nullable|boolean',
             'amenities' => 'nullable|array',
             'room_types' => 'nullable|array',
+            'hotel_rules' => 'nullable|array',
+            'hotel_rules.*.title' => 'nullable|string|max:255',
+            'hotel_rules.*.description' => 'nullable|string',
             'existing_images' => 'nullable|array',
             'primary_image' => 'nullable|string',
             'map_url' => 'nullable|string',
@@ -70,6 +73,25 @@ class AdminHotelController extends Controller
         
         // Clean amenities
         $validated['amenities'] = array_values(array_filter($request->input('amenities', [])));
+
+        // Process structured hotel rules
+        $rawRules = $request->input('hotel_rules', []);
+        $processedRules = [];
+        if (is_array($rawRules)) {
+            foreach ($rawRules as $rule) {
+                if (is_array($rule)) {
+                    $rTitle = trim($rule['title'] ?? '');
+                    $rDesc = trim($rule['description'] ?? '');
+                    if ($rTitle !== '' || $rDesc !== '') {
+                        $processedRules[] = [
+                            'title' => $rTitle,
+                            'description' => $rDesc,
+                        ];
+                    }
+                }
+            }
+        }
+        $validated['hotel_rules'] = !empty($processedRules) ? $processedRules : null;
 
         // Process structured room types with images and pricing
         $rawRoomTypes = $request->input('room_types', []);
@@ -178,6 +200,9 @@ class AdminHotelController extends Controller
             'is_featured' => 'nullable|boolean',
             'amenities' => 'nullable|array',
             'room_types' => 'nullable|array',
+            'hotel_rules' => 'nullable|array',
+            'hotel_rules.*.title' => 'nullable|string|max:255',
+            'hotel_rules.*.description' => 'nullable|string',
             'existing_images' => 'nullable|array',
             'primary_image' => 'nullable|string',
             'map_url' => 'nullable|string',
@@ -188,6 +213,25 @@ class AdminHotelController extends Controller
         
         // Clean amenities
         $validated['amenities'] = array_values(array_filter($request->input('amenities', [])));
+
+        // Process structured hotel rules
+        $rawRules = $request->input('hotel_rules', []);
+        $processedRules = [];
+        if (is_array($rawRules)) {
+            foreach ($rawRules as $rule) {
+                if (is_array($rule)) {
+                    $rTitle = trim($rule['title'] ?? '');
+                    $rDesc = trim($rule['description'] ?? '');
+                    if ($rTitle !== '' || $rDesc !== '') {
+                        $processedRules[] = [
+                            'title' => $rTitle,
+                            'description' => $rDesc,
+                        ];
+                    }
+                }
+            }
+        }
+        $validated['hotel_rules'] = !empty($processedRules) ? $processedRules : null;
 
         // Process structured room types with images and pricing
         $rawRoomTypes = $request->input('room_types', []);

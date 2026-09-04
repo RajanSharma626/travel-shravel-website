@@ -69,10 +69,10 @@ Route::get('/reviews', function () {
     return view('reviews');
 });
 
-Route::get('/tour/{slug}', [TourController::class, 'show']);
-Route::get('/hotel/{slug}', [HotelController::class, 'show']);
-Route::get('/activity/{slug}', [ActivityController::class, 'show']);
-Route::get('/car/{slug}', [CarController::class, 'show']);
+Route::get('/tour/{slug}', [TourController::class, 'show'])->name('tour.detail');
+Route::get('/hotel/{slug}', [HotelController::class, 'show'])->name('hotel.detail');
+Route::get('/activity/{slug}', [ActivityController::class, 'show'])->name('activity.detail');
+Route::get('/car/{slug}', [CarController::class, 'show'])->name('car.detail');
 
 Route::get('/become-local-expert', function () {
     return view('become-local-expert');

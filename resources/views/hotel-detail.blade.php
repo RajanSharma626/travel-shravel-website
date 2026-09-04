@@ -296,6 +296,10 @@
                     </div>
 
                     {{-- Hotel Rules --}}
+                    @php
+                        $hotelRulesList = $hotel->formatted_rules;
+                    @endphp
+                    @if(!empty($hotelRulesList) && count($hotelRulesList) > 0)
                     <div>
                         <h2 class="text-2xl font-semibold text-navy mb-8 flex items-center gap-3">
                             <span class="w-2 h-8 bg-india-green rounded-full"></span>
@@ -303,33 +307,55 @@
                         </h2>
                         <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100">
                             <ul class="space-y-4">
-                                <li class="flex items-start gap-4 pb-4 border-b border-gray-200/60">
-                                    <div class="w-32 flex-none font-semibold text-gray-800 text-sm">Check-in</div>
-                                    <div class="text-sm text-gray-600">From {{ $hotel->check_in_time ?: '12:00 PM' }}. Guests are required to show a valid government photo ID upon check-in.</div>
-                                </li>
-                                <li class="flex items-start gap-4 pb-4 border-b border-gray-200/60">
-                                    <div class="w-32 flex-none font-semibold text-gray-800 text-sm">Check-out</div>
-                                    <div class="text-sm text-gray-600">Until {{ $hotel->check_out_time ?: '11:00 AM' }}.</div>
-                                </li>
-                                <li class="flex items-start gap-4 pb-4 border-b border-gray-200/60">
-                                    <div class="w-32 flex-none font-semibold text-gray-800 text-sm">Cancellation</div>
-                                    <div class="text-sm text-gray-600">Cancellation and prepayment policies vary according to room type. Free cancellation up to 48 hours before check-in.</div>
-                                </li>
-                                <li class="flex items-start gap-4 pb-4 border-b border-gray-200/60">
-                                    <div class="w-32 flex-none font-semibold text-gray-800 text-sm">Pets</div>
-                                    <div class="text-sm text-gray-600">Pets are not allowed in the hotel premises unless prior arrangement has been made.</div>
-                                </li>
-                                <li class="flex items-start gap-4">
-                                    <div class="w-32 flex-none font-semibold text-gray-800 text-sm">Accepted Payment</div>
-                                    <div class="text-sm text-gray-600 flex items-center gap-3 text-2xl text-gray-400">
-                                        <i class="fa-brands fa-cc-visa hover:text-blue-700 transition-colors" title="Visa"></i>
-                                        <i class="fa-brands fa-cc-mastercard hover:text-orange-500 transition-colors" title="Mastercard"></i>
-                                        <i class="fa-solid fa-money-bill-wave hover:text-emerald-600 transition-colors text-xl" title="Cash & UPI"></i>
-                                    </div>
-                                </li>
+                                @foreach($hotelRulesList as $rule)
+                                    @php
+                                        $ruleTitle = is_array($rule) ? ($rule['title'] ?? '') : '';
+                                        $ruleDesc = is_array($rule) ? ($rule['description'] ?? '') : (string)$rule;
+                                        $isPayment = str_contains(strtolower($ruleTitle), 'payment');
+                                    @endphp
+                                    <li class="flex items-start gap-4 {{ !$loop->last ? 'pb-4 border-b border-gray-200/60' : '' }}">
+                                        <div class="w-32 sm:w-40 flex-none font-semibold text-gray-800 text-sm">{{ $ruleTitle }}</div>
+                                        <div class="text-sm text-gray-600 flex-1">
+                                            @if($ruleDesc)
+                                                <div class="leading-relaxed">{{ $ruleDesc }}</div>
+                                            @endif
+                                            @if($isPayment)
+                                                @php
+                                                    $descLower = strtolower($ruleDesc);
+                                                    $hasCards = str_contains($descLower, 'card') || str_contains($descLower, 'visa') || str_contains($descLower, 'master');
+                                                    $hasUpi = str_contains($descLower, 'upi') || str_contains($descLower, 'qr') || str_contains($descLower, 'gpay') || str_contains($descLower, 'phonepe') || str_contains($descLower, 'paytm');
+                                                    $hasBank = str_contains($descLower, 'bank') || str_contains($descLower, 'net banking');
+                                                    $hasCash = str_contains($descLower, 'cash');
+                                                    $hasWallets = str_contains($descLower, 'wallet');
+                                                @endphp
+                                                <div class="flex items-center flex-wrap gap-3.5 text-2xl {{ $ruleDesc ? 'mt-3' : '' }}">
+                                                    @if($hasCards)
+                                                        <i class="fa-brands fa-cc-visa text-blue-600 hover:text-blue-700 hover:scale-110 transition-all cursor-default" title="Visa Cards"></i>
+                                                        <i class="fa-brands fa-cc-mastercard text-orange-500 hover:text-orange-600 hover:scale-110 transition-all cursor-default" title="Mastercard"></i>
+                                                    @endif
+                                                    @if($hasUpi)
+                                                        <span class="inline-flex items-center justify-center px-2 py-0.5 rounded-md bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold tracking-tight shadow-2xs hover:scale-105 transition-all cursor-default" title="UPI (GPay, PhonePe, Paytm, QR)">
+                                                            <i class="fa-solid fa-mobile-screen-button mr-1 text-[11px]"></i>UPI
+                                                        </span>
+                                                    @endif
+                                                    @if($hasBank)
+                                                        <i class="fa-solid fa-building-columns text-sky-600 hover:text-sky-700 hover:scale-110 transition-all text-xl cursor-default" title="Net Banking"></i>
+                                                    @endif
+                                                    @if($hasCash)
+                                                        <i class="fa-solid fa-money-bill-wave text-emerald-600 hover:text-emerald-700 hover:scale-110 transition-all text-xl cursor-default" title="Cash on Arrival"></i>
+                                                    @endif
+                                                    @if($hasWallets)
+                                                        <i class="fa-solid fa-wallet text-amber-500 hover:text-amber-600 hover:scale-110 transition-all text-xl cursor-default" title="Digital Wallets"></i>
+                                                    @endif
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
+                    @endif
 
                 </div>
 

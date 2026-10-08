@@ -32,6 +32,8 @@ class HotelSeeder extends Seeder
                 'amenities' => ['Free High-Speed WiFi', 'Swimming Pool', 'Spa & Wellness Center', 'Complimentary Breakfast', 'Airport Shuttle', 'Mountain View Balcony', '24/7 Room Service'],
                 'check_in_time' => '02:00 PM',
                 'check_out_time' => '11:00 AM',
+                'internet' => '1',
+                'dining' => '1',
                 'room_types' => [
                     ['name' => 'Deluxe Mountain View Room', 'price' => 8499, 'capacity' => '2 Adults'],
                     ['name' => 'Royal Heritage Suite', 'price' => 14999, 'capacity' => '3 Adults'],
@@ -57,6 +59,8 @@ class HotelSeeder extends Seeder
                 'amenities' => ['Private Beach Access', 'Infinity Swimming Pool', 'Jiva Luxury Spa', 'Free Breakfast', 'Kids Play Zone', 'Fitness Center', 'Seafood Grill Bar'],
                 'check_in_time' => '03:00 PM',
                 'check_out_time' => '12:00 PM',
+                'internet' => '1',
+                'dining' => '1',
                 'room_types' => [
                     ['name' => 'Garden Villa Room', 'price' => 11999, 'capacity' => '2 Adults, 1 Child'],
                     ['name' => 'Sunset Ocean Plunge Pool Villa', 'price' => 22499, 'capacity' => '2 Adults'],
@@ -82,6 +86,8 @@ class HotelSeeder extends Seeder
                 'amenities' => ['Free WiFi', 'Campfire & Live Music', 'Heated Bedding', 'Multi-Cuisine Restaurant', 'Adventure Desk', 'Free Parking'],
                 'check_in_time' => '01:00 PM',
                 'check_out_time' => '11:00 AM',
+                'internet' => '1',
+                'dining' => '1',
                 'room_types' => [
                     ['name' => 'Cedar Pine Cottage Room', 'price' => 4899, 'capacity' => '2 Adults'],
                     ['name' => 'Snow Peak Family Duplex', 'price' => 7999, 'capacity' => '4 Adults'],
@@ -107,6 +113,8 @@ class HotelSeeder extends Seeder
                 'amenities' => ['Backwater Sunset Cruise', 'Ayurvedic Wellness Spa', 'Meandering Pool', 'Floating Seafood Restaurant', 'Free WiFi', 'Yoga Pavilion'],
                 'check_in_time' => '02:00 PM',
                 'check_out_time' => '12:00 PM',
+                'internet' => '1',
+                'dining' => '1',
                 'room_types' => [
                     ['name' => 'Heritage Villa with Private Pool', 'price' => 12500, 'capacity' => '2 Adults'],
                     ['name' => 'Luxury Lake View Pavilion', 'price' => 18900, 'capacity' => '2 Adults'],
@@ -131,6 +139,8 @@ class HotelSeeder extends Seeder
                 'amenities' => ['Direct Beach Access', 'PADI Dive Center', 'Seaside Candlelight Dining', 'Bar & Lounge', 'Complimentary Breakfast', 'Free WiFi'],
                 'check_in_time' => '12:00 PM',
                 'check_out_time' => '09:00 AM',
+                'internet' => '1',
+                'dining' => '1',
                 'room_types' => [
                     ['name' => 'Lagoon Suite Cottage', 'price' => 6799, 'capacity' => '2 Adults'],
                     ['name' => 'Beachside Wooden Chalet', 'price' => 9999, 'capacity' => '2 Adults, 1 Child'],
@@ -155,6 +165,8 @@ class HotelSeeder extends Seeder
                 'amenities' => ['Private Pool Villas', 'Royal Spa', 'Fine Dining Restaurants', 'Tennis Courts', 'Cultural Performances', 'Helipad Access', 'Free WiFi'],
                 'check_in_time' => '02:00 PM',
                 'check_out_time' => '12:00 PM',
+                'internet' => '1',
+                'dining' => '1',
                 'room_types' => [
                     ['name' => 'Premier Royal Room', 'price' => 15999, 'capacity' => '2 Adults'],
                     ['name' => 'Luxury Tent with Private Garden', 'price' => 25000, 'capacity' => '2 Adults'],

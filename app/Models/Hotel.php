@@ -26,6 +26,8 @@ class Hotel extends Model
         'amenities',
         'check_in_time',
         'check_out_time',
+        'internet',
+        'dining',
         'room_types',
         'hotel_rules',
         'is_active',
@@ -180,6 +182,46 @@ class Hotel extends Model
         $custom = $this->custom_rules;
 
         return array_merge($core, $custom);
+    }
+
+    /**
+     * Determine if internet is available.
+     */
+    public function getHasInternetAttribute(): bool
+    {
+        $val = strtolower(trim((string)$this->internet));
+        if ($val === '0' || $val === 'no' || $val === 'false' || $val === 'off' || $val === 'not_available') {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Determine if dining is available.
+     */
+    public function getHasDiningAttribute(): bool
+    {
+        $val = strtolower(trim((string)$this->dining));
+        if ($val === '0' || $val === 'no' || $val === 'false' || $val === 'off' || $val === 'not_available') {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Get dynamic internet display text (Free Wi-Fi Available / Wi-Fi Not Available).
+     */
+    public function getInternetDisplayAttribute(): string
+    {
+        return $this->has_internet ? 'Free Wi-Fi Available' : 'Wi-Fi Not Available';
+    }
+
+    /**
+     * Get dynamic dining display text (Dining Available / Dining Not Available).
+     */
+    public function getDiningDisplayAttribute(): string
+    {
+        return $this->has_dining ? 'Dining Available' : 'Dining Not Available';
     }
 
     /**

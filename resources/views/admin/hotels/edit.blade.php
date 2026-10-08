@@ -194,7 +194,7 @@
                 </div>
             </div>
 
-            <!-- Card 3: Check-in & Check-out Timings -->
+            <!-- Card 3: Check-in & Check-out Timings, Internet & Dining -->
             <div id="sec-timings" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 sm:p-6 space-y-4">
                 <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                     <div class="flex items-center gap-2.5">
@@ -202,14 +202,14 @@
                             <i class="fa-solid fa-clock"></i>
                         </span>
                         <div>
-                            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">3. Timings & Check-in Details</h3>
-                            <p class="text-[11px] text-slate-400">Standard arrival and departure hours for guests.</p>
+                            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">3. Timings, Internet & Dining</h3>
+                            <p class="text-[11px] text-slate-400">Standard arrival and departure hours, Wi-Fi details, and dining facilities.</p>
                         </div>
                     </div>
                     <span class="text-[10px] font-bold text-amber-600 bg-amber-50/80 px-2.5 py-1 rounded-full border border-amber-100">Step 3</span>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pt-1">
                     <div>
                         <label for="check_in_time" class="block text-xs font-semibold text-slate-700 mb-1">Check-in Time <span class="text-rose-500">*</span></label>
                         <div class="relative">
@@ -228,6 +228,32 @@
                                    class="w-full pl-9 pr-3.5 py-2.5 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition bg-slate-50/30">
                         </div>
                         @error('check_out_time') <p class="text-rose-500 text-[10px] mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div>
+                        <label for="internet" class="block text-xs font-semibold text-slate-700 mb-1">Internet Facility</label>
+                        @php
+                            $isNetYes = old('internet', (string)($hotel->internet ?? '1')) !== '0' && old('internet', (string)($hotel->internet ?? '1')) !== 'no';
+                        @endphp
+                        <select name="internet" id="internet"
+                                class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition bg-white cursor-pointer font-medium text-slate-700">
+                            <option value="1" {{ $isNetYes ? 'selected' : '' }}>Yes (Free Wi-Fi Available)</option>
+                            <option value="0" {{ !$isNetYes ? 'selected' : '' }}>No (Wi-Fi Not Available)</option>
+                        </select>
+                        @error('internet') <p class="text-rose-500 text-[10px] mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div>
+                        <label for="dining" class="block text-xs font-semibold text-slate-700 mb-1">Dining Option</label>
+                        @php
+                            $isDinYes = old('dining', (string)($hotel->dining ?? '1')) !== '0' && old('dining', (string)($hotel->dining ?? '1')) !== 'no';
+                        @endphp
+                        <select name="dining" id="dining"
+                                class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition bg-white cursor-pointer font-medium text-slate-700">
+                            <option value="1" {{ $isDinYes ? 'selected' : '' }}>Yes (Dining Available)</option>
+                            <option value="0" {{ !$isDinYes ? 'selected' : '' }}>No (Dining Not Available)</option>
+                        </select>
+                        @error('dining') <p class="text-rose-500 text-[10px] mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
             </div>

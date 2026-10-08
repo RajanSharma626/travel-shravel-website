@@ -102,17 +102,17 @@
                     </div>
                 </div>
                 <div class="bg-gray-50 p-6 rounded-2xl flex items-center gap-4 border border-gray-100">
-                    <div class="w-12 h-12 bg-navy/5 rounded-2xl flex items-center justify-center text-navy text-xl"><i class="fa-solid fa-wifi"></i></div>
+                    <div class="w-12 h-12 {{ $hotel->has_internet ? 'bg-navy/5 text-navy' : 'bg-rose-50 text-rose-500' }} rounded-2xl flex items-center justify-center text-xl"><i class="fa-solid fa-wifi"></i></div>
                     <div>
                         <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Internet</p>
-                        <p class="text-md font-semibold">{{ !empty($hotel->amenities) && collect($hotel->amenities)->contains(fn($a) => is_string($a) && stripos($a, 'wifi') !== false) ? 'Free High-Speed Wi-Fi' : 'Free Wi-Fi' }}</p>
+                        <p class="text-md font-semibold {{ $hotel->has_internet ? 'text-gray-900' : 'text-rose-500' }}">{{ $hotel->internet_display }}</p>
                     </div>
                 </div>
                 <div class="bg-gray-50 p-6 rounded-2xl flex items-center gap-4 border border-gray-100">
-                    <div class="w-12 h-12 bg-navy/5 rounded-2xl flex items-center justify-center text-navy text-xl"><i class="fa-solid fa-utensils"></i></div>
+                    <div class="w-12 h-12 {{ $hotel->has_dining ? 'bg-navy/5 text-navy' : 'bg-rose-50 text-rose-500' }} rounded-2xl flex items-center justify-center text-xl"><i class="fa-solid fa-utensils"></i></div>
                     <div>
                         <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Dining</p>
-                        <p class="text-md font-semibold">{{ !empty($hotel->amenities) && collect($hotel->amenities)->contains(fn($a) => is_string($a) && (stripos($a, 'restaurant') !== false || stripos($a, 'dining') !== false || stripos($a, 'breakfast') !== false)) ? 'Inhouse Dining' : ($hotel->stars >= 4 ? 'Luxury Stay' : 'Boutique Hotel') }}</p>
+                        <p class="text-md font-semibold {{ $hotel->has_dining ? 'text-gray-900' : 'text-rose-500' }}">{{ $hotel->dining_display }}</p>
                     </div>
                 </div>
             </div>
@@ -555,7 +555,7 @@
                         ],
                         [
                             'Does ' . $hotel->name . ' offer internet and dining facilities?',
-                            'Yes, guests enjoy complimentary ' . (!empty($hotel->amenities) && collect($hotel->amenities)->contains(fn($a) => is_string($a) && stripos($a, 'wifi') !== false) ? 'high-speed Wi-Fi' : 'Wi-Fi') . ' along with dining options throughout their stay.'
+                            'Yes, guests enjoy ' . strtolower($hotel->internet_display) . ' along with ' . strtolower($hotel->dining_display) . ' throughout their stay.'
                         ],
                         [
                             'Where is the hotel situated?',
